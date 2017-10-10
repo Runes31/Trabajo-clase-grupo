@@ -33,3 +33,4 @@ src/view/aff\.txt
 trabajo/trabajo\.iml
 /build/
 /dist/
+*.bak
