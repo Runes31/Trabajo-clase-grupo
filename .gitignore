@@ -31,3 +31,5 @@ src/ejemplo/Ejemplo\.java
 src/view/aff\.txt
 
 trabajo/trabajo\.iml
+/build/
+/dist/
