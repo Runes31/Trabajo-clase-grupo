@@ -34,3 +34,5 @@ trabajo/trabajo\.iml
 /build/
 /dist/
 *.bak
+
+out/
