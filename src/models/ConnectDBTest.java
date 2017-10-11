@@ -11,6 +11,7 @@ class ConnectDBTest {
             con.connect();
             Assert.assertTrue(con.getConn().isValid(10));
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
