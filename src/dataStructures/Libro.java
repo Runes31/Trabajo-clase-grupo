@@ -1,4 +1,4 @@
-package controllers;
+package dataStructures;
 
 public class Libro extends Contenido{
     
@@ -6,7 +6,7 @@ public class Libro extends Contenido{
     private int numPag;
     private String capituloMuestra;
 
-    public Libro(int pk, int numPag, String capituloMuestra, int pkLibro, String titulo, String codigo, String imagen) {
+    public Libro(int pk, String titulo, String codigo, String imagen, int pkLibro, int numPag, String capituloMuestra) {
         super(pk, titulo, codigo, imagen);
         this.pkLibro = pkLibro;
         this.numPag = numPag;
@@ -17,26 +17,12 @@ public class Libro extends Contenido{
         return pkLibro;
     }
 
-    public void setPkLibro(int pkLibro) {
-        this.pkLibro = pkLibro;
-    }
-
     public int getNumPag() {
         return numPag;
-    }
-
-    public void setNumPag(int numPag) {
-        this.numPag = numPag;
     }
 
     public String getCapituloMuestra() {
         return capituloMuestra;
     }
 
-    public void setCapituloMuestra(String capituloMuestra) {
-        this.capituloMuestra = capituloMuestra;
-    }
-    
-    
-    
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers;
+package dataStructures;
 
 /**
  *
@@ -24,37 +24,20 @@ public class Contenido {
     }
 
     
-    public int getPk() {
+    public int getPkMusica() {
         return pk;
-    }
-
-    public void setPk(int pk) {
-        this.pk = pk;
     }
 
     public String getTitulo() {
         return titulo;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
     public String getCodigo() {
         return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
     }
 
     public String getImagen() {
         return imagen;
     }
 
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
-    
-    
 }

@@ -1,4 +1,4 @@
-package controllers;
+package dataStructures;
 
 public class Actor {
     
@@ -14,17 +14,7 @@ public class Actor {
         return pk;
     }
 
-    public void setPk(int pk) {
-        this.pk = pk;
-    }
-
     public String getNombre() {
         return nombre;
     }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-    
-    
 }
