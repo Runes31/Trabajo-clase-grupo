@@ -1,6 +1,10 @@
+import controllers.MainController;
+import views.VistaLogin;
+import views.VistaPrincipal;
+
 public class Main {
     public static void main(String[] args){
-        System.out.println("Main");
+        VistaPrincipal view = new VistaLogin();
+        MainController controller = new MainController(view);
     }
 }
-
