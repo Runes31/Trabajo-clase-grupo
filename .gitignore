@@ -33,3 +33,11 @@ src/view/aff\.txt
 trabajo/trabajo\.iml
 /build/
 /dist/
+*.bak
+
+out/
+\.idea/libraries/mysql_connector_java_5_1_44_bin\.xml
+
+\.idea/uiDesigner\.xml
+
+src/models/ConnectDB\.java

@@ -1,0 +1,30 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dataStructures;
+
+public class Cancion {
+    private int pkCancion;
+    private String nombre;
+    private int orden;
+
+    public Cancion(int pkCancion, String nombre, int orden) {
+        this.pkCancion = pkCancion;
+        this.nombre = nombre;
+        this.orden = orden;
+    }
+
+    public int getPkCancion() {
+        return pkCancion;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getOrden() {
+        return orden;
+    }
+}
