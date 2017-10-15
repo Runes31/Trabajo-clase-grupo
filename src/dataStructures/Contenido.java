@@ -5,6 +5,8 @@
  */
 package dataStructures;
 
+import java.util.Date;
+
 /**
  *
  * @author Usuario
@@ -15,16 +17,18 @@ public class Contenido {
     private String titulo;
     private String codigo;
     private String imagen;
+    private Date fechaCreacion;
 
-    public Contenido(int pk, String titulo, String codigo, String imagen) {
+    Contenido(int pk, String titulo, String codigo, String imagen, Date fechaCreacion) {
         this.pk = pk;
         this.titulo = titulo;
         this.codigo = codigo;
         this.imagen = imagen;
+        this.fechaCreacion = fechaCreacion;
     }
 
     
-    public int getPkMusica() {
+    public int getPk() {
         return pk;
     }
 
@@ -40,4 +44,7 @@ public class Contenido {
         return imagen;
     }
 
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
 }
