@@ -19,7 +19,7 @@ public class VistaPrincipal extends JFrame{
 		private JPanel panel = new JPanel();
 		//imagen	
 		private String rutaImagen; 
-		private ImageIcon imagenCast = new ImageIcon("logo.jpg");		
+		private ImageIcon imagenCast = new ImageIcon("C:/Users/navin/workspace/Trabajo-clase-grupo/imagenes/logo.jpg");		
 		private Image imagenLogo = imagenCast.getImage();
 		//nombre app
 		private static final String NOMBREAPLICACION= "Nombre Aplicacion";
