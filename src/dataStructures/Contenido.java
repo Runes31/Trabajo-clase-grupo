@@ -18,13 +18,15 @@ public class Contenido {
     private String codigo;
     private String imagen;
     private Date fechaCreacion;
+    private int stock;
 
-    Contenido(int pk, String titulo, String codigo, String imagen, Date fechaCreacion) {
+    Contenido(int pk, String titulo, String codigo, String imagen, Date fechaCreacion, int stock) {
         this.pk = pk;
         this.titulo = titulo;
         this.codigo = codigo;
         this.imagen = imagen;
         this.fechaCreacion = fechaCreacion;
+        this.stock = stock;
     }
 
     
@@ -46,5 +48,9 @@ public class Contenido {
 
     public Date getFechaCreacion() {
         return fechaCreacion;
+    }
+
+    public int getStock() {
+        return stock;
     }
 }
