@@ -8,10 +8,12 @@ package dataStructures;
 public class Cancion {
     private int pkCancion;
     private String nombre;
+    private int orden;
 
-    public Cancion(int pkCancion, String nombre) {
+    public Cancion(int pkCancion, String nombre, int orden) {
         this.pkCancion = pkCancion;
         this.nombre = nombre;
+        this.orden = orden;
     }
 
     public int getPkCancion() {
@@ -20,5 +22,9 @@ public class Cancion {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public int getOrden() {
+        return orden;
     }
 }
