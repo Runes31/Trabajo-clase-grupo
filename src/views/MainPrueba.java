@@ -6,7 +6,6 @@ public class MainPrueba {
 //		VistaPrincipal mv = new VistaPrincipal();
 //		mv.crearPanel();
 		VistaLogin vl = new VistaLogin();
-		
 
 	}
 
