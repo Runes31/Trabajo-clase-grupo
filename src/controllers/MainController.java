@@ -9,7 +9,7 @@ public class MainController {
         currentView = view;
     }
 
-    public void setView(VistaPrincipal view){
+    static void setView(VistaPrincipal view){
         currentView = view;
     }
 }
