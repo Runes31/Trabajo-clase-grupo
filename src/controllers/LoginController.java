@@ -1,8 +1,11 @@
 package controllers;
 
 import dataStructures.User;
+import helpers.Logger;
 import models.LoginModel;
 import views.VistaLogin;
+import views.VistaPrincipal;
+import views.VistaRegistro;
 
 import java.sql.SQLException;
 
@@ -20,12 +23,12 @@ public class LoginController {
                 UserController.userName = user.getUserName();
 
                 //TODO: swap to correct view
-                VistaLogin view = new VistaLogin();
+                VistaPrincipal view = new VistaRegistro();
                 MainController.setView(view);
             }
         } catch (SQLException | ClassNotFoundException e) {
             //TODO: Handle exception (Print error to view)
-            e.printStackTrace();
+            Logger.log(e);
         }
     }
 }

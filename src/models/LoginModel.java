@@ -21,6 +21,6 @@ public class LoginModel {
                      "LEFT JOIN tipousu_tipo_usuario tipousu ON tipousu.tipousu_pk = usu.tipousu_tipo_usuario_tipousu_pk" +
                      "WHERE usu_username = ? AND usu_password = ?";
         TipoUsuario tipo = TipoUsuario.translateTipo("Usuario");
-        return new User(1, "tal", "tal", "tal", TipoUsuario.USER);
+        return new User(1, "tal", "tal", "tal", tipo);
     }
 }

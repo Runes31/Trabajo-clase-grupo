@@ -41,3 +41,8 @@ out/
 \.idea/uiDesigner\.xml
 
 src/models/ConnectDB\.java
+
+
+#ignore logs but upload directory
+logs/*
+!logs/.gitkeep
