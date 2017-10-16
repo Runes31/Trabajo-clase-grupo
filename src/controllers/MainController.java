@@ -10,6 +10,7 @@ public class MainController {
     }
 
     static void setView(VistaPrincipal view){
+        currentView.setVisible(false);
         currentView = view;
     }
 }
