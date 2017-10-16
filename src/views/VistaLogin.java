@@ -5,9 +5,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
@@ -16,14 +19,17 @@ public class VistaLogin extends VistaPrincipal{
 	private GridBagLayout grid = new GridBagLayout();
 	GridBagConstraints c = new GridBagConstraints();
 	
-	private JLabel labelUsuario = new JLabel("Hola");
-	private JTextField usuario = new JTextField("pepito");
-	private JLabel labelPassword = new JLabel("adios");
-	private JTextField password= new JTextField("juanito");
+	private JLabel labelUsuario = new JLabel("Usuario");
+	private JTextField usuario = new JTextField(10);
+	private JLabel labelPassword = new JLabel("Contraseña");
+	private JPasswordField password= new JPasswordField(10);
 	private JButton botonLogin = new JButton("Login");
+	private JButton botonRegistrarse = new JButton("Registrarse");
 	
 	public VistaLogin(){
 		super.crearPanel();
+		super.setSize(400,300);
+		super.setLocationRelativeTo(null);
 		super.getPanel().setLayout(grid);
 		c.weighty=0.1;
 		c.gridheight=1;
@@ -45,5 +51,43 @@ public class VistaLogin extends VistaPrincipal{
 		c.gridy=4;
 		super.getPanel().add(botonLogin,c);
 		
+		c.gridy=5;
+		super.getPanel().add(botonRegistrarse,c);
+		
+		botonLogin.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				boolean comprobacion;
+//				comprobarUsuario(obtenerUsuario(),obtenerContraseña());
+//				if(comprobacion)
+//					Llamada a la vista principal
+				
+			}
+		});
+		
+		botonRegistrarse.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+//				llamada a la vista registrarse
+				
+			}
+		});
+		
 	}
+
+	private String obtenerUsuario(){
+		String resultado;
+		resultado = usuario.getText();
+		return resultado;
+	}
+	
+	public String obtenerContraseña(){
+		char[] cadena = password.getPassword();
+		String resultado= new String(cadena);
+		return resultado;	
+	}
+	
+	
 }
