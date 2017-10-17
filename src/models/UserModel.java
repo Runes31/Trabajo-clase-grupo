@@ -72,7 +72,7 @@ public class UserModel {
     public int registrarUsuario(User usuario, String password) throws SQLException {
         String sql = "INSERT INTO usu_usuarios(usu_nombre, usu_username, usu_password, usu_email, tipousu_tipo_usuario_tipousu_pk) " +
                      "SELECT ?, ?, ?, ?, tipousu_pk FROM tipousu_tipo_usuario " +
-                     "WHERE tipousu_nombre = " + TipoUsuario.TipoToDBString(TipoUsuario.USER);
+                     "WHERE tipousu_nombre = ?";
 
         String dbPassword = DigestUtils.sha256Hex(password);
 
@@ -81,6 +81,7 @@ public class UserModel {
         insertUser.setString(2, usuario.getUserName());
         insertUser.setString(3, dbPassword);
         insertUser.setString(4, usuario.getEmail());
+        insertUser.setString(5, TipoUsuario.TipoToDBString(TipoUsuario.USER));
 
         insertUser.executeUpdate();
 
