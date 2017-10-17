@@ -144,7 +144,7 @@ public class UserController {
 
         if(usuario.getEmail().trim().isEmpty()){
             errores.add("Debe introducir un email válido.");
-        } else if(emailValidator.isValid(usuario.getEmail())){
+        } else if(!emailValidator.isValid(usuario.getEmail())){
             errores.add("Debe introducir un email válido.");
         }
 
