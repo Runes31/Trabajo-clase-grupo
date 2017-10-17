@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class VistaPrincipal extends JFrame{
+public abstract class VistaPrincipal extends JFrame{
 		//panel
 		private JPanel panel = new JPanel();
 		//imagen	
@@ -35,5 +35,7 @@ public class VistaPrincipal extends JFrame{
 		public JPanel getPanel() {
 			return panel;
 		}
+		
+		public abstract void pintar(Object o);
 		
 }

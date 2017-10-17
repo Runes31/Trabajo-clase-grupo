@@ -14,6 +14,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import controllers.UserController;
+
 public class VistaLogin extends VistaPrincipal{
 	//layout
 	private GridBagLayout grid = new GridBagLayout();
@@ -30,15 +32,14 @@ public class VistaLogin extends VistaPrincipal{
 		super.crearPanel();
 		super.setSize(400,300);
 		super.setLocationRelativeTo(null);
+		super.setResizable(false);
 		super.getPanel().setLayout(grid);
-		c.weighty=0.1;
-		c.gridheight=1;
-		
+		c.anchor=c.CENTER;
 		c.gridx=0;
 		c.gridy=0;
 		super.getPanel().add(labelUsuario,c);
 		
-		c.insets = new Insets(0, 0, 0, 0);
+		c.insets=new Insets(10, 0, 0, 0);
 		c.gridy=1;
 		super.getPanel().add(usuario,c);
 		
@@ -59,9 +60,8 @@ public class VistaLogin extends VistaPrincipal{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				boolean comprobacion;
-//				comprobarUsuario(obtenerUsuario(),obtenerContraseña());
-//				if(comprobacion)
-//					Llamada a la vista principal
+				UserController uc = new UserController();
+				uc.login(obtenerUsuario(), obtenerContraseña());
 				
 			}
 		});
@@ -87,6 +87,12 @@ public class VistaLogin extends VistaPrincipal{
 		char[] cadena = password.getPassword();
 		String resultado= new String(cadena);
 		return resultado;	
+	}
+
+	@Override
+	public void pintar(Object o) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
