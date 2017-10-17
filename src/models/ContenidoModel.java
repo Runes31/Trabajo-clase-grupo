@@ -32,5 +32,22 @@ class ContenidoModel {
 
         return rs.getInt(1);
     }
+    
+    public void getContenido(int pkFormato) throws SQLException{
+        String sql = "SELECT con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock"+ "FROM con_contenido"+"WHERE con_pk LIKE ?";
+        
+        PreparedStatement ps = con.getConn().prepareStatement(sql);
+        ps.setInt(1, pkFormato);
+        
+        ResultSet rs = ps.executeQuery(sql);
+        
+        if(rs.next()){
+            
+            
+            
+        }
+        
+        
+    }
 
 }
