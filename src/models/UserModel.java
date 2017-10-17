@@ -20,7 +20,7 @@ public class UserModel {
         String sql = "SELECT usu_pk, usu_nombre, usu_username, usu_email, tipousu.tipousu_nombre " +
                      "FROM usu_usuarios usu " +
                      "LEFT JOIN tipousu_tipo_usuario tipousu ON tipousu.tipousu_pk = usu.tipousu_tipo_usuario_tipousu_pk " +
-                     "WHERE (usu_username = ? || usu_email = ?) AND usu_password = ?";
+                     "WHERE (usu_username = ? OR usu_email = ?) AND usu_password = ?";
 
         String dbPassword = DigestUtils.sha256Hex(password);
 
