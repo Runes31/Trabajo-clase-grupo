@@ -13,4 +13,8 @@ public class MainController {
         currentView.setVisible(false);
         currentView = view;
     }
+
+    static void printToView(Object data){
+        //currentView.print(data)
+    }
 }
