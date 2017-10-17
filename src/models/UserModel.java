@@ -17,10 +17,10 @@ public class UserModel {
     }
 
     public User getUser(String userName, String password) throws SQLException {
-        String sql = "SELECT usu_pk, usu_nombre, usu_username, usu_email, tipousu.tipousu_nombre" +
-                     "FROM usu_usuarios usu" +
-                     "LEFT JOIN tipousu_tipo_usuario tipousu ON tipousu.tipousu_pk = usu.tipousu_tipo_usuario_tipousu_pk" +
-                     "WHERE (usu_username = ? || usu_email = ?) AND usu_password = ?";
+        String sql = "SELECT usu_pk, usu_nombre, usu_username, usu_email, tipousu.tipousu_nombre " +
+                     "FROM usu_usuarios usu " +
+                     "LEFT JOIN tipousu_tipo_usuario tipousu ON tipousu.tipousu_pk = usu.tipousu_tipo_usuario_tipousu_pk " +
+                     "WHERE (usu_username = ? OR usu_email = ?) AND usu_password = ?";
 
         String dbPassword = DigestUtils.sha256Hex(password);
 
@@ -45,9 +45,9 @@ public class UserModel {
     }
 
     public User userExists(User usuario) throws SQLException {
-        String sql = "SELECT usu_pk, usu_nombre, usu_username, usu_email, tipousu.tipousu_nombre" +
-            "FROM usu_usuarios usu" +
-            "LEFT JOIN tipousu_tipo_usuario tipousu ON tipousu.tipousu_pk = usu.tipousu_tipo_usuario_tipousu_pk" +
+        String sql = "SELECT usu_pk, usu_nombre, usu_username, usu_email, tipousu.tipousu_nombre " +
+            "FROM usu_usuarios usu " +
+            "LEFT JOIN tipousu_tipo_usuario tipousu ON tipousu.tipousu_pk = usu.tipousu_tipo_usuario_tipousu_pk " +
             "WHERE usu_username = ? OR usu_email = ?";
 
         PreparedStatement selectUser = con.getConn().prepareStatement(sql);
@@ -70,9 +70,9 @@ public class UserModel {
     }
 
     public int registrarUsuario(User usuario, String password) throws SQLException {
-        String sql = "INSERT INTO usu_usuarios(usu_nombre, usu_username, usu_password, usu_email, tipousu_tipo_usuario_tipousu_pk)" +
-                     "SELECT ?, ?, ?, ?, tipousu_pk FROM tipousu_tipo_usuario" +
-                     "WHERE tipousu_nombre = " + TipoUsuario.TipoToDBString(TipoUsuario.USER);
+        String sql = "INSERT INTO usu_usuarios(usu_nombre, usu_username, usu_password, usu_email, tipousu_tipo_usuario_tipousu_pk) " +
+                     "SELECT ?, ?, ?, ?, tipousu_pk FROM tipousu_tipo_usuario " +
+                     "WHERE tipousu_nombre = ?";
 
         String dbPassword = DigestUtils.sha256Hex(password);
 
@@ -81,11 +81,24 @@ public class UserModel {
         insertUser.setString(2, usuario.getUserName());
         insertUser.setString(3, dbPassword);
         insertUser.setString(4, usuario.getEmail());
+        insertUser.setString(5, TipoUsuario.TipoToDBString(TipoUsuario.USER));
 
         insertUser.executeUpdate();
 
         ResultSet rs = insertUser.getGeneratedKeys();
         rs.next();
         return rs.getInt(1);
+    }
+
+    public void actualizarUsuario(User usuario, String password) throws SQLException {
+        String sql = "UPDATE usu_usuarios SET usu_nombre = ?, usu_password = ?, usu_email = ? " +
+                "WHERE usu_pk = ?";
+
+        String dbPass = DigestUtils.sha256Hex(password);
+        PreparedStatement updateUser = con.getConn().prepareStatement(sql);
+        updateUser.setString(1, usuario.getNombre());
+        updateUser.setString(2, dbPass);
+        updateUser.setString(3, usuario.getEmail());
+        updateUser.executeUpdate();
     }
 }
