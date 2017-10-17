@@ -14,6 +14,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import controllers.MainController;
 import controllers.UserController;
 
 public class VistaLogin extends VistaPrincipal{
@@ -70,7 +71,7 @@ public class VistaLogin extends VistaPrincipal{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-//				llamada a la vista registrarse
+				MainController.setView(new VistaRegistro());
 				
 			}
 		});
