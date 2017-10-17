@@ -8,15 +8,17 @@ public class User {
     private TipoUsuario tipoUsuario;
 
     public User(int pk, String userName, String nombre, String email, TipoUsuario tipoUsuario){
-        this(userName, nombre, email, tipoUsuario);
+        this(userName, nombre, email);
         this.pk = pk;
+        this.tipoUsuario=tipoUsuario;
     }
 
-    public User(String userName, String nombre, String email, TipoUsuario tipoUsuario){
+    public User(String userName, String nombre, String email){
         this.userName = userName;
         this.nombre = nombre;
         this.email = email;
-        this.tipoUsuario = tipoUsuario;
+        this.tipoUsuario = TipoUsuario.USER;
+        this.pk=0;
     }
 
     public int getPk() {
