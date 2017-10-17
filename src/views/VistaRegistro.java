@@ -3,11 +3,17 @@ package views;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import controllers.MainController;
+import controllers.UserController;
+import dataStructures.User;
 
 public class VistaRegistro extends VistaPrincipal{
 	private GridBagLayout grid = new GridBagLayout();
@@ -17,10 +23,10 @@ public class VistaRegistro extends VistaPrincipal{
 	private JTextField nombreUsuario = new JTextField(10);
 	private JLabel labelNombreCompleto = new JLabel("Nombre y Apellidos: ");
 	private JTextField nombreCompleto = new JTextField(10);
-	private JLabel labelPassword = new JLabel("Contraseña: ");
-	private JPasswordField password= new JPasswordField(10);
-	private JLabel labelVerificarPassword = new JLabel("Verificar contraseña: ");
-	private JPasswordField verificarPassword = new JPasswordField(10);
+	private JLabel labelContraseña = new JLabel("Contraseña: ");
+	private JPasswordField contraseña= new JPasswordField(10);
+	private JLabel labelVerificarContraseña = new JLabel("Verificar contraseña: ");
+	private JPasswordField verificarContraseña = new JPasswordField(10);
 	private JLabel labelEmail = new JLabel("Email: ");
 	private JTextField email = new JTextField(33);
 	private JButton botonRegistrarse = new JButton("Registrarse");
@@ -69,25 +75,35 @@ public class VistaRegistro extends VistaPrincipal{
 		
 		c.gridx=0;
 		c.gridy=2;
-		super.getPanel().add(labelPassword,c);
+		super.getPanel().add(labelContraseña,c);
 		
 		c.gridx=1;
-		super.getPanel().add(password,c);
+		super.getPanel().add(contraseña,c);
 
 		c.gridx=2;
 		c.anchor=c.EAST;
-		super.getPanel().add(labelVerificarPassword,c);
+		super.getPanel().add(labelVerificarContraseña,c);
 
 		c.anchor=c.WEST;
 		
 		c.gridx=3;
-		super.getPanel().add(verificarPassword,c);
+		super.getPanel().add(verificarContraseña,c);
 		
 		c.gridwidth=2;
 		c.gridy=3;
 		c.gridx=0;
 		c.anchor=c.EAST;
 		super.getPanel().add(botonRegistrarse,c);
+		
+		botonRegistrarse.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				UserController uc = new UserController();
+				User usuario = new User(obtenerNombreUsuario(), obtenerNombreCompleto()	, obtenerEmail());
+				uc.registrarUsuario(usuario, obtenerContraseña(), obtenerVerificacionContraseña());
+			}
+		});
 
 		
 		c.insets=new Insets(0, 50, 0, 0);
@@ -96,11 +112,51 @@ public class VistaRegistro extends VistaPrincipal{
 		c.anchor=c.WEST;
 		super.getPanel().add(botonCancelar,c);
 		
+		botonCancelar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainController.setView(new VistaLogin());
+			}
+		});
 
 
 	}
 	
+	// Metodos de obtencion de datos de campos de texto
+	private String obtenerNombreUsuario(){
+		String resultado;
+		resultado = nombreUsuario.getText();
+		return resultado;
+	}
+	
+	
+	private String obtenerNombreCompleto(){
+		String resultado;
+		resultado = nombreCompleto.getText();
+		return resultado;
+	}
+	
+	private String obtenerEmail(){
+		String resultado;
+		resultado = email.getText();
+		return resultado;
+	}
+	
+	public String obtenerContraseña(){
+		char[] cadena = contraseña.getPassword();
+		String resultado= new String(cadena);
+		return resultado;	
+	}
+	
+	public String obtenerVerificacionContraseña(){
+		char[] cadena = verificarContraseña.getPassword();
+		String resultado= new String(cadena);
+		return resultado;	
+	}
+	//Fin de Metodos de obtencion de datos de campos de texto
 
+	
 	@Override
 	public void pintar(Object o) {
 		// TODO Auto-generated method stub
