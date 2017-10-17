@@ -1,13 +1,12 @@
 package models;
 
-import com.mysql.jdbc.Statement;
 import dataStructures.Libro;
+import helpers.Logger;
+import helpers.TipoLog;
+
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class LibroModel extends ContenidoModel {
 
@@ -30,7 +29,8 @@ public class LibroModel extends ContenidoModel {
             con.getConn().commit();
 
         } catch (SQLException ex) {
-            Logger.getLogger(LibroModel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.log("Exception in createLibro", TipoLog.ERROR);
+            Logger.log(ex);
         }
 
     }
