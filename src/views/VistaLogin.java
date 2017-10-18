@@ -21,7 +21,7 @@ import controllers.UserController;
 public class VistaLogin extends VistaPrincipal{
 	//layout
 	private GridBagLayout grid = new GridBagLayout();
-	GridBagConstraints c = new GridBagConstraints();
+	private GridBagConstraints c = new GridBagConstraints();
 	
 	private JLabel labelUsuario = new JLabel("Usuario");
 	private JTextField usuario = new JTextField(10);

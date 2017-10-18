@@ -7,10 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DiscografiaModel{
+public class DiscograficaModel{
     private ConnectDB con;
 
-    DiscografiaModel() throws SQLException, ClassNotFoundException {
+    DiscograficaModel() throws SQLException, ClassNotFoundException {
         con = new ConnectDB();
     }
 
@@ -27,5 +27,10 @@ public class DiscografiaModel{
         ResultSet rs = insertDiscografica.getGeneratedKeys();
         rs.next();
         return rs.getInt(1);
+    }
+    
+    
+    public void getDiscografica(String nombre){
+        
     }
 }
