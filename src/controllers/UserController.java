@@ -5,9 +5,6 @@ import dataStructures.User;
 import helpers.Logger;
 import helpers.TipoLog;
 import models.UserModel;
-import views.VistaLogin;
-import views.VistaPrincipal;
-import views.VistaRegistro;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import java.sql.SQLException;

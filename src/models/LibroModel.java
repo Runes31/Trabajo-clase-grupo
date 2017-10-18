@@ -15,10 +15,7 @@ import java.util.List;
 
 public class LibroModel extends ContenidoModel {
 
-    private Libro libro;
-
-    public LibroModel(Libro libro) throws SQLException, ClassNotFoundException {
-        this.libro = libro;
+    public LibroModel() throws SQLException, ClassNotFoundException {
     }
 
     public void createLibro(Libro libro) throws ModelException {
@@ -55,9 +52,9 @@ public class LibroModel extends ContenidoModel {
 
     }
 
-    public List<Libro> getLibros() throws SQLException {
+    public List<Contenido> getLibros() throws SQLException {
 
-        List<Libro> libros = new ArrayList<>();
+        List<Contenido> libros = new ArrayList<>();
         String sql = "SELECT lib_pk,con_contenido_con_pk,lib_numero_paginas,lib_capitulo_muestra,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock"
                 + " FROM lib_libro lib,con_contenido"
                 + " LEFT JOIN con_contenido AS con ON con.con_pk = lib.con_contenido_con_pk";
