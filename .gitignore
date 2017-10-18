@@ -46,3 +46,5 @@ src/models/ConnectDB\.java
 #ignore logs but upload directory
 logs/*
 !logs/.gitkeep
+
+\.idea/codeStyleSettings\.xml

@@ -14,6 +14,10 @@ public class MainController {
         currentView = view;
     }
 
+    public static VistaPrincipal getView(){
+        return currentView;
+    }
+
     static void printToView(Object data){
         currentView.pintar(data);
     }
