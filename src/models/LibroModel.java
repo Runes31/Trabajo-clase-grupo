@@ -127,15 +127,17 @@ public class LibroModel extends ContenidoModel {
 
         String sqlContenido = "UPDATE con_contenido "
                 + "SET con_titulo = ?,con_codigo = ?,con_imagen = ?,con_fecha_creacion = ?,con_stock = ?"
-                + " WHERE con_pk like = ?";
+                + " WHERE con_pk = ?";
 
         PreparedStatement stLibro = con.getConn().prepareStatement(sqlLibro);
         PreparedStatement stCont = con.getConn().prepareStatement(sqlContenido);
 
+        //LIBRO
         stLibro.setInt(1, libNumPag);
         stLibro.setString(2, libCapMuestra);
         stLibro.setInt(3, libPk);
 
+        //CONTENIDO
         stCont.setString(1, contTitulo);
         stCont.setString(2, contCodigo);
         stCont.setString(3, contImg);
