@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -28,6 +29,7 @@ public class VistaLogin extends VistaPrincipal{
 	private JPasswordField password= new JPasswordField(10);
 	private JButton botonLogin = new JButton("Login");
 	private JButton botonRegistrarse = new JButton("Registrarse");
+	private JOptionPane mensajeError = new JOptionPane();
 	
 	public VistaLogin(){
 		super.crearPanel();
@@ -92,8 +94,8 @@ public class VistaLogin extends VistaPrincipal{
 
 	@Override
 	public void pintar(Object o) {
-		// TODO Auto-generated method stub
-		
+		String mensaje = (String) o;
+		mensajeError.showMessageDialog(this , o,"Error",JOptionPane.ERROR_MESSAGE);
 	}
 	
 	

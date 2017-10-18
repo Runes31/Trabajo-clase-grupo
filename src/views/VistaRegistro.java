@@ -43,7 +43,7 @@ public class VistaRegistro extends VistaPrincipal{
 		c.weighty=0.1;
 		c.gridheight=1;
 		c.anchor=c.WEST;
-		
+
 		c.gridx=0;
 		c.gridy=0;
 		super.getPanel().add(labelNombreUsuario,c);

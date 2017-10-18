@@ -18,11 +18,20 @@ public abstract class VistaPrincipal extends JFrame{
 		//panel
 		private JPanel panel = new JPanel();
 		//imagen	
-		private String rutaImagen; 
-		private ImageIcon imagenCast = new ImageIcon("C:/Users/navin/workspace/Trabajo-clase-grupo/imagenes/logo.jpg");		
+		private String rutaPrincipal = "C:/Users/navin/workspace/Trabajo-clase-grupo/imagenes/";
+		private ImageIcon imagenCast = new ImageIcon(rutaPrincipal + "logo.jpg");		
 		private Image imagenLogo = imagenCast.getImage();
 		//nombre app
 		private static final String NOMBREAPLICACION= "Nombre Aplicacion";
+		
+		
+		public String getRutaPrincipal() {
+			return rutaPrincipal;
+		}
+		public void setRutaPrincipal(String rutaPrincipal) {
+			this.rutaPrincipal = rutaPrincipal;
+		}
+
 		
 		public void crearPanel(){
 			setSize(500,500);
