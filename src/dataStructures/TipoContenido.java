@@ -1,0 +1,5 @@
+package dataStructures;
+
+public enum TipoContenido {
+    PRESTAMO, NOVEDADES, MUSICA, PELICULA, LIBRO, PRESTAMO_PELICULA, PRESTAMO_LIBRO, PRESTAMO_MUSICA;
+}
