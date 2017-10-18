@@ -2,12 +2,16 @@ package views;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -31,6 +35,8 @@ public class VistaRegistro extends VistaPrincipal{
 	private JTextField email = new JTextField(33);
 	private JButton botonRegistrarse = new JButton("Registrarse");
 	private JButton botonCancelar = new JButton("Cancelar");
+	private JOptionPane mensajeError = new JOptionPane();
+
 	
 	
 	public VistaRegistro(){
@@ -159,7 +165,14 @@ public class VistaRegistro extends VistaPrincipal{
 	
 	@Override
 	public void pintar(Object o) {
-		// TODO Auto-generated method stub
-		
+		ArrayList mensaje = (ArrayList) o;
+		int numeroFila = mensaje.size();
+		GridLayout grid = new GridLayout(numeroFila	, 1);
+		for (Object object : mensaje) {
+			String cadena = (String) object;
+			JLabel label = new JLabel(cadena);
+			grid.addLayoutComponent("Name", label);
+		} 
+		mensajeError.showMessageDialog(this , grid ,"Error",JOptionPane.ERROR_MESSAGE);
 	}
 }

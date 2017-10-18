@@ -95,8 +95,9 @@ public class VistaLogin extends VistaPrincipal{
 	@Override
 	public void pintar(Object o) {
 		String mensaje = (String) o;
-		mensajeError.showMessageDialog(this , o,"Error",JOptionPane.ERROR_MESSAGE);
+		mensajeError.showMessageDialog(this , mensaje ,"Error",JOptionPane.ERROR_MESSAGE);
 	}
+	
 	
 	
 }
