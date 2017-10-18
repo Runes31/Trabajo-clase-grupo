@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -165,14 +166,14 @@ public class VistaRegistro extends VistaPrincipal{
 	
 	@Override
 	public void pintar(Object o) {
+		JPanel panel = new JPanel();
 		ArrayList mensaje = (ArrayList) o;
-		int numeroFila = mensaje.size();
-		GridLayout grid = new GridLayout(numeroFila	, 1);
+		String cadenaFinal="";
 		for (Object object : mensaje) {
-			String cadena = (String) object;
-			JLabel label = new JLabel(cadena);
-			grid.addLayoutComponent("Name", label);
-		} 
-		mensajeError.showMessageDialog(this , grid ,"Error",JOptionPane.ERROR_MESSAGE);
+			String cadena;
+			cadena = (String) object;
+			cadenaFinal += cadena + "\n";
+		}
+		mensajeError.showMessageDialog(this , cadenaFinal  ,"Error",JOptionPane.ERROR_MESSAGE);
 	}
 }
