@@ -49,10 +49,9 @@ public class UserController {
                 //Log in the user
                 setCurrentUser(user);
 
-                //TODO: swap to correct view
                 //Change the view to the home
-                VistaPrincipal view = new VistaRegistro();
-                MainController.setView(view);
+                ContentController contentController = new ContentController();
+                contentController.initHome();
             }
         } catch (SQLException | ClassNotFoundException e) {
             //Print the error to the view and log it
@@ -87,8 +86,8 @@ public class UserController {
                 Logger.log("New user("+usuario.getUserName()+")");
 
                 //Change the view to the home
-                VistaPrincipal view = new VistaLogin();
-                MainController.setView(view);
+                ContentController contentController = new ContentController();
+                contentController.initHome();
             } catch (SQLException | ClassNotFoundException e) {
                 //Print the error to the view
                 messages.add("Se ha producido un error.");

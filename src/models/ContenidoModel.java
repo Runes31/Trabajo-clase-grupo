@@ -7,11 +7,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
-class ContenidoModel {
+public class ContenidoModel {
     ConnectDB con;
 
-    ContenidoModel() throws SQLException, ClassNotFoundException {
+    public ContenidoModel() throws SQLException, ClassNotFoundException {
         con = new ConnectDB();
     }
 
@@ -50,4 +52,7 @@ class ContenidoModel {
         
     }
 
+    public List<Contenido> getNovedades() {
+        return new ArrayList<>();
+    }
 }

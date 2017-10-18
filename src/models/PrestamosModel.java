@@ -5,6 +5,8 @@ import dataStructures.Contenido;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PrestamosModel {
     private ConnectDB con;
@@ -29,5 +31,21 @@ public class PrestamosModel {
     }
 
     public void hacerPrestamo(Contenido contenido) {
+    }
+
+    public List<Contenido> getPrestamos(){
+        String sql = "SELECT";
+
+        return new ArrayList<>();
+    }
+
+    public List<Contenido> getPeliculas() {
+        return new ArrayList<>();
+    }
+    public List<Contenido> getLibros() {
+        return new ArrayList<>();
+    }
+    public List<Contenido> getMusica() {
+        return new ArrayList<>();
     }
 }

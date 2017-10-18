@@ -15,6 +15,6 @@ public class MainController {
     }
 
     static void printToView(Object data){
-        //currentView.print(data)
+        currentView.pintar(data);
     }
 }
