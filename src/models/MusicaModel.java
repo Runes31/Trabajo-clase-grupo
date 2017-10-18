@@ -12,11 +12,11 @@ import java.util.List;
 public class MusicaModel extends ContenidoModel {
 
     private CancionModel cancionModel;
-    private DiscografiaModel discografiaModel;
+    private DiscograficaModel discografiaModel;
 
     public MusicaModel() throws SQLException, ClassNotFoundException {
         cancionModel = new CancionModel();
-        discografiaModel = new DiscografiaModel();
+        discografiaModel = new DiscograficaModel();
     }
 
     public void createMusica(Musica musica) throws ModelException {
@@ -66,7 +66,8 @@ public class MusicaModel extends ContenidoModel {
         List<Contenido> musicas = new ArrayList<>();
         List<Cancion> canciones = new ArrayList<>();
 
-        String sql = "SELECT mus_pk,con_contenido_con_pk,disc_discografica_disc_pk,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock,canc_pk,canc_nombre,canc_orden,mus_musica_mus_pk,disc_pk,disc_nombre "
+        String sql = "SELECT mus_pk,con_contenido_con_pk,disc_discografica_disc_pk,con_pk,con_titulo,con_codigo,"
+                + "con_imagen,con_fecha_creacion,con_stock,canc_pk,canc_nombre,canc_orden,mus_musica_mus_pk,disc_pk,disc_nombre "
                 + "FROM mus_musica,con_contenido,canc_canciones,disc_discografica "
                 + "WHERE con_contenido.con_pk = mus_musica.con_contenido_con_pk "
                 + "AND disc_discografica.disc_pk = mus_musica.disc_discografica_disc_pk "
