@@ -37,9 +37,6 @@ public class ContenidoModel {
     }
 
     void deleteContenido(int pkCont) throws SQLException {
-
-       
-
         String sql = "DELETE FROM con_contenido "
                 + "WHERE con_pk = ?";
 
@@ -48,6 +45,11 @@ public class ContenidoModel {
 
         ps.executeUpdate();
 
+        sql = "DELETE FROM pres_prestamo WHERE con_contenido_con_pk = ?";
+
+        PreparedStatement prestamo = con.getConn().prepareStatement(sql);
+        prestamo.setInt(1, pkCont);
+        prestamo.executeUpdate();
     }
 
     public List<Contenido> getNovedades() {

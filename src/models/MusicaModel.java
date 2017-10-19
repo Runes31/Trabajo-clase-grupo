@@ -116,20 +116,11 @@ public class MusicaModel extends ContenidoModel {
     }
 
     public void updateMusica(Musica musica) throws SQLException {
-
+        //CONTENIDO DE MUSICA
         String sqlContenido = "UPDATE con_contenido "
                 + "SET con_titulo = ?,con_codigo = ?,con_imagen = ?,con_fecha_creacion = ?,con_stock = ? "
                 + "WHERE con_pk  = ?";
-
-        String sqlDiscografica = "UPDATE disc_discografica "
-                + "SET disc_nombre = ?"
-                + "WHERE disk_pk = ?";
-
-        //Traba Alex discograficas
         PreparedStatement psCont = con.getConn().prepareStatement(sqlContenido);
-        PreparedStatement psDisc = con.getConn().prepareStatement(sqlDiscografica);
-
-        //CONTENIDO DE MUSICA
         psCont.setString(1, musica.getTitulo());
         psCont.setString(2, musica.getCodigo());
         psCont.setString(3, musica.getImagen());
@@ -138,8 +129,12 @@ public class MusicaModel extends ContenidoModel {
         psCont.setInt(6, musica.getPk());
 
         //DISCOGRAFICA
-        psDisc.setString(1, musica.getDiscografica().getNombre());
-        psDisc.setInt(2, musica.getDiscografica().getPk());
+        int discPk = discograficaModel.insertDiscografica(musica.getDiscografica());
+        String sqlMusica = "UPDATE mus_musica SET disc_discografica_disc_pk = ? WHERE mus_pk = ?";
+        PreparedStatement updateMusica = con.getConn().prepareStatement(sqlMusica);
+        updateMusica.setInt(1, discPk);
+        updateMusica.setInt(2, musica.getPk());
+        updateMusica.executeUpdate();
 
         //CANCIONES
         for (Cancion cancion : musica.getCanciones()) {
@@ -156,7 +151,6 @@ public class MusicaModel extends ContenidoModel {
 
             psCanc.executeUpdate();
         }
-
     }
 
     public void deleteMusica(Musica m) throws SQLException, ClassNotFoundException {
@@ -164,7 +158,6 @@ public class MusicaModel extends ContenidoModel {
         int musPk = m.getPkMusica();
         int contPk = m.getPk();
 
-        
         String sql = "DELETE FROM mus_musica"
                 + "WHERE mus_pk = ?";
 
@@ -172,8 +165,7 @@ public class MusicaModel extends ContenidoModel {
         ps.setInt(1, musPk);
 
         cancionModel.deleteCanciones(musPk);
+        ps.executeUpdate();
         deleteContenido(contPk);  
-
     }
-
 }
