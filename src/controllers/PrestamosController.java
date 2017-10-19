@@ -20,7 +20,18 @@ public class PrestamosController {
                 prestamosModel.hacerPrestamo(contenido);
                 MainController.printToView("Prestamo realizado correctamente.");
             }
-        } catch (SQLException e){
+        } catch (SQLException | ClassNotFoundException e){
+            Logger.log(e);
+            MainController.printToView("Se ha producido un error.");
+        }
+    }
+
+    public void devolverPrestamo(Contenido contenido){
+        try {
+            PrestamosModel prestamosModel = new PrestamosModel();
+            prestamosModel.devolverPrestamo(contenido);
+            MainController.printToView("Devolución realizada con éxito.");
+        } catch (SQLException | ClassNotFoundException e){
             Logger.log(e);
             MainController.printToView("Se ha producido un error.");
         }

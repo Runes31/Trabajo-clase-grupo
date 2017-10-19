@@ -12,6 +12,10 @@ import java.util.List;
 public class PrestamosModel {
     private ConnectDB con;
 
+    public PrestamosModel() throws SQLException, ClassNotFoundException {
+        con = new ConnectDB();
+    }
+
     public boolean hayStock(Contenido contenido) throws SQLException {
         String sql = "SELECT count(*) FROM pres_prestamo WHERE con_contenido_con_pk = ?";
         PreparedStatement countPrestamos = con.getConn().prepareStatement(sql);
@@ -84,5 +88,16 @@ public class PrestamosModel {
 
         ResultSet rs = prestado.executeQuery();
         return rs.next();
+    }
+
+    public void devolverPrestamo(Contenido contenido) throws SQLException {
+        String sql = "DELETE FROM pres_prestamo WHERE con_contenido_con_pk = ? AND usu_usuarios_usu_pk = ?";
+
+        int userPk = UserController.getCurrentUser().getPk();
+
+        PreparedStatement devolver = con.getConn().prepareStatement(sql);
+        devolver.setInt(1, contenido.getPk());
+        devolver.setInt(2, userPk);
+        devolver.executeUpdate();
     }
 }

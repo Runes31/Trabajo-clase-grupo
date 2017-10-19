@@ -10,7 +10,7 @@ public class MainController {
     }
 
     public static void setView(VistaPrincipal view){
-        currentView.setVisible(false);
+        currentView.dispose();
         currentView = view;
     }
 

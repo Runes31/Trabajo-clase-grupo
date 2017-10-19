@@ -107,7 +107,7 @@ public class MusicaModel extends ContenidoModel {
                 canciones.add(cancion);
             }
 
-            Musica musica = new Musica(contPk, contTitulo, contCodigo, contImg, contDate, contStock, musPk, discografica, canciones);
+            Musica musica = new Musica(contPk, contTitulo, contCodigo, contImg, contDate, contStock, false, musPk, discografica, canciones);
             musicas.add(musica);
 
         }

@@ -31,6 +31,12 @@ public class LibroModel extends ContenidoModel {
         } catch (SQLException ex) {
             Logger.log("Exception in createLibro", TipoLog.ERROR);
             Logger.log(ex);
+            try {
+                con.getConn().rollback();
+            } catch (SQLException e) {
+                Logger.log(e);
+            }
+            throw new ModelException(ex);
         } finally {
             try {
                 con.getConn().setAutoCommit(true);
@@ -56,7 +62,7 @@ public class LibroModel extends ContenidoModel {
 
     }
 
-    public List<Contenido> getLibros() throws SQLException {
+    public List<Contenido> getLibros() throws SQLException, ClassNotFoundException {
 
         List<Contenido> libros = new ArrayList<>();
         String sql = "SELECT lib_pk,con_contenido_con_pk,lib_numero_paginas,lib_capitulo_muestra,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock"
