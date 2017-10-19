@@ -34,11 +34,11 @@ public abstract class VistaPrincipal extends JFrame{
 
 		
 		public void crearPanel(){
-			setSize(500,500);
 			setTitle(NOMBREAPLICACION);
 			setIconImage(imagenLogo);
 			add(panel);
 			setVisible(true);
+			setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		}
 		//getter
 		public JPanel getPanel() {
