@@ -8,14 +8,16 @@ public class Libro extends Contenido{
     private int numPag;
     private String capituloMuestra;
 
-    public Libro(int pk, String titulo, String codigo, String imagen, Date fechaCreacion, int stock, int pkLibro, int numPag, String capituloMuestra) {
-        super(pk, titulo, codigo, imagen, fechaCreacion, stock);
+    public Libro(int pk, String titulo, String codigo, String imagen, Date fechaCreacion, int stock, boolean reservado, int pkLibro, int
+            numPag, String capituloMuestra) {
+        super(pk, titulo, codigo, imagen, fechaCreacion, stock, reservado);
         this.pkLibro = pkLibro;
         this.numPag = numPag;
         this.capituloMuestra = capituloMuestra;
     }
-    public Libro(String titulo, String codigo, String imagen, Date fechaCreacion, int stock, int numPag, String capituloMuestra) {
-        super(0, titulo, codigo, imagen, fechaCreacion, stock);
+    public Libro(String titulo, String codigo, String imagen, Date fechaCreacion, int stock, boolean reservado, int numPag, String
+            capituloMuestra) {
+        super(0, titulo, codigo, imagen, fechaCreacion, stock, reservado);
         this.pkLibro = 0;
         this.numPag = numPag;
         this.capituloMuestra = capituloMuestra;
