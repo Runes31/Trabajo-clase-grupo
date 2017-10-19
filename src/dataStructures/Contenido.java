@@ -19,14 +19,16 @@ public class Contenido {
     private String imagen;
     private Date fechaCreacion;
     private int stock;
+    private boolean resevado;
 
-    Contenido(int pk, String titulo, String codigo, String imagen, Date fechaCreacion, int stock) {
+    Contenido(int pk, String titulo, String codigo, String imagen, Date fechaCreacion, int stock, boolean resevado) {
         this.pk = pk;
         this.titulo = titulo;
         this.codigo = codigo;
         this.imagen = imagen;
         this.fechaCreacion = fechaCreacion;
         this.stock = stock;
+        this.resevado = resevado;
     }
 
     
@@ -52,5 +54,9 @@ public class Contenido {
 
     public int getStock() {
         return stock;
+    }
+
+    public boolean isResevado(){
+        return resevado;
     }
 }

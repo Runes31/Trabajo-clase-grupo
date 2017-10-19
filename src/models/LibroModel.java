@@ -66,6 +66,8 @@ public class LibroModel extends ContenidoModel {
         Statement st = con.getConn().prepareStatement(sql);
         ResultSet rs = st.executeQuery(sql);
 
+        PrestamosModel prestamosModel = new PrestamosModel();
+
         while (rs.next()) {
             int pkLibro = rs.getInt(1);
             int numPag = rs.getInt(3);
@@ -78,7 +80,9 @@ public class LibroModel extends ContenidoModel {
             Date contFecha = rs.getDate(9);
             int contStock = rs.getInt(10);
 
-            Libro libro1 = new Libro(pkCont, contTitulo, contCodigo, contImg, contFecha, contStock, pkLibro, numPag, capMuestra);
+            boolean prestado = prestamosModel.contenidoPrestado(pkCont);
+
+            Libro libro1 = new Libro(pkCont, contTitulo, contCodigo, contImg, contFecha, contStock, prestado, pkLibro, numPag, capMuestra);
 
             libros.add(libro1);
         }
