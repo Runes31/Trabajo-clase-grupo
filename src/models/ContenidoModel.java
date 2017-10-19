@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ContenidoModel {
+
     ConnectDB con;
 
     public ContenidoModel() throws SQLException, ClassNotFoundException {
@@ -18,8 +19,8 @@ public class ContenidoModel {
     }
 
     int insertContenido(Contenido contenido) throws SQLException {
-        String sql = "INSERT INTO con_contenido(con_titulo, con_codigo, con_imagen, con_fecha_creacion, con_stock)" +
-                "VALUES(?,?,?,now(), ?)";
+        String sql = "INSERT INTO con_contenido(con_titulo, con_codigo, con_imagen, con_fecha_creacion, con_stock) "
+                + "VALUES(?,?,?,now(), ?)";
 
         PreparedStatement insertContenido = con.getConn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         insertContenido.setString(1, contenido.getTitulo());
@@ -33,6 +34,20 @@ public class ContenidoModel {
         rs.next();
 
         return rs.getInt(1);
+    }
+
+    void deleteContenido(int pkCont) throws SQLException {
+
+       
+
+        String sql = "DELETE FROM con_contenido "
+                + "WHERE con_pk = ?";
+
+        PreparedStatement ps = con.getConn().prepareStatement(sql);
+        ps.setInt(1, pkCont);
+
+        ps.executeUpdate();
+
     }
 
     public List<Contenido> getNovedades() {

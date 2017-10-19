@@ -69,8 +69,8 @@ public class LibroModel extends ContenidoModel {
                 + " FROM lib_libro lib"
                 + " LEFT JOIN con_contenido AS con ON con.con_pk = lib.con_contenido_con_pk";
 
-        Statement st = con.getConn().prepareStatement(sql);
-        ResultSet rs = st.executeQuery(sql);
+        PreparedStatement st = con.getConn().prepareStatement(sql);
+        ResultSet rs = st.executeQuery();
 
         PrestamosModel prestamosModel = new PrestamosModel();
 
@@ -155,8 +155,8 @@ public class LibroModel extends ContenidoModel {
         stCont.setInt(5, libStock);
         stCont.setInt(6, contPk);
 
-        stLibro.executeUpdate(sqlLibro);
-        stCont.executeUpdate(sqlContenido);
+        stLibro.executeUpdate();
+        stCont.executeUpdate();
 
     }
 
