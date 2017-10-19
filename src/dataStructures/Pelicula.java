@@ -18,15 +18,15 @@ public class Pelicula extends Contenido {
     private Director director;
 
 
-    public Pelicula(int pk, String titulo, String codigo, String imagen, Date fechaCreacion, int stock, int pkPelicula, Productora productora, Director director) {
-        super(pk, titulo, codigo, imagen, fechaCreacion, stock);
+    public Pelicula(int pk, String titulo, String codigo, String imagen, Date fechaCreacion, int stock, boolean reservado, int pkPelicula, Productora productora, Director director) {
+        super(pk, titulo, codigo, imagen, fechaCreacion, stock, reservado);
         this.pkPelicula = pkPelicula;
         this.productora = productora;
         this.director = director;
     }
 
-    public Pelicula(String titulo, String codigo, String imagen, Date fechaCreacion, int stock, Productora productora, Director director) {
-        super(0, titulo, codigo, imagen, fechaCreacion, stock);
+    public Pelicula(String titulo, String codigo, String imagen, Date fechaCreacion, int stock, boolean reservado, Productora productora, Director director) {
+        super(0, titulo, codigo, imagen, fechaCreacion, stock, reservado);
         this.pkPelicula = 0;
         this.productora = productora;
         this.director = director;

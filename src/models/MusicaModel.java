@@ -12,11 +12,11 @@ import java.util.List;
 public class MusicaModel extends ContenidoModel {
 
     private CancionModel cancionModel;
-    private DiscograficaModel discografiaModel;
+    private DiscograficaModel discograficaModel;
 
     public MusicaModel() throws SQLException, ClassNotFoundException {
         cancionModel = new CancionModel();
-        discografiaModel = new DiscograficaModel();
+        discograficaModel = new DiscograficaModel();
     }
 
     public void createMusica(Musica musica) throws ModelException {
@@ -24,7 +24,7 @@ public class MusicaModel extends ContenidoModel {
             con.getConn().setAutoCommit(false);
 
             int contenidoId = insertContenido(musica);
-            int discId = discografiaModel.insertDiscografica(musica.getDiscografica());
+            int discId = discograficaModel.insertDiscografica(musica.getDiscografica());
             int musicaId = insertMusica(contenidoId, discId);
             cancionModel.insertCanciones(musica.getCanciones(), musicaId);
 
@@ -61,10 +61,11 @@ public class MusicaModel extends ContenidoModel {
         return rs.getInt(1);
     }
 
-    public List<Contenido> getMusicas() throws SQLException {
+    public List<Contenido> getMusicas() throws SQLException, ClassNotFoundException {
 
         List<Contenido> musicas = new ArrayList<>();
         List<Cancion> canciones = new ArrayList<>();
+        PrestamosModel prestamosModel = new PrestamosModel();
 
         String sql = "SELECT mus_pk,con_contenido_con_pk,disc_discografica_disc_pk,con_pk,con_titulo,con_codigo,"
                 + "con_imagen,con_fecha_creacion,con_stock,canc_pk,canc_nombre,canc_orden,mus_musica_mus_pk,disc_pk,disc_nombre "
@@ -73,8 +74,8 @@ public class MusicaModel extends ContenidoModel {
                 + "AND disc_discografica.disc_pk = mus_musica.disc_discografica_disc_pk "
                 + "AND mus_musica.mus_pk = canc_canciones.mus_musica_mus_pk";
 
-        Statement st = con.getConn().prepareStatement(sql);
-        ResultSet rs = st.executeQuery(sql);
+        PreparedStatement st = con.getConn().prepareStatement(sql);
+        ResultSet rs = st.executeQuery();
 
         while (rs.next()) {
             int musPk = rs.getInt(1);
@@ -107,31 +108,19 @@ public class MusicaModel extends ContenidoModel {
                 canciones.add(cancion);
             }
 
-            Musica musica = new Musica(contPk, contTitulo, contCodigo, contImg, contDate, contStock, musPk, discografica, canciones);
+            boolean prestado = prestamosModel.contenidoPrestado(contPk);
+            Musica musica = new Musica(contPk, contTitulo, contCodigo, contImg, contDate, contStock, prestado, musPk, discografica, canciones);
             musicas.add(musica);
-
         }
-
         return musicas;
-
     }
 
     public void updateMusica(Musica musica) throws SQLException {
-
+        //CONTENIDO DE MUSICA
         String sqlContenido = "UPDATE con_contenido "
                 + "SET con_titulo = ?,con_codigo = ?,con_imagen = ?,con_fecha_creacion = ?,con_stock = ? "
                 + "WHERE con_pk  = ?";
-
-        String sqlDiscografica = "UPDATE disc_discografica "
-                + "SET disc_nombre = ?"
-                + "WHERE disk_pk = ?";
-        
-        
-        //Traba Alex discograficas
         PreparedStatement psCont = con.getConn().prepareStatement(sqlContenido);
-        PreparedStatement psDisc = con.getConn().prepareStatement(sqlDiscografica);
-
-        //CONTENIDO DE MUSICA
         psCont.setString(1, musica.getTitulo());
         psCont.setString(2, musica.getCodigo());
         psCont.setString(3, musica.getImagen());
@@ -140,8 +129,12 @@ public class MusicaModel extends ContenidoModel {
         psCont.setInt(6, musica.getPk());
 
         //DISCOGRAFICA
-        psDisc.setString(1, musica.getDiscografica().getNombre());
-        psDisc.setInt(2, musica.getDiscografica().getPk());
+        int discPk = discograficaModel.insertDiscografica(musica.getDiscografica());
+        String sqlMusica = "UPDATE mus_musica SET disc_discografica_disc_pk = ? WHERE mus_pk = ?";
+        PreparedStatement updateMusica = con.getConn().prepareStatement(sqlMusica);
+        updateMusica.setInt(1, discPk);
+        updateMusica.setInt(2, musica.getPk());
+        updateMusica.executeUpdate();
 
         //CANCIONES
         for (Cancion cancion : musica.getCanciones()) {
@@ -156,13 +149,23 @@ public class MusicaModel extends ContenidoModel {
             psCanc.setInt(2, cancion.getOrden());
             psCanc.setInt(3, musica.getPkMusica());
 
-            psCanc.executeUpdate(sqlCanciones);
+            psCanc.executeUpdate();
         }
-
     }
 
-    public void deleteMusica() {
+    public void deleteMusica(Musica m) throws SQLException, ClassNotFoundException {
 
+        int musPk = m.getPkMusica();
+        int contPk = m.getPk();
+
+        String sql = "DELETE FROM mus_musica"
+                + "WHERE mus_pk = ?";
+
+        PreparedStatement ps = con.getConn().prepareStatement(sql);
+        ps.setInt(1, musPk);
+
+        cancionModel.deleteCanciones(musPk);
+        ps.executeUpdate();
+        deleteContenido(contPk);  
     }
-
 }
