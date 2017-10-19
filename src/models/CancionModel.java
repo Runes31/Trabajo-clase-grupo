@@ -48,7 +48,7 @@ public class CancionModel {
         PreparedStatement psCanc = con.getConn().prepareStatement(sqlCanc);
         psCanc.setInt(1, musicaId);
 
-        ResultSet rs = psCanc.executeQuery(sqlCanc);
+        ResultSet rs = psCanc.executeQuery();
 
         while (rs.next()) {
 
@@ -69,7 +69,7 @@ public class CancionModel {
         PreparedStatement psCanc = con.getConn().prepareStatement(sqlCanc);
         psCanc.setInt(1, cancionId);
 
-        ResultSet rs = psCanc.executeQuery(sqlCanc);
+        ResultSet rs = psCanc.executeQuery();
 
         Cancion cancion = new Cancion(rs.getInt(1), rs.getString(2), rs.getInt(3));
 
@@ -83,7 +83,7 @@ public class CancionModel {
         PreparedStatement psCanc = con.getConn().prepareStatement(sql);
         psCanc.setInt(1, musicaId);
 
-        psCanc.executeUpdate(sql);
+        psCanc.executeUpdate();
     }
 
     public void deleteCancion(int cancionId) throws SQLException {
@@ -93,7 +93,7 @@ public class CancionModel {
         PreparedStatement psCanc = con.getConn().prepareStatement(sql);
         psCanc.setInt(1, cancionId);
 
-        psCanc.executeUpdate(sql);
+        psCanc.executeUpdate();
 
     }
 
@@ -106,7 +106,7 @@ public class CancionModel {
         psCanc.setInt(2, cancion.getOrden());
         psCanc.setInt(3, cancion.getPkCancion());
 
-        psCanc.executeUpdate(sql);
+        psCanc.executeUpdate();
 
     }
 

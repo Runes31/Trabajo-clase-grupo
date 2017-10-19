@@ -84,6 +84,8 @@ public class DiscograficaModel {
         }
     }
 
+    
+    //Mirar que exista la discografica antes
     public void updateDiscografica(String nombre) throws SQLException {
 
         String sql = "UPDATE disc_discografica SET disc_nombre = ?";
