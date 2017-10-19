@@ -24,8 +24,6 @@ public class LibroModel extends ContenidoModel {
             con.getConn().setAutoCommit(false);
 
             int contenidoId = insertContenido(libro);
-
-            insertContenido(libro);
             insertLibro(libro, contenidoId);
 
             con.getConn().commit();
@@ -33,6 +31,12 @@ public class LibroModel extends ContenidoModel {
         } catch (SQLException ex) {
             Logger.log("Exception in createLibro", TipoLog.ERROR);
             Logger.log(ex);
+        } finally {
+            try {
+                con.getConn().setAutoCommit(true);
+            } catch (SQLException e) {
+                Logger.log(e);
+            }
         }
 
     }
@@ -56,7 +60,7 @@ public class LibroModel extends ContenidoModel {
 
         List<Contenido> libros = new ArrayList<>();
         String sql = "SELECT lib_pk,con_contenido_con_pk,lib_numero_paginas,lib_capitulo_muestra,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock"
-                + " FROM lib_libro lib,con_contenido"
+                + " FROM lib_libro lib"
                 + " LEFT JOIN con_contenido AS con ON con.con_pk = lib.con_contenido_con_pk";
 
         Statement st = con.getConn().prepareStatement(sql);
@@ -64,7 +68,6 @@ public class LibroModel extends ContenidoModel {
 
         while (rs.next()) {
             int pkLibro = rs.getInt(1);
-            int pkContenido = rs.getInt(2);
             int numPag = rs.getInt(3);
             String capMuestra = rs.getString(4);
 

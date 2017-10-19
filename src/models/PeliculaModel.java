@@ -6,11 +6,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PeliculaModel {
-    private ConnectDB con;
+public class PeliculaModel extends ContenidoModel {
 
     public PeliculaModel() throws SQLException, ClassNotFoundException {
-        con = new ConnectDB();
     }
 
     public List<Contenido> getPeliculas() {
