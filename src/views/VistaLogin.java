@@ -5,34 +5,44 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+
+import controllers.MainController;
+import controllers.UserController;
 
 public class VistaLogin extends VistaPrincipal{
 	//layout
 	private GridBagLayout grid = new GridBagLayout();
-	GridBagConstraints c = new GridBagConstraints();
+	private GridBagConstraints c = new GridBagConstraints();
 	
-	private JLabel labelUsuario = new JLabel("Hola");
-	private JTextField usuario = new JTextField("pepito");
-	private JLabel labelPassword = new JLabel("adios");
-	private JTextField password= new JTextField("juanito");
+	private JLabel labelUsuario = new JLabel("Usuario");
+	private JTextField usuario = new JTextField(10);
+	private JLabel labelPassword = new JLabel("Contraseña");
+	private JPasswordField password= new JPasswordField(10);
 	private JButton botonLogin = new JButton("Login");
+	private JButton botonRegistrarse = new JButton("Registrarse");
+	private JOptionPane mensajeError = new JOptionPane();
 	
 	public VistaLogin(){
 		super.crearPanel();
+		super.setSize(400,300);
+		super.setLocationRelativeTo(null);
+		super.setResizable(false);
 		super.getPanel().setLayout(grid);
-		c.weighty=0.1;
-		c.gridheight=1;
-		
+		c.anchor=c.CENTER;
 		c.gridx=0;
 		c.gridy=0;
 		super.getPanel().add(labelUsuario,c);
 		
-		c.insets = new Insets(0, 0, 0, 0);
+		c.insets=new Insets(10, 0, 0, 0);
 		c.gridy=1;
 		super.getPanel().add(usuario,c);
 		
@@ -45,5 +55,49 @@ public class VistaLogin extends VistaPrincipal{
 		c.gridy=4;
 		super.getPanel().add(botonLogin,c);
 		
+		c.gridy=5;
+		super.getPanel().add(botonRegistrarse,c);
+		
+		botonLogin.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				boolean comprobacion;
+				UserController uc = new UserController();
+				uc.login(obtenerUsuario(), obtenerContraseña());
+				
+			}
+		});
+		
+		botonRegistrarse.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				MainController.setView(new VistaRegistro());
+				
+			}
+		});
+		
 	}
+
+	private String obtenerUsuario(){
+		String resultado;
+		resultado = usuario.getText();
+		return resultado;
+	}
+	
+	public String obtenerContraseña(){
+		char[] cadena = password.getPassword();
+		String resultado= new String(cadena);
+		return resultado;	
+	}
+
+	@Override
+	public void pintar(Object o) {
+		String mensaje = (String) o;
+		mensajeError.showMessageDialog(this , mensaje ,"Error",JOptionPane.ERROR_MESSAGE);
+	}
+	
+	
+	
 }

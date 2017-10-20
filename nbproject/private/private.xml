@@ -3,7 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Usuario/Documents/Trabajo-clase-grupo/src/controllers/TestController.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Trabajo-clase-grupo/src/models/MusicaModel.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Trabajo-clase-grupo/src/models/CancionModel.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Trabajo-clase-grupo/src/models/DiscograficaModel.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Trabajo-clase-grupo/src/dataStructures/Discografica.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Trabajo-clase-grupo/src/models/LibroModel.java</file>
         </group>
     </open-files>
 </project-private>

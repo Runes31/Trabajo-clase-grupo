@@ -9,15 +9,16 @@ public class Musica extends Contenido {
     private Discografica discografica;
     private List<Cancion> canciones;
 
-    public Musica(int pk, String titulo, String codigo, String imagen, Date fechaCreacion, int pkMusica, Discografica discografica, List<Cancion> canciones) {
-        super(pk, titulo, codigo, imagen, fechaCreacion);
+    public Musica(int pk, String titulo, String codigo, String imagen, Date fechaCreacion, int stock, boolean reservado, int pkMusica,
+                  Discografica discografica, List<Cancion> canciones) {
+        super(pk, titulo, codigo, imagen, fechaCreacion, stock, reservado);
         this.pkMusica = pkMusica;
         this.discografica = discografica;
         this.canciones = canciones;
     }
 
-    public Musica(String titulo, String codigo, String imagen, Date fechaCreacion, Discografica discografica, List<Cancion> canciones) {
-        super(0, titulo, codigo, imagen, fechaCreacion);
+    public Musica(String titulo, String codigo, String imagen, Date fechaCreacion, int stock, boolean reservado, Discografica discografica, List<Cancion> canciones) {
+        super(0, titulo, codigo, imagen, fechaCreacion, stock, reservado);
         this.pkMusica = 0;
         this.discografica = discografica;
         this.canciones = canciones;

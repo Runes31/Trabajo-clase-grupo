@@ -9,7 +9,16 @@ public class MainController {
         currentView = view;
     }
 
-    public void setView(VistaPrincipal view){
+    public static void setView(VistaPrincipal view){
+        currentView.dispose();
         currentView = view;
+    }
+
+    public static VistaPrincipal getView(){
+        return currentView;
+    }
+
+    static void printToView(Object data){
+        currentView.pintar(data);
     }
 }
