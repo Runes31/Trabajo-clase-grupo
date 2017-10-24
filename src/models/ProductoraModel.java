@@ -6,11 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ProductoraModel extends ContenidoModel {
+public class ProductoraModel {
 
     private ConnectDB con;
 
-    ProductoraModel() {
+    ProductoraModel() throws SQLException, ClassNotFoundException {
         con = new ConnectDB();
     }
 
