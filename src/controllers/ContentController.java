@@ -44,7 +44,8 @@ public class ContentController {
             Logger.log(e);
         }
         //Pintar el resultado a la vista
-        MainController.printToView(respuesta);
+        VistaInicio vista = (VistaInicio) MainController.getView();
+        vista.pintarContenido(respuesta);
     }
 
     /**
@@ -66,9 +67,10 @@ public class ContentController {
             Logger.log(e);
         }
 
+        VistaInicio vista = (VistaInicio) MainController.getView();
         //Si el tipo es prestamo o novedades se pintan por filas, si no se pintan todos los contenidos
         if(tipoContenido == TipoContenido.PRESTAMO || tipoContenido == TipoContenido.NOVEDADES) {
-            MainController.printToView(respuesta);
+            vista.pintarContenido(respuesta);
         }
         else {
             //Método no hecho aun
