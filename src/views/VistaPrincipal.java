@@ -2,6 +2,7 @@ package views;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Frame;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -38,5 +39,9 @@ public abstract class VistaPrincipal extends JFrame{
 		}
 		
 		public abstract void pintar(Object o);
+		protected void paintComponent(Graphics g) {
+			// TODO Auto-generated method stub
+			
+		}
 		
 }
