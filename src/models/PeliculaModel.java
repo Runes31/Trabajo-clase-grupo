@@ -4,6 +4,8 @@ import dataStructures.Contenido;
 import dataStructures.Director;
 import dataStructures.Pelicula;
 import dataStructures.Productora;
+import helpers.Logger;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -11,8 +13,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class PeliculaModel extends ContenidoModel {
     
@@ -36,12 +36,13 @@ public class PeliculaModel extends ContenidoModel {
             int pkProd = productora.insertProductora(pelicula.getProductora());
             int pkDir = director.insertDirector(pelicula.getDirector());
             
-            insertPelicula(pkCont, pkProd, pkDir);
+            int pkPelicula = insertPelicula(pkCont, pkProd, pkDir);
             
             con.getConn().commit();
             
         } catch (SQLException ex) {
-            Logger.getLogger(PeliculaModel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.log(ex);
+            throw new ModelException(ex);
         }
     }
     
@@ -63,50 +64,76 @@ public class PeliculaModel extends ContenidoModel {
         
         return rs.getInt(1);
     }
-    
+
     public List<Contenido> getPeliculas() throws SQLException, ClassNotFoundException {
-        
+
         List<Contenido> peliculas = new ArrayList<>();
-        String sql = "SELECT pel_pk,con_contenido_pk,pro_productora_pro_pk,dir_directores_dir_pk,dir_nombre,act_nombre,"
-                + "pro_nombre,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock ,act_actores_act_pk,pel_pelicula_pel_pk,"
-                + "FROM act_actores,pelact_pelicula_actores,dir_directores,pro_productora,pel_pelicula,con_contenido "
-                + "WHERE pel_pelicula.pro_productora_pro_pk = pro_productora.pro_pk "
-                + "AND pel_pelicula.con_contenido_con_pk = con_contenido.con_pk "
-                + "AND pel_pelicula.dir_directores_dir_pk = dir_directores.dir_pk "
-                + "AND act_actores.act_pk = pelact_pelicula_actores.act_actores_act_pk "
-                + "AND pelact_pelicula_actores.pel_pelicula_pel_pk = pel_pelicula.pel_pk;";
-        
+        String sql = "SELECT pel_pk,con_contenido_pk,pro_productora_pro_pk,dir_directores_dir_pk,dir_nombre,act_nombre," +
+                "pro_nombre,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock ,act_actores_act_pk,pel_pelicula_pel_pk," +
+                "FROM con_contenido con" +
+                "LEFT JOIN pel_pelicula pel ON pel.con_contenido_con_pk = con.con_pk" +
+                "LEFT JOIN dir_directores dir ON dir.dir_pk = pel.dir_directores_dir_pk" +
+                "LEFT JOIN pro_productora pro ON pro.pro_pk = pel.pro_productora_pro_pk";
+
         PreparedStatement st = con.getConn().prepareStatement(sql);
         ResultSet rs = st.executeQuery();
-        
+
         while (rs.next()) {
-            
+
             PrestamosModel prestamosModel = new PrestamosModel();
             boolean prestado = prestamosModel.contenidoPrestado(rs.getInt(8));
             Productora p = new Productora(rs.getString(7));
             Director d = new Director(rs.getString(5));
-            
+
             Pelicula pel = new Pelicula(rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getDate(12),
                     rs.getInt(13), prestado, rs.getInt(1), p, d, actores.getActores(rs.getInt(1)));
             peliculas.add(pel);
-            
+
         }
-        
+
+        return peliculas;
+    }
+
+    public List<Contenido> getPeliculas(String titulo) throws SQLException, ClassNotFoundException {
+
+        List<Contenido> peliculas = new ArrayList<>();
+        String sql = "SELECT pel_pk,con_contenido_pk,pro_productora_pro_pk,dir_directores_dir_pk,dir_nombre,act_nombre," +
+                "pro_nombre,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock ,act_actores_act_pk,pel_pelicula_pel_pk," +
+                "FROM con_contenido con" +
+                "LEFT JOIN pel_pelicula pel ON pel.con_contenido_con_pk = con.con_pk" +
+                "LEFT JOIN dir_directores dir ON dir.dir_pk = pel.dir_directores_dir_pk" +
+                "LEFT JOIN pro_productora pro ON pro.pro_pk = pel.pro_productora_pro_pk" +
+                "WHERE con.con_titulo LIKE ?";
+
+        PreparedStatement st = con.getConn().prepareStatement(sql);
+        st.setString(1, "%" + titulo + "%");
+        ResultSet rs = st.executeQuery();
+
+        PrestamosModel prestamosModel = new PrestamosModel();
+        while (rs.next()) {
+            boolean prestado = prestamosModel.contenidoPrestado(rs.getInt(8));
+            Productora p = new Productora(rs.getString(7));
+            Director d = new Director(rs.getString(5));
+
+            Pelicula pel = new Pelicula(rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getDate(12),
+                    rs.getInt(13), prestado, rs.getInt(1), p, d, actores.getActores(rs.getInt(1)));
+            peliculas.add(pel);
+        }
+
         return peliculas;
     }
     
-    public void updatePelicula(Pelicula musica) throws SQLException {
-        
+    public void updatePelicula(Pelicula pelicula) throws SQLException {
         String sql = "UPDATE pel_pelicula "
-                + "SET con_contenido_pk = ?,pro_productora_pro_pk = ?,dir_directores_dir_pk = ?";
+                + "SET pro_productora_pro_pk = ?,dir_directores_dir_pk = ?";
         
         PreparedStatement psPel = con.getConn().prepareStatement(sql);
-        psPel.setInt(1, musica.getPk());
-        psPel.setInt(2, musica.getProductora().getPk());
-        psPel.setInt(3, musica.getDirector().getPk());
+        psPel.setInt(1, productora.updateProductora(pelicula.getProductora()));
+        psPel.setInt(2, director.updateDirector(pelicula.getDirector()));
+
+        actores.updateActores(pelicula);
         
         psPel.executeUpdate();
-        
     }
     
     public void deletePelicula(Pelicula pelicula) throws SQLException {
@@ -126,7 +153,5 @@ public class PeliculaModel extends ContenidoModel {
         psPel.executeUpdate();
         
         deleteContenido(pelicula.getPk());
-        
     }
-    
 }
