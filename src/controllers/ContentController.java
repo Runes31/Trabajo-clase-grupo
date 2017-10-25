@@ -144,14 +144,6 @@ public class ContentController {
     List<String> checkDatos(Contenido contenido) {
         List<String> errores = new ArrayList<>();
 
-        if (contenido.getCodigo().trim().isEmpty()) {
-            errores.add("Debe introducir un código.");
-        }
-
-        if (contenido.getTitulo().trim().isEmpty()) {
-            errores.add("Debe introducir un título.");
-        }
-
         if (!contenido.getImagen().isEmpty()){
             try {
                 Image image = ImageIO.read(new File(contenido.getImagen()));
@@ -162,7 +154,16 @@ public class ContentController {
             } catch (IOException e) {
                 errores.add("Se ha producido un error.");
                 Logger.log(e);
+                return errores;
             }
+        }
+
+        if (contenido.getCodigo().trim().isEmpty()) {
+            errores.add("Debe introducir un código.");
+        }
+
+        if (contenido.getTitulo().trim().isEmpty()) {
+            errores.add("Debe introducir un título.");
         }
 
         try{
