@@ -7,6 +7,10 @@ import models.*;
 import views.VistaInicio;
 import views.VistaPrincipal;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +34,9 @@ public class ContentController {
         try {
             //Coger prestamos
             PrestamosModel prestamosModel = new PrestamosModel();
-            List<Contenido> prestamos = prestamosModel.getPrestamos();
+            List<Contenido> prestamos = prestamosModel.getLibros();
+            prestamos.addAll(prestamosModel.getMusica());
+            prestamos.addAll(prestamosModel.getPeliculas());
 
             //Coger novedades
             ContenidoModel contentModel = new ContenidoModel();
@@ -106,7 +112,7 @@ public class ContentController {
             respuesta.put(TipoContenido.PELICULA, peliculaModel.getPeliculas());
 
             MusicaModel musicaModel = new MusicaModel();
-            respuesta.put(TipoContenido.MUSICA, musicaModel.getMusicas());
+            respuesta.put(TipoContenido.MUSICA, musicaModel.getMusica());
         } else if (tipoContenido == TipoContenido.LIBRO){
             //Libros general
             LibroModel libroModel = new LibroModel();
@@ -114,7 +120,7 @@ public class ContentController {
         } else if (tipoContenido == TipoContenido.MUSICA){
             //Musica general
             MusicaModel musicaModel = new MusicaModel();
-            respuesta.put(TipoContenido.MUSICA, musicaModel.getMusicas());
+            respuesta.put(TipoContenido.MUSICA, musicaModel.getMusica());
         } else if (tipoContenido == TipoContenido.PELICULA){
             //Peliculas general
             PeliculaModel peliculaModel = new PeliculaModel();
@@ -134,5 +140,68 @@ public class ContentController {
         }
 
         return respuesta;
+    }
+
+    List<String> checkDatos(Contenido contenido) {
+        List<String> errores = new ArrayList<>();
+
+        if (contenido.getCodigo().trim().isEmpty()) {
+            errores.add("Debe introducir un código.");
+        }
+
+        if (contenido.getTitulo().trim().isEmpty()) {
+            errores.add("Debe introducir un título.");
+        }
+
+        if (!contenido.getImagen().isEmpty()){
+            try {
+                Image image = ImageIO.read(new File(contenido.getImagen()));
+                if (image == null) {
+                    errores.add("Debe introducir una imagen válida.");
+                }
+            } catch (IOException e) {
+                errores.add("Se ha producido un error.");
+                Logger.log(e);
+            }
+        }
+
+        try{
+            Integer.parseInt(String.valueOf(contenido.getStock()));
+        } catch (NumberFormatException e){
+            errores.add("Debe introducir un número de stock válido.");
+        }
+
+        return errores;
+    }
+
+    public void buscarContenido(String titulo){
+
+        try {
+            Map<TipoContenido, List<Contenido>> contenidoListMap = getContenidoBusqueda(titulo);
+
+            MainController.setView(new VistaInicio());
+            VistaInicio vistaInicio = (VistaInicio) MainController.getView();
+
+            vistaInicio.pintarContenido(contenidoListMap);
+        } catch (SQLException | ClassNotFoundException e) {
+            Logger.log(e);
+            MainController.printToView("Se ha producido un error");
+        }
+
+    }
+
+    private Map<TipoContenido,List<Contenido>> getContenidoBusqueda(String titulo) throws SQLException, ClassNotFoundException {
+        Map<TipoContenido, List<Contenido>> contenidoListMap = new HashMap<>();
+
+        LibroModel libroModel = new LibroModel();
+        contenidoListMap.put(TipoContenido.LIBRO, libroModel.getLibros(titulo));
+
+        PeliculaModel peliculaModel = new PeliculaModel();
+        contenidoListMap.put(TipoContenido.PELICULA, peliculaModel.getPeliculas(titulo));
+
+        MusicaModel musicaModel = new MusicaModel();
+        contenidoListMap.put(TipoContenido.MUSICA, musicaModel.getMusica(titulo));
+
+        return contenidoListMap;
     }
 }
