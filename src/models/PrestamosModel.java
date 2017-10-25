@@ -49,9 +49,36 @@ public class PrestamosModel {
         prestamo.executeUpdate();
     }
 
-    public List<Contenido> getPeliculas() {
-        return new ArrayList<>();
+    public List<Contenido> getPeliculas() throws SQLException, ClassNotFoundException {
+        List<Contenido> peliculas = new ArrayList<>();
+        String sql = "SELECT pel_pk,con_contenido_pk,pro_productora_pro_pk,dir_directores_dir_pk,dir_nombre,act_nombre," +
+                "pro_nombre,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock ,act_actores_act_pk,pel_pelicula_pel_pk," +
+                "FROM con_contenido con" +
+                "LEFT JOIN pel_pelicula pel ON pel.con_contenido_con_pk = con.con_pk" +
+                "LEFT JOIN dir_directores dir ON dir.dir_pk = pel.dir_directores_dir_pk" +
+                "LEFT JOIN pro_productora pro ON pro.pro_pk = pel.pro_productora_pro_pk" +
+                "LEFT JOIN pres_prestamo pres ON pres.con_contenido_con_pk = con.con_pk" +
+                "WHERE pres.usu_usuarios_usu_pk = ?";
+
+        PreparedStatement st = con.getConn().prepareStatement(sql);
+        st.setInt(1, UserController.getCurrentUser().getPk());
+        ResultSet rs = st.executeQuery();
+
+        ActoresModel actores = new ActoresModel();
+        while (rs.next()) {
+            PrestamosModel prestamosModel = new PrestamosModel();
+            boolean prestado = prestamosModel.contenidoPrestado(rs.getInt(8));
+            Productora p = new Productora(rs.getString(7));
+            Director d = new Director(rs.getString(5));
+
+            Pelicula pel = new Pelicula(rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getDate(12),
+                    rs.getInt(13), prestado, rs.getInt(1), p, d, actores.getActores(rs.getInt(1)));
+            peliculas.add(pel);
+        }
+
+        return peliculas;
     }
+
     public List<Contenido> getLibros() throws SQLException {
         List<Contenido> libros = new ArrayList<>();
         String sql = "SELECT lib_pk,con_contenido_con_pk,lib_numero_paginas,lib_capitulo_muestra,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock"
@@ -85,7 +112,6 @@ public class PrestamosModel {
     }
 
     public List<Contenido> getMusica() throws SQLException, ClassNotFoundException {
-
         List<Contenido> musicas = new ArrayList<>();
         List<Cancion> canciones = new ArrayList<>();
         PrestamosModel prestamosModel = new PrestamosModel();
