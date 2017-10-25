@@ -1,6 +1,7 @@
 package models;
 
 import dataStructures.Actor;
+import dataStructures.Pelicula;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,11 +13,11 @@ public class ActoresModel {
 
     private ConnectDB con;
 
-    public ActoresModel() {
+    public ActoresModel() throws SQLException, ClassNotFoundException {
         con = new ConnectDB();
     }
 
-    int insertDirector(Actor actor) throws SQLException {
+    int insertActor(Actor actor) throws SQLException {
         String sql = "INSERT INTO act_actores (act_nombre) VALUES (?) "
                 + "ON DUPLICATE KEY UPDATE act_pk=LAST_INSERT_ID(act_pk), act_nombre=?;";
 
@@ -47,11 +48,23 @@ public class ActoresModel {
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
-
-            Actor actor = new Actor(rs.getString(2));
-            actores.add(actor);
-
+            actores.add(new Actor(rs.getInt(1) ,rs.getString(2)));
         }
         return actores;
+    }
+
+    public void updateActores(Pelicula pelicula) throws SQLException {
+        String sql = "DELETE FROM pelact_pelicula_actores WHERE pel_pelicula_pel_pk = ?";
+
+        PreparedStatement deleteRelacion = con.getConn().prepareStatement(sql);
+        deleteRelacion.setInt(1, pelicula.getPkPelicula());
+
+        sql = "INSERT INTO pelact_pelicula_actores(pel_pelicula_pel_pk, act_actores_act_pk) VALUES(?,?)";
+        PreparedStatement insertActores = con.getConn().prepareStatement(sql);
+        insertActores.setInt(1, pelicula.getPkPelicula());
+        for (Actor a : pelicula.getActores()){
+            insertActores.setInt(2, insertActor(a));
+            insertActores.executeUpdate();
+        }
     }
 }
