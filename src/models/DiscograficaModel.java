@@ -65,35 +65,5 @@ public class DiscograficaModel {
         return discograficas;
     }
 
-    public void deleteDiscografica(int discPk) throws SQLException {
-
-        String sql = "DELETE FROM disc_discografica WHERE disc_pk like ?";
-
-        PreparedStatement psDisc = con.getConn().prepareStatement(sql);
-        psDisc.setInt(1, discPk);
-
-        psDisc.executeUpdate(sql);
-    }
-
-    public boolean existsDiscografica(String nombre) throws SQLException {
-
-        if (getDiscografica(nombre).getNombre().equals(nombre)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    
-    //Mirar que exista la discografica antes
-    public void updateDiscografica(String nombre) throws SQLException {
-
-        String sql = "UPDATE disc_discografica SET disc_nombre = ?";
-
-        PreparedStatement psDisc = con.getConn().prepareStatement(sql);
-        psDisc.setString(1, nombre);
-
-        psDisc.executeQuery(sql);
-    }
 }
 

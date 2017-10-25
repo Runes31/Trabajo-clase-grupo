@@ -50,12 +50,12 @@ public class MusicaModel extends ContenidoModel {
         String sql = "INSERT INTO mus_musica(con_contenido_con_pk, disc_discografica_disc_pk)"
                 + "VALUES(?,?)";
 
-        PreparedStatement insertMusica = con.getConn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        insertMusica.setInt(1, contenidoId);
-        insertMusica.setInt(2, discograficaId);
-        insertMusica.executeUpdate();
+        PreparedStatement ps = con.getConn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        ps.setInt(1, contenidoId);
+        ps.setInt(2, discograficaId);
+        ps.executeUpdate();
 
-        ResultSet rs = insertMusica.getGeneratedKeys();
+        ResultSet rs = ps.getGeneratedKeys();
         rs.next();
 
         return rs.getInt(1);
