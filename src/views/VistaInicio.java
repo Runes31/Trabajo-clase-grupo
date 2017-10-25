@@ -129,13 +129,6 @@ public class VistaInicio extends VistaPrincipal{
 //		nombreBoton = nombre;
 //	}
 
-	@Override
-	public void pintar(Object o) {
-		String mensaje = (String) o;
-		mensajeError.showMessageDialog(this , mensaje ,"Error",JOptionPane.ERROR_MESSAGE);
-	}
-	
-
 	public void pintarContenido(Object o) {
 		HashMap<TipoContenido,List<Contenido>> mapa = (HashMap) o;
 		
@@ -164,8 +157,4 @@ public class VistaInicio extends VistaPrincipal{
         JLabel elemento = new JLabel("prueba", new ImageIcon(contenido.getImagen()), Label.CENTER);
         super.getPanel().add(elemento);
     }
-
-
-
-
 }
