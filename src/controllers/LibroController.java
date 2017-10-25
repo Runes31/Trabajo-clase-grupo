@@ -10,8 +10,8 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
-public class LibroController {
-    public void crearLibro(Libro libro){
+class LibroController {
+    void crearLibro(Libro libro){
         List<String> errores = checkDatos(libro);
         if(errores.isEmpty()) {
             try {
@@ -45,7 +45,7 @@ public class LibroController {
         return errores;
     }
 
-    public void borrarLibro(Libro libro){
+    void borrarLibro(Libro libro){
         try{
             LibroModel libroModel =  new LibroModel();
             libroModel.deleteLibro(libro);
@@ -56,7 +56,7 @@ public class LibroController {
         }
     }
 
-    public void actualizarLibro(Libro libro){
+    void actualizarLibro(Libro libro){
         List<String> errores = checkDatos(libro);
         if(errores.isEmpty()) {
             try {

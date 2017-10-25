@@ -1,7 +1,6 @@
 package controllers;
 
-import dataStructures.Contenido;
-import dataStructures.TipoContenido;
+import dataStructures.*;
 import helpers.Logger;
 import models.*;
 import views.VistaInicio;
@@ -159,6 +158,7 @@ public class ContentController {
                 if (image == null) {
                     errores.add("Debe introducir una imagen válida.");
                 }
+                contenido.copyImageToLocal();
             } catch (IOException e) {
                 errores.add("Se ha producido un error.");
                 Logger.log(e);
@@ -203,5 +203,44 @@ public class ContentController {
         contenidoListMap.put(TipoContenido.MUSICA, musicaModel.getMusica(titulo));
 
         return contenidoListMap;
+    }
+
+    public void actualizarContenido(Contenido contenido){
+        if(contenido instanceof Libro){
+            LibroController libroController = new LibroController();
+            libroController.actualizarLibro((Libro) contenido);
+        } else if(contenido instanceof Pelicula){
+            PeliculaController peliculaController = new PeliculaController();
+            peliculaController.actualizarPelicula((Pelicula) contenido);
+        } else if(contenido instanceof Musica){
+            MusicaController musicaController = new MusicaController();
+            musicaController.actualizarMusica((Musica) contenido);
+        }
+    }
+
+    public void borrarContenido(Contenido contenido){
+        if(contenido instanceof Libro){
+            LibroController libroController = new LibroController();
+            libroController.borrarLibro((Libro) contenido);
+        } else if(contenido instanceof Pelicula){
+            PeliculaController peliculaController = new PeliculaController();
+            peliculaController.borrarPelicula((Pelicula) contenido);
+        } else if(contenido instanceof Musica){
+            MusicaController musicaController = new MusicaController();
+            musicaController.borrarMusica((Musica) contenido);
+        }
+    }
+
+    public void crearContenido(Contenido contenido){
+        if(contenido instanceof Libro){
+            LibroController libroController = new LibroController();
+            libroController.crearLibro((Libro) contenido);
+        } else if(contenido instanceof Pelicula){
+            PeliculaController peliculaController = new PeliculaController();
+            peliculaController.crearPelicula((Pelicula) contenido);
+        } else if(contenido instanceof Musica){
+            MusicaController musicaController = new MusicaController();
+            musicaController.crearMusica((Musica) contenido);
+        }
     }
 }

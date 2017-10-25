@@ -11,8 +11,8 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
-public class MusicaController {
-    public void crearMusica(Musica musica){
+class MusicaController {
+    void crearMusica(Musica musica){
         List<String> errores = checkDatos(musica);
         if(errores.isEmpty()) {
             try {
@@ -49,7 +49,7 @@ public class MusicaController {
         return errores;
     }
 
-    public void borrarMusica(Musica musica){
+    void borrarMusica(Musica musica){
         try{
             MusicaModel musicaModel =  new MusicaModel();
             musicaModel.deleteMusica(musica);
@@ -60,7 +60,7 @@ public class MusicaController {
         }
     }
 
-    public void actualizarMusica(Musica musica){
+    void actualizarMusica(Musica musica){
         List<String> errores = checkDatos(musica);
         if(errores.isEmpty()) {
             try {

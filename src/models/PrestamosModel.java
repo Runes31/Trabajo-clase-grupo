@@ -154,7 +154,7 @@ public class PrestamosModel {
         return rs.getInt(1);
     }
 
-    boolean contenidoPrestado(int pkCont) throws SQLException {
+    public boolean contenidoPrestado(int pkCont) throws SQLException {
         String sql = "SELECT * FROM pres_prestamo WHERE con_contenido_con_pk = ? AND usu_usuarios_usu_pk = ?";
 
         int userPk = UserController.getCurrentUser().getPk();

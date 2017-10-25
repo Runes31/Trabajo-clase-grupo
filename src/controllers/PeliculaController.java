@@ -10,8 +10,8 @@ import views.VistaInicio;
 import java.sql.SQLException;
 import java.util.List;
 
-public class PeliculaController {
-    public void crearPelicula(Pelicula pelicula){
+class PeliculaController {
+    void crearPelicula(Pelicula pelicula){
         List<String> errores = checkDatos(pelicula);
         if(errores.isEmpty()) {
             try {
@@ -52,7 +52,7 @@ public class PeliculaController {
         return errores;
     }
 
-    public void borrarPelicula(Pelicula pelicula){
+    void borrarPelicula(Pelicula pelicula){
         try{
             PeliculaModel peliculaModel =  new PeliculaModel();
             peliculaModel.deletePelicula(pelicula);
@@ -63,7 +63,7 @@ public class PeliculaController {
         }
     }
 
-    public void actualizarPelicula(Pelicula pelicula){
+    void actualizarPelicula(Pelicula pelicula){
         List<String> errores = checkDatos(pelicula);
         if(errores.isEmpty()) {
             try{
