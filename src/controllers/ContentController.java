@@ -38,11 +38,11 @@ public class ContentController {
             //Coger novedades
             List<Contenido> novedades = new ArrayList<>();
             LibroModel libroModel = new LibroModel();
-            novedades.add((Contenido) libroModel.getLibros());
+            novedades.addAll(libroModel.getLibros());
             PeliculaModel peliculaModel = new PeliculaModel();
-            novedades.add((Contenido) peliculaModel.getPeliculas());
+            novedades.addAll(peliculaModel.getPeliculas());
             MusicaModel musicaModel = new MusicaModel();
-            novedades.add((Contenido) musicaModel.getMusica());
+            novedades.addAll(musicaModel.getMusica());
 
             //Ordenarlas de más nueva a más antigua
             Collections.sort(novedades);
