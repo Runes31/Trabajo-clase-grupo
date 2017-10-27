@@ -6,6 +6,7 @@ import helpers.Logger;
 import helpers.TipoLog;
 import models.UserModel;
 import org.apache.commons.validator.routines.EmailValidator;
+import views.VistaLogin;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -60,6 +61,14 @@ public class UserController {
     }
 
     /**
+     * Deletes the session and changes view to login
+     */
+    public static void logout(){
+        currentUser = null;
+        MainController.setView(new VistaLogin());
+    }
+
+    /**
      * Checks if the data is valid and the user doesn't exist and saves it to the database
      * @param usuario
      * @param password
@@ -67,7 +76,13 @@ public class UserController {
      */
     public void registrarUsuario(User usuario, String password, String passwordConfirmation){
         //Check if data is valid
-        List<String> messages = userDataIsValid(usuario, password, passwordConfirmation);
+        List<String> messages = new ArrayList<>();
+        try {
+             messages = userDataIsValid(usuario, password, passwordConfirmation);
+        } catch (SQLException | ClassNotFoundException e) {
+            Logger.log(e);
+            messages.add("Se ha producido un error.");
+        }
 
         //If it is save it to the database
         if(messages.isEmpty()) {
@@ -87,8 +102,7 @@ public class UserController {
                 contentController.initHome();
             } catch (SQLException | ClassNotFoundException e) {
                 //Print the error to the view
-                messages.add("Se ha producido un error.");
-                MainController.printToView(messages);
+                MainController.printToView("Se ha producido un error.");
 
                 //Log it
                 Logger.log("Exception in registration", TipoLog.ERROR);
@@ -107,20 +121,27 @@ public class UserController {
      * @param passConfirm
      * @return
      */
-    private List<String> userDataIsValid(User usuario, String pass, String passConfirm) {
+    private List<String> userDataIsValid(User usuario, String pass, String passConfirm) throws SQLException, ClassNotFoundException {
         List<String> errores = new ArrayList<>();
+
+        UserModel userModel = new UserModel();
         if(usuario.getUserName().trim().isEmpty()) {
-            errores.add("El username es obligatorio.");
+            errores.add("El alias es obligatorio.");
         } else {
-            try {
-                UserModel userModel = new UserModel();
-                if(userModel.userExists(usuario) != null){
-                    errores.add("Ya existe un usuario con ese username o email.");
+                if(userModel.userNameExists(usuario) != null){
+                    errores.add("Ya existe un usuario con ese alias.");
                 }
-            } catch (SQLException | ClassNotFoundException e) {
-                Logger.log(e);
-                errores.add("Se ha producido un error.");
-                return errores;
+        }
+
+        EmailValidator emailValidator = EmailValidator.getInstance();
+
+        if(usuario.getEmail().trim().isEmpty()){
+            errores.add("Debe introducir un email válido.");
+        } else if(!emailValidator.isValid(usuario.getEmail())){
+            errores.add("Debe introducir un email válido.");
+        } else {
+            if(userModel.emailExists(usuario) != null){
+                errores.add("Ya existe un usuario con ese email");
             }
         }
 
@@ -136,17 +157,11 @@ public class UserController {
             errores.add("Las contraseñas no coinciden.");
         }
 
-        EmailValidator emailValidator = EmailValidator.getInstance();
-
-        if(usuario.getEmail().trim().isEmpty()){
-            errores.add("Debe introducir un email válido.");
-        } else if(!emailValidator.isValid(usuario.getEmail())){
-            errores.add("Debe introducir un email válido.");
-        }
-
         return errores;
     }
 
+
+    //TODO: Create a method for updating without modifying the pass
     /**
      * Updates the user in the database and in current memory if the data is valid
      * @param usuario
@@ -155,7 +170,13 @@ public class UserController {
      */
     public void actualizarUsuario(User usuario, String password, String passwordConfirmation){
         //Check if data is valid
-        List<String> messages = userDataIsValid(usuario, password, passwordConfirmation);
+        List<String> messages = new ArrayList<>();
+        try {
+            messages = userDataIsValid(usuario, password, passwordConfirmation);
+        } catch (SQLException | ClassNotFoundException e) {
+            Logger.log(e);
+            messages.add("Se ha producido un error.");
+        }
 
         //If it is update the user
         if(messages.isEmpty()) {
@@ -172,12 +193,10 @@ public class UserController {
                 Logger.log("Updated user ("+previousUsername+") -> " + usuario.getUserName());
 
                 //Print result to view
-                messages.add("Usuario actualizado correctamente.");
-                MainController.printToView(messages);
+
             } catch (SQLException | ClassNotFoundException e) {
                 //Print error to view
-                messages.add("Se ha producido un error.");
-                MainController.printToView(messages);
+                MainController.printToView("Se ha producido un error.");
 
                 //Log the error
                 Logger.log("Exception in registration", TipoLog.ERROR);

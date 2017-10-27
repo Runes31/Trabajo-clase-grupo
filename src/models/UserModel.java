@@ -1,9 +1,11 @@
 package models;
 
+import controllers.UserController;
 import dataStructures.TipoUsuario;
 import dataStructures.User;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.security.UnresolvedPermission;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,15 +46,38 @@ public class UserModel {
         }
     }
 
-    public User userExists(User usuario) throws SQLException {
+    public User userNameExists(User usuario) throws SQLException {
         String sql = "SELECT usu_pk, usu_nombre, usu_username, usu_email, tipousu.tipousu_nombre " +
-            "FROM usu_usuarios usu " +
-            "LEFT JOIN tipousu_tipo_usuario tipousu ON tipousu.tipousu_pk = usu.tipousu_tipo_usuario_tipousu_pk " +
-            "WHERE usu_username = ? OR usu_email = ?";
+                "FROM usu_usuarios usu " +
+                "LEFT JOIN tipousu_tipo_usuario tipousu ON tipousu.tipousu_pk = usu.tipousu_tipo_usuario_tipousu_pk " +
+                "WHERE usu_username = ?";
 
         PreparedStatement selectUser = con.getConn().prepareStatement(sql);
         selectUser.setString(1, usuario.getUserName());
-        selectUser.setString(2, usuario.getEmail());
+
+        ResultSet rs = selectUser.executeQuery();
+        if(rs.next()) {
+            int pk = rs.getInt(1);
+            String name = rs.getString(2);
+            String userNameResult = rs.getString(3);
+            String email = rs.getString(4);
+            String tipoString = rs.getString(5);
+            TipoUsuario tipo = TipoUsuario.stringToTipo(tipoString);
+
+            return new User(pk, userNameResult, name, email, tipo);
+        } else {
+            return null;
+        }
+    }
+
+    public User emailExists(User usuario) throws SQLException {
+        String sql = "SELECT usu_pk, usu_nombre, usu_username, usu_email, tipousu.tipousu_nombre " +
+                "FROM usu_usuarios usu " +
+                "LEFT JOIN tipousu_tipo_usuario tipousu ON tipousu.tipousu_pk = usu.tipousu_tipo_usuario_tipousu_pk " +
+                "WHERE usu_email = ?";
+
+        PreparedStatement selectUser = con.getConn().prepareStatement(sql);
+        selectUser.setString(1, usuario.getEmail());
 
         ResultSet rs = selectUser.executeQuery();
         if(rs.next()) {
@@ -99,6 +124,7 @@ public class UserModel {
         updateUser.setString(1, usuario.getNombre());
         updateUser.setString(2, dbPass);
         updateUser.setString(3, usuario.getEmail());
+        updateUser.setInt(4, UserController.getCurrentUser().getPk());
         updateUser.executeUpdate();
     }
 }
