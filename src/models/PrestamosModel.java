@@ -51,13 +51,13 @@ public class PrestamosModel {
 
     public List<Contenido> getPeliculas() throws SQLException, ClassNotFoundException {
         List<Contenido> peliculas = new ArrayList<>();
-        String sql = "SELECT pel_pk,con_contenido_pk,pro_productora_pro_pk,dir_directores_dir_pk,dir_nombre,act_nombre," +
-                "pro_nombre,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock ,act_actores_act_pk,pel_pelicula_pel_pk," +
-                "FROM con_contenido con" +
-                "LEFT JOIN pel_pelicula pel ON pel.con_contenido_con_pk = con.con_pk" +
-                "LEFT JOIN dir_directores dir ON dir.dir_pk = pel.dir_directores_dir_pk" +
-                "LEFT JOIN pro_productora pro ON pro.pro_pk = pel.pro_productora_pro_pk" +
-                "LEFT JOIN pres_prestamo pres ON pres.con_contenido_con_pk = con.con_pk" +
+        String sql = "SELECT pel_pk,pel.con_contenido_con_pk,pro_productora_pro_pk,dir_directores_dir_pk,dir_nombre," +
+                "pro_nombre,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock " +
+                "FROM con_contenido con " +
+                "LEFT JOIN pel_pelicula pel ON pel.con_contenido_con_pk = con.con_pk " +
+                "LEFT JOIN dir_directores dir ON dir.dir_pk = pel.dir_directores_dir_pk " +
+                "LEFT JOIN pro_productora pro ON pro.pro_pk = pel.pro_productora_pro_pk " +
+                "LEFT JOIN pres_prestamo pres ON pres.con_contenido_con_pk = con.con_pk " +
                 "WHERE pres.usu_usuarios_usu_pk = ?";
 
         PreparedStatement st = con.getConn().prepareStatement(sql);
@@ -68,11 +68,11 @@ public class PrestamosModel {
         while (rs.next()) {
             PrestamosModel prestamosModel = new PrestamosModel();
             boolean prestado = prestamosModel.contenidoPrestado(rs.getInt(8));
-            Productora p = new Productora(rs.getString(7));
+            Productora p = new Productora(rs.getString(6));
             Director d = new Director(rs.getString(5));
 
-            Pelicula pel = new Pelicula(rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getDate(12),
-                    rs.getInt(13), prestado, rs.getInt(1), p, d, actores.getActores(rs.getInt(1)));
+            Pelicula pel = new Pelicula(rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getDate(11),
+                    rs.getInt(12), prestado, rs.getInt(1), p, d, actores.getActores(rs.getInt(1)));
             peliculas.add(pel);
         }
 
@@ -81,7 +81,7 @@ public class PrestamosModel {
 
     public List<Contenido> getLibros() throws SQLException {
         List<Contenido> libros = new ArrayList<>();
-        String sql = "SELECT lib_pk,con_contenido_con_pk,lib_numero_paginas,lib_capitulo_muestra,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock"
+        String sql = "SELECT lib_pk,lib_numero_paginas,lib_capitulo_muestra,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock"
                 + " FROM lib_libro lib"
                 + " LEFT JOIN con_contenido AS con ON con.con_pk = lib.con_contenido_con_pk" +
                   " LEFT JOIN pres_prestamo pres ON pres.con_contenido_con_pk = con.con_pk" +
@@ -93,15 +93,15 @@ public class PrestamosModel {
 
         while (rs.next()) {
             int pkLibro = rs.getInt(1);
-            int numPag = rs.getInt(3);
-            String capMuestra = rs.getString(4);
+            int numPag = rs.getInt(2);
+            String capMuestra = rs.getString(3);
 
-            int pkCont = rs.getInt(5);
-            String contTitulo = rs.getString(6);
-            String contCodigo = rs.getString(7);
-            String contImg = rs.getString(8);
-            Date contFecha = rs.getDate(9);
-            int contStock = rs.getInt(10);
+            int pkCont = rs.getInt(4);
+            String contTitulo = rs.getString(5);
+            String contCodigo = rs.getString(6);
+            String contImg = rs.getString(7);
+            Date contFecha = rs.getDate(8);
+            int contStock = rs.getInt(9);
 
             Libro libro1 = new Libro(pkCont, contTitulo, contCodigo, contImg, contFecha, contStock, true, pkLibro, numPag, capMuestra);
 
@@ -116,13 +116,13 @@ public class PrestamosModel {
         List<Cancion> canciones = new ArrayList<>();
         PrestamosModel prestamosModel = new PrestamosModel();
 
-        String sql = "SELECT mus_pk,con_contenido_con_pk,disc_discografica_disc_pk,con_pk,con_titulo,con_codigo,"
+        String sql = "SELECT mus_pk, mus.con_contenido_con_pk,disc_discografica_disc_pk,con_pk,con_titulo,con_codigo,"
                 + "con_imagen,con_fecha_creacion,con_stock,canc_pk,canc_nombre,canc_orden,mus_musica_mus_pk,disc_pk,disc_nombre "
-                + "FROM mus_musica mus" +
-                "LEFT JOIN con_contenido con ON mus.con_contenido_con_pk = con.con_pk" +
-                "LEFT JOIN canc_canciones canc ON canc.mus_musica_mus_pk = mus.mus_pk" +
-                "LEFT JOIN disc_discografica disc ON disc.disc_pk = mus.disc_discografica_disc_pk" +
-                "LEFT JOIN pres_prestamo pres ON pres.con_contenido_con_pk = con.con_pk" +
+                + "FROM mus_musica mus " +
+                "LEFT JOIN con_contenido con ON mus.con_contenido_con_pk = con.con_pk " +
+                "LEFT JOIN canc_canciones canc ON canc.mus_musica_mus_pk = mus.mus_pk " +
+                "LEFT JOIN disc_discografica disc ON disc.disc_pk = mus.disc_discografica_disc_pk " +
+                "LEFT JOIN pres_prestamo pres ON pres.con_contenido_con_pk = con.con_pk " +
                 "WHERE usu_usuarios_usu_pk = ?";
 
         PreparedStatement st = con.getConn().prepareStatement(sql);
