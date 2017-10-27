@@ -16,6 +16,8 @@ public class PrestamosController {
                 MainController.printToView("No hay stock.");
             } else if(prestamosModel.getNumPrestamos() >= MAX_NUM_PRESTAMOS) {
                 MainController.printToView("No puedes realizar más de " + MAX_NUM_PRESTAMOS + " a la vez.");
+            } else if(prestamosModel.contenidoPrestado(contenido.getPk())){
+                MainController.printToView("Ya tiene ese contenido prestado.");
             } else {
                 prestamosModel.hacerPrestamo(contenido);
                 MainController.printToView("Prestamo realizado correctamente.");

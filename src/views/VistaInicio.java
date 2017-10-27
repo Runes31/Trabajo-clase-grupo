@@ -7,7 +7,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Label;
@@ -147,11 +146,7 @@ public class VistaInicio extends VistaPrincipal{
 	}
 	
 
-	@Override
-	public void pintar(Object o) {
-		String mensaje = (String) o;
-		mensajeError.showMessageDialog(this , mensaje ,"Error",JOptionPane.ERROR_MESSAGE);
-	}
+
 	
 
 	public void pintarContenido(Object o) {

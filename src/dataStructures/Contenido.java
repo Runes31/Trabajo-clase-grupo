@@ -5,6 +5,10 @@
  */
 package dataStructures;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Date;
 
 /**
@@ -58,5 +62,17 @@ public class Contenido {
 
     public boolean isResevado(){
         return resevado;
+    }
+
+    public void copyImageToLocal() throws IOException {
+        String rutaLocal = String.valueOf(getClass().getResource("imagenes/caratulas/"+imagen.substring(imagen.lastIndexOf("/"),
+                imagen.length())
+        ));
+
+        File src = new File(imagen);
+        File target = new File(rutaLocal);
+
+        Files.copy(src.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        imagen = rutaLocal;
     }
 }

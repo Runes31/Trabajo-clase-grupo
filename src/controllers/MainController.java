@@ -2,6 +2,8 @@ package controllers;
 
 import views.VistaPrincipal;
 
+import java.util.List;
+
 public class MainController {
     private static VistaPrincipal currentView;
 
@@ -18,7 +20,9 @@ public class MainController {
         return currentView;
     }
 
-    static void printToView(Object data){
+    static void printToView(String data){
         currentView.pintar(data);
     }
+
+    static void printToView(List<String> data) {currentView.pintar(data);}
 }
