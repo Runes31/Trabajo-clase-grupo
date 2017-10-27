@@ -50,8 +50,4 @@ public class ContenidoModel {
         prestamo.setInt(1, pkCont);
         prestamo.executeUpdate();
     }
-
-    public List<Contenido> getNovedades() {
-        return new ArrayList<>();
-    }
 }

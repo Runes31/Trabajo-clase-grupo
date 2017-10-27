@@ -15,7 +15,7 @@ import java.util.Date;
  *
  * @author Usuario
  */
-public class Contenido {
+public class Contenido implements Comparable<Contenido> {
     
     private int pk;
     private String titulo;
@@ -74,5 +74,16 @@ public class Contenido {
 
         Files.copy(src.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
         imagen = rutaLocal;
+    }
+
+    @Override
+    public int compareTo(Contenido other) {
+        if(other.fechaCreacion.before(fechaCreacion)) {
+            return -1;
+        }
+        if(fechaCreacion.before(other.fechaCreacion)){
+            return 1;
+        }
+        return 0;
     }
 }

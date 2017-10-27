@@ -11,10 +11,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class ContentController {
 
@@ -26,7 +24,7 @@ public class ContentController {
         VistaPrincipal view = new VistaInicio();
         MainController.setView(view);
 
-        Map<TipoContenido, List<Contenido>> respuesta = new HashMap<>();
+        Map<TipoContenido, List<Contenido>> respuesta = new LinkedHashMap<>();
         respuesta.put(TipoContenido.PRESTAMO, new ArrayList<>());
         respuesta.put(TipoContenido.NOVEDADES, new ArrayList<>());
 
@@ -38,8 +36,17 @@ public class ContentController {
             prestamos.addAll(prestamosModel.getPeliculas());
 
             //Coger novedades
-            ContenidoModel contentModel = new ContenidoModel();
-            List<Contenido> novedades = contentModel.getNovedades();
+            List<Contenido> novedades = new ArrayList<>();
+            LibroModel libroModel = new LibroModel();
+            novedades.add((Contenido) libroModel.getLibros());
+            PeliculaModel peliculaModel = new PeliculaModel();
+            novedades.add((Contenido) peliculaModel.getPeliculas());
+            MusicaModel musicaModel = new MusicaModel();
+            novedades.add((Contenido) musicaModel.getMusica());
+
+            //Ordenarlas de más nueva a más antigua
+            Collections.sort(novedades);
+
 
             //Meterlas en el mapa
             respuesta.put(TipoContenido.PRESTAMO, prestamos);
@@ -62,7 +69,7 @@ public class ContentController {
         VistaPrincipal view = new VistaInicio();
         MainController.setView(view);
 
-        Map<TipoContenido, List<Contenido>> respuesta = new HashMap<>();
+        Map<TipoContenido, List<Contenido>> respuesta = new LinkedHashMap<>();
 
         try {
             //Se obtiene el contenido
@@ -91,7 +98,7 @@ public class ContentController {
      * @throws ClassNotFoundException
      */
     private Map<TipoContenido, List<Contenido>> getContenidoByTipo(TipoContenido tipoContenido) throws SQLException, ClassNotFoundException {
-        Map<TipoContenido, List<Contenido>> respuesta = new HashMap<>();
+        Map<TipoContenido, List<Contenido>> respuesta = new LinkedHashMap<>();
 
         if (tipoContenido == TipoContenido.PRESTAMO){
 
