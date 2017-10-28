@@ -58,7 +58,7 @@ public class VistaInicio extends VistaPrincipal{
 	private JPanel panel2 = new JPanel();
 	
 
-	private JTextField buscador = new JTextField("Buscador");
+	private JTextField buscador = new JTextField("Buscar");
 	private JButton desconectar = new JButton("Desconectar");
 	
 	private JList<String> lista = new JList<String>();
@@ -96,6 +96,35 @@ public class VistaInicio extends VistaPrincipal{
 //	    BUSCADOR
 	    gbc2.gridx=0;
 	    gbc2.gridy=0;
+
+	    //Si presiona enter teniendo seleccionado el jtextfield realiza una busqueda
+	    buscador.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    ContentController contentController = new ContentController();
+                    contentController.buscarContenido(buscador.getText());
+                }
+            }
+        });
+
+	    //Placeholder text
+	    buscador.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if(buscador.getText().equals("Buscar")){
+                    buscador.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (buscador.getText().equals("")){
+                    buscador.setText("Buscar");
+                }
+            }
+        });
+
 	    panel2.add(buscador,gbc2);
 	    
 //	    LISTA
@@ -271,28 +300,30 @@ public class VistaInicio extends VistaPrincipal{
         panel1.add(verMas, gbc1);
     }
 
-    public void pintarContenido(List<Contenido> contenidoList, TipoContenido tipoContenido){
+    public void pintarContenido(List<Contenido> contenidoList){
 	    gbc1.weightx=1;
 	    gbc1.gridy = 0;
-	    int elemPorFila = 5;
-	    int maxFilas = 4;
 
         grid1.rowHeights= new int[]{40,40,40,40,40,40,40,40,40};
         panel1.setLayout(grid1);
 
-        JLabel label = new JLabel(tipoContenido.getName());
-        gbc1.gridx = 2;
-        panel1.add(label, gbc1);
+        if(contenidoList.isEmpty()){
+            gbc1.gridx = 2;
+            JLabel label = new JLabel("No hay contenidos.");
+            panel1.add(label, gbc1);
+        } else {
+            int elemPorFila = 5;
+            int maxFilas = 4;
+            int i = 0;
+            int x = 5;
+            while (i < contenidoList.size() && i < elemPorFila * maxFilas) {
+                if (i + 5 > contenidoList.size())
+                    x = contenidoList.size() - i;
 
-	    int i = 0;
-	    int x = 5;
-	    while (i < contenidoList.size() && i < elemPorFila*maxFilas){
-	        if(i+5 > contenidoList.size())
-	            x = contenidoList.size()-i;
-
-	        pintarFila(contenidoList.subList(i, i+x));
-	        gbc1.gridy += 2;
-	        i += 5;
+                pintarFila(contenidoList.subList(i, i + x));
+                gbc1.gridy += 2;
+                i += 5;
+            }
         }
     }
 
