@@ -203,9 +203,10 @@ public class VistaInicio extends VistaPrincipal{
 
 
     private void pintarElemento(Contenido contenido) {
-        Image imagen = ImageHelper.getImagen(contenido.getImagen());
+		JLabel elemento = new JLabel();
+        Image imagen = ImageHelper.getImagen(contenido.getImagen()).getScaledInstance(80, 100, Image.SCALE_SMOOTH);
         ImageIcon imagenFinal = new ImageIcon(imagen);
-        JLabel elemento = new JLabel(imagenFinal);
+        elemento.setIcon(imagenFinal);
         panel1.add(elemento, gbc1);
     }
 
