@@ -29,6 +29,7 @@ public abstract class VistaPrincipal extends JFrame{
         add(panel);
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        super.setResizable(false);
     }
     //getter
     public JPanel getPanel() {

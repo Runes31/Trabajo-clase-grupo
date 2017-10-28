@@ -86,12 +86,7 @@ public class VistaInicio extends VistaPrincipal{
 		crearMenu();
 		panel2.setBackground(Color.BLACK);
 		gbcAux.gridx=1;
-		super.getPanel().add(panel2,gbcAux);
-		
-		super.setLocationRelativeTo(null);
-		super.setResizable(false);
-		
-		
+		super.getPanel().add(panel2,gbcAux);		
 	}
 	
 	

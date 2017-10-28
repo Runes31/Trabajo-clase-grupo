@@ -36,7 +36,6 @@ public class VistaLogin extends VistaPrincipal{
 		super.crearPanel();
 		super.setSize(400,300);
 		super.setLocationRelativeTo(null);
-		super.setResizable(false);
 		super.getPanel().setLayout(grid);
 		c.anchor=c.CENTER;
 		c.gridx=0;
