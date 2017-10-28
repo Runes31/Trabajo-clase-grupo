@@ -10,6 +10,8 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Label;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,11 +31,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.text.Position;
 
 import com.sun.javafx.collections.MappingChange.Map;
 import com.sun.xml.internal.ws.api.server.Container;
 
+import controllers.UserController;
 import dataStructures.TipoContenido;
 import dataStructures.Contenido;
 import javafx.scene.control.ListView;
@@ -63,10 +68,10 @@ public class VistaInicio extends VistaPrincipal{
 		super.crearPanel();
 		GridBagLayout gridAuxiliar = new GridBagLayout();
 		GridBagConstraints gbcAux = new GridBagConstraints();
-		panel1.setPreferredSize(new Dimension(800,600));
 		gridAuxiliar.columnWidths = new int[]{800 , 200};
 		super.getPanel().setLayout(gridAuxiliar);
 		//panel1
+		panel1.setPreferredSize(new Dimension(800,600));
 		grid1.columnWidths=new int[]{160,160,160,160,160};
 		grid1.rowHeights=new int []{100,100,100,100,100,100};
 		panel1.setLayout(grid1);
@@ -85,48 +90,19 @@ public class VistaInicio extends VistaPrincipal{
 		super.setLocationRelativeTo(null);
 		super.setResizable(false);
 		
-//		grid.setConstraints(, c);
-
-//		super.getPanel().setLayout(grid);
-//		super.getPanel().setLayout(grid2);
-		
-//
-//		grid.layoutContainer(super.getPanel());
-//		buscador.setPreferredSize(new Dimension(TAMAÑOANCHOLISTA, 40));
-//		c.gridx=7;
-//		c.gridy=1;
-//		c.gridwidth=2;
-//		super.getPanel().add(buscador,c);
-//		
-//		c.gridwidth=1;
-//		
-//		lista.setPreferredSize(new Dimension(TAMAÑOANCHOLISTA, 400));
-
-//		
-//		lista.setPreferredSize(new Dimension(TAMAÑOANCHOLISTA, 400));
-//		c.gridx=7;
-//		c.gridy=2;
-//		crearMenu();
-//		super.getPanel().add(lista,c);
-//		
-//		desconectar.setPreferredSize(new Dimension(TAMAÑOANCHOLISTA, 35));
-//		c.gridx=7;
-//		c.gridy=3;
-//		super.getPanel().add(desconectar,c);
-		
-//		configurarBoton(iconoBoton, nombreBoton);
 		
 	}
 	
 	
 	public void crearMenu(){
 	    gbc2.fill=GridBagConstraints.BOTH;
-//	    buscador.setPreferredSize(new Dimension(TAMAÑOANCHOLISTA, 50));
+	    
+//	    BUSCADOR
 	    gbc2.gridx=0;
 	    gbc2.gridy=0;
 	    panel2.add(buscador,gbc2);
 	    
-//	    lista.setPreferredSize(new Dimension(TAMAÑOANCHOLISTA, 450));
+//	    LISTA
 		String [] contenidoMenu = {"Listado completo", "Películas" ,"Libros", "Música","Mis prestamos"
 				, "Películas","Libros","Música" };
 		DefaultListCellRenderer renderer =  (DefaultListCellRenderer)lista.getCellRenderer();  
@@ -137,12 +113,57 @@ public class VistaInicio extends VistaPrincipal{
 		lista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		lista.setListData(contenidoMenu);
 		lista.setFixedCellHeight(50);
+		//Listener de la lista
+		lista.addListSelectionListener(new ListSelectionListener() {
+            
+            @Override
+            public void valueChanged(ListSelectionEvent elemento) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
+		//FIN listener de la lista
+		
 		gbc2.gridy=1;
 		panel2.add(lista,gbc2);
 		
-//		desconectar.setPreferredSize(new Dimension(TAMAÑOANCHOLISTA, 50));
+//		BOTON DESCONECTAR
 		gbc2.gridy=2;
 		panel2.add(desconectar,gbc2);
+		desconectar.addMouseListener(new MouseListener() {
+
+            
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                UserController userController = new UserController();
+                userController.logout();
+                
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
 	}
 	
 
@@ -189,6 +210,5 @@ public class VistaInicio extends VistaPrincipal{
     private void pintarBotonVerMas(TipoContenido tipoContenido) {
         panel1.add(new JButton("Ver más"), gbc1);
     }
-
 
 }
