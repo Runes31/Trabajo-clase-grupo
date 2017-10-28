@@ -10,6 +10,8 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Label;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -38,6 +40,7 @@ import javax.swing.text.Position;
 import com.sun.javafx.collections.MappingChange.Map;
 import com.sun.xml.internal.ws.api.server.Container;
 
+import controllers.ContentController;
 import controllers.UserController;
 import dataStructures.TipoContenido;
 import helpers.ImageHelper;
@@ -169,6 +172,23 @@ public class VistaInicio extends VistaPrincipal{
 	public void pintarContenido(Object o) {
 		HashMap<TipoContenido, List<Contenido>> mapa= (HashMap<TipoContenido, List<Contenido>>) o;
 		Iterator it = mapa.keySet().iterator();
+
+		int numRows = mapa.size()*3;
+
+		int[] rowHeight = new int[numRows];
+
+		int height = 100;
+		if(mapa.size() > 2)
+		    height = 40;
+
+
+		for (int i = 0; i<numRows; i++){
+            rowHeight[i] = height;
+        }
+
+        grid1.rowHeights=rowHeight;
+        panel1.setLayout(grid1);
+
 		gbc1.weightx=1;
 		gbc1.gridy = 0;
 	    while (it.hasNext()) {
@@ -186,14 +206,21 @@ public class VistaInicio extends VistaPrincipal{
 	}
 	
 	private void pintarFila(List<Contenido> listaContenidos,TipoContenido tipoContenido) {
-	    if(!listaContenidos.isEmpty()){
-	        gbc1.gridx = 0;
-	        for (int i = 1; i < 6; i++) {
-	            pintarElemento(listaContenidos.get(i));
+        gbc1.gridx = 0;
+	    if(listaContenidos.isEmpty()){
+	        JLabel elemento = new JLabel("No hay contenidos.");
+	        panel1.add(elemento, gbc1);
+	    } else {
+            int maxFila = 5;
+
+            if(listaContenidos.size() < maxFila)
+                maxFila = listaContenidos.size();
+
+            for (int i = 0; i < maxFila; i++) {
+                pintarElemento(listaContenidos.get(i));
                 gbc1.gridx++;
-	        }	
-            
-	    }
+            }
+        }
 	}
 
 
@@ -207,7 +234,35 @@ public class VistaInicio extends VistaPrincipal{
 
 
     private void pintarBotonVerMas(TipoContenido tipoContenido) {
-        panel1.add(new JButton("Ver más"), gbc1);
+	    JButton verMas = new JButton("Ver más");
+        verMas.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ContentController contentController = new ContentController();
+                contentController.initHome(tipoContenido);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+        panel1.add(verMas, gbc1);
     }
 
 }
