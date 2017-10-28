@@ -5,13 +5,17 @@
  */
 package dataStructures;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Date;
 
 /**
  *
  * @author Usuario
  */
-public class Contenido {
+public class Contenido implements Comparable<Contenido> {
     
     private int pk;
     private String titulo;
@@ -20,6 +24,15 @@ public class Contenido {
     private Date fechaCreacion;
     private int stock;
     private boolean resevado;
+
+    Contenido(int pk, String titulo, String codigo, String imagen, int stock, boolean resevado) {
+        this.pk = pk;
+        this.titulo = titulo;
+        this.codigo = codigo;
+        this.imagen = imagen;
+        this.stock = stock;
+        this.resevado = resevado;
+    }
 
     Contenido(int pk, String titulo, String codigo, String imagen, Date fechaCreacion, int stock, boolean resevado) {
         this.pk = pk;
@@ -58,5 +71,27 @@ public class Contenido {
 
     public boolean isResevado(){
         return resevado;
+    }
+
+    public void copyImageToLocal() throws IOException {
+        long millis = System.currentTimeMillis();
+        String rutaLocal = "imagenes/caratulas/" + millis + imagen.substring(imagen.lastIndexOf("/"), imagen.length());
+
+        File src = new File(imagen);
+        File target = new File(rutaLocal);
+
+        Files.copy(src.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        imagen = millis + imagen.substring(imagen.lastIndexOf("/"), imagen.length());
+    }
+
+    @Override
+    public int compareTo(Contenido other) {
+        if(other.fechaCreacion.before(fechaCreacion)) {
+            return -1;
+        }
+        if(fechaCreacion.before(other.fechaCreacion)){
+            return 1;
+        }
+        return 0;
     }
 }

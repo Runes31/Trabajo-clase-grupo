@@ -31,10 +31,12 @@ public class LibroModel extends ContenidoModel {
         } catch (SQLException ex) {
             Logger.log("Exception in createLibro", TipoLog.ERROR);
             Logger.log(ex);
+            ex.printStackTrace();
             try {
                 con.getConn().rollback();
             } catch (SQLException e) {
                 Logger.log(e);
+                e.printStackTrace();
             }
             throw new ModelException(ex);
         } finally {
@@ -42,13 +44,13 @@ public class LibroModel extends ContenidoModel {
                 con.getConn().setAutoCommit(true);
             } catch (SQLException e) {
                 Logger.log(e);
+                e.printStackTrace();
             }
         }
 
     }
 
     private void insertLibro(Libro libro, int contenidoPk) throws SQLException {
-
         String sql = "INSERT INTO lib_libro (con_contenido_con_pk,lib_numero_paginas,lib_capitulo_muestra)" + "VALUES(?,?,?)";
 
         int contenidoId = contenidoPk;
@@ -60,12 +62,12 @@ public class LibroModel extends ContenidoModel {
         insertLibro.setInt(2, numPag);
         insertLibro.setString(3, capMuestra);
 
+        insertLibro.executeUpdate();
     }
 
     public List<Contenido> getLibros() throws SQLException, ClassNotFoundException {
-
         List<Contenido> libros = new ArrayList<>();
-        String sql = "SELECT lib_pk,con_contenido_con_pk,lib_numero_paginas,lib_capitulo_muestra,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock"
+        String sql = "SELECT lib_pk,lib_numero_paginas,lib_capitulo_muestra,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock"
                 + " FROM lib_libro lib"
                 + " LEFT JOIN con_contenido AS con ON con.con_pk = lib.con_contenido_con_pk";
 
@@ -76,15 +78,15 @@ public class LibroModel extends ContenidoModel {
 
         while (rs.next()) {
             int pkLibro = rs.getInt(1);
-            int numPag = rs.getInt(3);
-            String capMuestra = rs.getString(4);
+            int numPag = rs.getInt(2);
+            String capMuestra = rs.getString(3);
 
-            int pkCont = rs.getInt(5);
-            String contTitulo = rs.getString(6);
-            String contCodigo = rs.getString(7);
-            String contImg = rs.getString(8);
-            Date contFecha = rs.getDate(9);
-            int contStock = rs.getInt(10);
+            int pkCont = rs.getInt(4);
+            String contTitulo = rs.getString(5);
+            String contCodigo = rs.getString(6);
+            String contImg = rs.getString(7);
+            Date contFecha = rs.getDate(8);
+            int contStock = rs.getInt(9);
 
             boolean prestado = prestamosModel.contenidoPrestado(pkCont);
 
@@ -96,7 +98,44 @@ public class LibroModel extends ContenidoModel {
         return libros;
     }
 
-    public void deleteLibro(Libro libro) throws SQLException {
+    public List<Contenido> getLibros(String titulo) throws SQLException, ClassNotFoundException {
+        List<Contenido> libros = new ArrayList<>();
+        String sql = "SELECT lib_pk,lib_numero_paginas,lib_capitulo_muestra,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock"
+                + " FROM lib_libro lib"
+                + " LEFT JOIN con_contenido AS con ON con.con_pk = lib.con_contenido_con_pk" +
+                  " WHERE con.con_titulo LIKE ?";
+
+        PreparedStatement st = con.getConn().prepareStatement(sql);
+        st.setString(1, "%" + titulo + "%");
+        ResultSet rs = st.executeQuery();
+
+        PrestamosModel prestamosModel = new PrestamosModel();
+
+        while (rs.next()) {
+            int pkLibro = rs.getInt(1);
+            int numPag = rs.getInt(2);
+            String capMuestra = rs.getString(3);
+
+            int pkCont = rs.getInt(4);
+            String contTitulo = rs.getString(5);
+            String contCodigo = rs.getString(6);
+            String contImg = rs.getString(7);
+            Date contFecha = rs.getDate(8);
+            int contStock = rs.getInt(9);
+
+            boolean prestado = prestamosModel.contenidoPrestado(pkCont);
+
+            Libro libro1 = new Libro(pkCont, contTitulo, contCodigo, contImg, contFecha, contStock, prestado, pkLibro, numPag, capMuestra);
+
+            libros.add(libro1);
+        }
+
+        return libros;
+    }
+
+    public void deleteLibro(Libro libro) throws SQLException, ClassNotFoundException {
+        PrestamosModel prestamosModel = new PrestamosModel();
+        prestamosModel.deletePrestamosContenido(libro);
 
         int pkLibro = libro.getPkLibro();
         int pkContenido = libro.getPk();
@@ -104,29 +143,18 @@ public class LibroModel extends ContenidoModel {
         String sqlLibro = "DELETE FROM lib_libro "
                 + "WHERE lib_pk = ?";
 
-        String sqlContenido = "DELETE FROM con_contenido "
-                + "WHERE con_pk = ?";
+        deleteContenido(pkContenido);
 
         PreparedStatement stLibro = con.getConn().prepareStatement(sqlLibro);
-        PreparedStatement stCont = con.getConn().prepareStatement(sqlContenido);
 
         stLibro.setInt(1, pkLibro);
-        stCont.setInt(1, pkContenido);
 
         stLibro.executeUpdate(sqlLibro);
-        stCont.executeUpdate(sqlContenido);
-
     }
 
     public void updateLibro(Libro libro) throws SQLException {
+        updateContenido(libro);
 
-        int contPk = libro.getPk();
-        String contTitulo = libro.getTitulo();
-        String contCodigo = libro.getCodigo();
-        String contImg = libro.getImagen();
-        Date libDate = libro.getFechaCreacion();
-
-        int libStock = libro.getStock();
         int libPk = libro.getPkLibro();
         int libNumPag = libro.getNumPag();
         String libCapMuestra = libro.getCapituloMuestra();
@@ -135,29 +163,13 @@ public class LibroModel extends ContenidoModel {
                 + "SET lib_numero_paginas = ?,lib_capitulo_muestra = ?"
                 + " WHERE lib_pk = ?";
 
-        String sqlContenido = "UPDATE con_contenido "
-                + "SET con_titulo = ?,con_codigo = ?,con_imagen = ?,con_fecha_creacion = ?,con_stock = ?"
-                + " WHERE con_pk = ?";
-
         PreparedStatement stLibro = con.getConn().prepareStatement(sqlLibro);
-        PreparedStatement stCont = con.getConn().prepareStatement(sqlContenido);
 
         //LIBRO
         stLibro.setInt(1, libNumPag);
         stLibro.setString(2, libCapMuestra);
         stLibro.setInt(3, libPk);
 
-        //CONTENIDO
-        stCont.setString(1, contTitulo);
-        stCont.setString(2, contCodigo);
-        stCont.setString(3, contImg);
-        stCont.setDate(4, (java.sql.Date) libDate);
-        stCont.setInt(5, libStock);
-        stCont.setInt(6, contPk);
-
         stLibro.executeUpdate();
-        stCont.executeUpdate();
-
     }
-
 }

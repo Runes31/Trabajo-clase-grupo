@@ -16,12 +16,15 @@ public class PrestamosController {
                 MainController.printToView("No hay stock.");
             } else if(prestamosModel.getNumPrestamos() >= MAX_NUM_PRESTAMOS) {
                 MainController.printToView("No puedes realizar más de " + MAX_NUM_PRESTAMOS + " a la vez.");
+            } else if(prestamosModel.contenidoPrestado(contenido.getPk())){
+                MainController.printToView("Ya tiene ese contenido prestado.");
             } else {
                 prestamosModel.hacerPrestamo(contenido);
                 MainController.printToView("Prestamo realizado correctamente.");
             }
         } catch (SQLException | ClassNotFoundException e){
             Logger.log(e);
+            e.printStackTrace();
             MainController.printToView("Se ha producido un error.");
         }
     }
@@ -33,6 +36,7 @@ public class PrestamosController {
             MainController.printToView("Devolución realizada con éxito.");
         } catch (SQLException | ClassNotFoundException e){
             Logger.log(e);
+            e.printStackTrace();
             MainController.printToView("Se ha producido un error.");
         }
     }

@@ -1,14 +1,24 @@
 package views;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Label;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,85 +29,166 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.text.Position;
 
 import com.sun.javafx.collections.MappingChange.Map;
 import com.sun.xml.internal.ws.api.server.Container;
 
+import dataStructures.TipoContenido;
+import dataStructures.Contenido;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.BorderWidths;
 
 public class VistaInicio extends VistaPrincipal{
 	private JOptionPane mensajeError;
-	private GridBagLayout grid = new GridBagLayout();
-	private GridBagConstraints c = new GridBagConstraints();
 	
+	private GridBagLayout grid1 = new GridBagLayout();
+	private GridBagConstraints gbc1 = new GridBagConstraints();
 	
-	private JButton boton = new JButton();
-	private JLabel misPresamos = new JLabel("Mis préstamos");
-	private String iconoBoton;
-	private String nombreBoton;
-	private JTextField buscador = new JTextField("Buscador",9);
+	private GridBagLayout grid2 = new GridBagLayout();
+	GridBagConstraints gbc2 = new GridBagConstraints();
+	
+	private JPanel panel1 = new JPanel(); 
+	private JPanel panel2 = new JPanel();
+	
+
+	private JTextField buscador = new JTextField("Buscador");
 	private JButton desconectar = new JButton("Desconectar");
-	private JPanel panel1 = new JPanel();
-	
 	
 	private JList<String> lista = new JList<String>();
-	private DefaultListModel<String> menu = new DefaultListModel<>();
+	private final int TAMAÑOANCHOLISTA = 300;
 	
 	public VistaInicio (){
+	    super.setSize(1000,600);
 		super.crearPanel();
-		super.setSize(1080,760);
+		GridBagLayout gridAuxiliar = new GridBagLayout();
+		GridBagConstraints gbcAux = new GridBagConstraints();
+		panel1.setPreferredSize(new Dimension(800,600));
+		gridAuxiliar.columnWidths = new int[]{800 , 200};
+		super.getPanel().setLayout(gridAuxiliar);
+		//panel1
+		grid1.columnWidths=new int[]{160,160,160,160,160};
+		grid1.rowHeights=new int []{100,100,100,100,100,100};
+		panel1.setLayout(grid1);
+		gbcAux.gridx=0;
+		gbcAux.gridy=0;
+		super.getPanel().add(panel1,gbcAux);
+		//panel2
+		grid2.columnWidths=new int[]{196};
+		grid2.rowHeights=new int []{50,470,50};
+		panel2.setLayout(grid2);
+		crearMenu();
+		panel2.setBackground(Color.BLACK);
+		gbcAux.gridx=1;
+		super.getPanel().add(panel2,gbcAux);
+		
 		super.setLocationRelativeTo(null);
 		super.setResizable(false);
-		super.getPanel().setLayout(grid);
-		c.anchor=c.EAST;
-		buscador.setPreferredSize(new Dimension(100, 100));
-		c.gridx=3;
-		c.gridy=0;
-		c.gridwidth=2;
-		super.getPanel().add(buscador,c);
 		
-		c.gridwidth=1;
+//		grid.setConstraints(, c);
+
+//		super.getPanel().setLayout(grid);
+//		super.getPanel().setLayout(grid2);
 		
-		lista.setPreferredSize(new Dimension(200, 300));
-		c.gridx=1;
-		c.gridy=2;
-		crearMenu();
-		super.getPanel().add(lista,c);
-		
-		
-		c.gridx=0;
-		c.gridy=3;
-		super.getPanel().add(desconectar,c);
+//
+//		grid.layoutContainer(super.getPanel());
+//		buscador.setPreferredSize(new Dimension(TAMAÑOANCHOLISTA, 40));
+//		c.gridx=7;
+//		c.gridy=1;
+//		c.gridwidth=2;
+//		super.getPanel().add(buscador,c);
+//		
+//		c.gridwidth=1;
+//		
+//		lista.setPreferredSize(new Dimension(TAMAÑOANCHOLISTA, 400));
+
+//		
+//		lista.setPreferredSize(new Dimension(TAMAÑOANCHOLISTA, 400));
+//		c.gridx=7;
+//		c.gridy=2;
+//		crearMenu();
+//		super.getPanel().add(lista,c);
+//		
+//		desconectar.setPreferredSize(new Dimension(TAMAÑOANCHOLISTA, 35));
+//		c.gridx=7;
+//		c.gridy=3;
+//		super.getPanel().add(desconectar,c);
 		
 //		configurarBoton(iconoBoton, nombreBoton);
 		
 	}
 	
+	
 	public void crearMenu(){
+	    gbc2.fill=GridBagConstraints.BOTH;
+//	    buscador.setPreferredSize(new Dimension(TAMAÑOANCHOLISTA, 50));
+	    gbc2.gridx=0;
+	    gbc2.gridy=0;
+	    panel2.add(buscador,gbc2);
+	    
+//	    lista.setPreferredSize(new Dimension(TAMAÑOANCHOLISTA, 450));
 		String [] contenidoMenu = {"Listado completo", "Películas" ,"Libros", "Música","Mis prestamos"
 				, "Películas","Libros","Música" };
+		DefaultListCellRenderer renderer =  (DefaultListCellRenderer)lista.getCellRenderer();  
+		renderer.setHorizontalAlignment(JLabel.CENTER); 
+		renderer.setVerticalAlignment(JLabel.BOTTOM);
 		lista.setFont(new Font("serif",Font.ITALIC , 15));
 		lista.setSelectedIndex(0);
 		lista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		lista.setListData(contenidoMenu);
+		lista.setFixedCellHeight(50);
+		gbc2.gridy=1;
+		panel2.add(lista,gbc2);
+		
+//		desconectar.setPreferredSize(new Dimension(TAMAÑOANCHOLISTA, 50));
+		gbc2.gridy=2;
+		panel2.add(desconectar,gbc2);
 	}
 	
-//	public void configurarBoton(String icono, String nombre){
-//		ImageIcon iconoBoton = new ImageIcon(super.getRutaPrincipal() + nombre + ".jpg");		
-//		boton.setIcon(iconoBoton);
-//		nombreBoton = nombre;
-//	}
 
-	@Override
-	public void pintar(Object o) {
-		String mensaje = (String) o;
-		mensajeError.showMessageDialog(this , mensaje ,"Error",JOptionPane.ERROR_MESSAGE);
+
+	
+
+	public void pintarContenido(Object o) {
+		HashMap<TipoContenido, List<Contenido>> mapa= (HashMap<TipoContenido, List<Contenido>>) o;
+		Iterator it = mapa.keySet().iterator();
+		gbc1.weightx=1;
+		gbc1.gridy = 0;
+	    while (it.hasNext()) {
+	        TipoContenido tipoContenido = (TipoContenido) it.next();
+			gbc1.gridx=2;
+			panel1.add(new Label(tipoContenido.getName(),Label.CENTER), gbc1);
+            gbc1.gridy++;
+			List<Contenido> listaContenidos = mapa.get(tipoContenido);
+	    	pintarFila(listaContenidos,tipoContenido);
+            gbc1.gridy++;
+            gbc1.gridx=2;
+            pintarBotonVerMas(tipoContenido);
+            gbc1.gridy++;
+	    }
 	}
 	
-//	@Override
-//	public void pintarEnFilas(Object o) {
-//		HashMap mapa = (HashMap) o;
-//		
-//		
-//	}
+	private void pintarFila(List<Contenido> listaContenidos,TipoContenido tipoContenido) {
+//	    if(listaContenidos.isEmpty()){
+	        gbc1.gridx = 0;
+	        for (int i = 1; i < 6; i++) {
+	            pintarElemento(null);
+                gbc1.gridx++;
+	        }	
+            
+//	    }
+	}
+
+
+    private void pintarElemento(Contenido contenido) {
+        JLabel elemento = new JLabel("prueba");
+        panel1.add(elemento, gbc1);
+    }
+
+
+    private void pintarBotonVerMas(TipoContenido tipoContenido) {
+        panel1.add(new JButton("Ver más"), gbc1);
+    }
+
+
 }

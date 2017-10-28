@@ -4,8 +4,10 @@ import dataStructures.TipoUsuario;
 import dataStructures.User;
 import helpers.Logger;
 import helpers.TipoLog;
+import models.ModelException;
 import models.UserModel;
 import org.apache.commons.validator.routines.EmailValidator;
+import views.VistaLogin;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ import java.util.List;
 public class UserController {
     private static User currentUser;
 
-    public static void setCurrentUser(User user){
+    static void setCurrentUser(User user){
         currentUser = user;
     }
 
@@ -56,7 +58,16 @@ public class UserController {
 
             Logger.log("Exception in login", TipoLog.ERROR);
             Logger.log(e);
+            e.printStackTrace();
         }
+    }
+
+    /**
+     * Deletes the session and changes view to login
+     */
+    public void logout(){
+        currentUser = null;
+        MainController.setView(new VistaLogin());
     }
 
     /**
@@ -67,7 +78,14 @@ public class UserController {
      */
     public void registrarUsuario(User usuario, String password, String passwordConfirmation){
         //Check if data is valid
-        List<String> messages = userDataIsValid(usuario, password, passwordConfirmation);
+        List<String> messages = new ArrayList<>();
+        try {
+             messages = userDataIsValid(usuario, password, passwordConfirmation);
+        } catch (SQLException | ClassNotFoundException e) {
+            Logger.log(e);
+            e.printStackTrace();
+            messages.add("Se ha producido un error.");
+        }
 
         //If it is save it to the database
         if(messages.isEmpty()) {
@@ -87,12 +105,12 @@ public class UserController {
                 contentController.initHome();
             } catch (SQLException | ClassNotFoundException e) {
                 //Print the error to the view
-                messages.add("Se ha producido un error.");
-                MainController.printToView(messages);
+                MainController.printToView("Se ha producido un error.");
 
                 //Log it
                 Logger.log("Exception in registration", TipoLog.ERROR);
                 Logger.log(e);
+                e.printStackTrace();
             }
         } else {
             //Print errors to the view
@@ -107,20 +125,27 @@ public class UserController {
      * @param passConfirm
      * @return
      */
-    private List<String> userDataIsValid(User usuario, String pass, String passConfirm) {
+    private List<String> userDataIsValid(User usuario, String pass, String passConfirm) throws SQLException, ClassNotFoundException {
         List<String> errores = new ArrayList<>();
+
+        UserModel userModel = new UserModel();
         if(usuario.getUserName().trim().isEmpty()) {
-            errores.add("El username es obligatorio.");
+            errores.add("El alias es obligatorio.");
         } else {
-            try {
-                UserModel userModel = new UserModel();
-                if(userModel.userExists(usuario) != null){
-                    errores.add("Ya existe un usuario con ese username o email.");
+                if(userModel.userNameExists(usuario) != null){
+                    errores.add("Ya existe un usuario con ese alias.");
                 }
-            } catch (SQLException | ClassNotFoundException e) {
-                Logger.log(e);
-                errores.add("Se ha producido un error.");
-                return errores;
+        }
+
+        EmailValidator emailValidator = EmailValidator.getInstance();
+
+        if(usuario.getEmail().trim().isEmpty()){
+            errores.add("Debe introducir un email válido.");
+        } else if(!emailValidator.isValid(usuario.getEmail())){
+            errores.add("Debe introducir un email válido.");
+        } else {
+            if(userModel.emailExists(usuario) != null){
+                errores.add("Ya existe un usuario con ese email");
             }
         }
 
@@ -136,14 +161,6 @@ public class UserController {
             errores.add("Las contraseñas no coinciden.");
         }
 
-        EmailValidator emailValidator = EmailValidator.getInstance();
-
-        if(usuario.getEmail().trim().isEmpty()){
-            errores.add("Debe introducir un email válido.");
-        } else if(!emailValidator.isValid(usuario.getEmail())){
-            errores.add("Debe introducir un email válido.");
-        }
-
         return errores;
     }
 
@@ -155,7 +172,14 @@ public class UserController {
      */
     public void actualizarUsuario(User usuario, String password, String passwordConfirmation){
         //Check if data is valid
-        List<String> messages = userDataIsValid(usuario, password, passwordConfirmation);
+        List<String> messages = new ArrayList<>();
+        try {
+            messages = userDataIsValid(usuario, password, passwordConfirmation);
+        } catch (SQLException | ClassNotFoundException e) {
+            Logger.log(e);
+            e.printStackTrace();
+            messages.add("Se ha producido un error.");
+        }
 
         //If it is update the user
         if(messages.isEmpty()) {
@@ -172,20 +196,110 @@ public class UserController {
                 Logger.log("Updated user ("+previousUsername+") -> " + usuario.getUserName());
 
                 //Print result to view
-                messages.add("Usuario actualizado correctamente.");
-                MainController.printToView(messages);
+
             } catch (SQLException | ClassNotFoundException e) {
                 //Print error to view
-                messages.add("Se ha producido un error.");
-                MainController.printToView(messages);
+                MainController.printToView("Se ha producido un error.");
 
                 //Log the error
-                Logger.log("Exception in registration", TipoLog.ERROR);
+                Logger.log("Exception in update user", TipoLog.ERROR);
                 Logger.log(e);
+                e.printStackTrace();
             }
         } else {
             //Print errors to view
             MainController.printToView(messages);
+        }
+    }
+
+    /**
+     * Updates the user in the database and in current memory if the data is valid without modifying the pass
+     * @param usuario
+     */
+    public void actualizarUsuario(User usuario){
+        //Check if data is valid
+        List<String> messages = new ArrayList<>();
+        try {
+            messages = userDataIsValid(usuario);
+        } catch (SQLException | ClassNotFoundException e) {
+            Logger.log(e);
+            e.printStackTrace();
+            messages.add("Se ha producido un error.");
+        }
+
+        //If it is update the user
+        if(messages.isEmpty()) {
+            try {
+                //Update the user
+                UserModel userModel = new UserModel();
+                userModel.actualizarUsuario(usuario);
+
+                //Change data in memory
+                String previousUsername = currentUser.getUserName();
+                setCurrentUser(usuario);
+
+                //Log result
+                Logger.log("Updated user ("+previousUsername+") -> " + usuario.getUserName());
+
+                //Print result to view
+
+            } catch (SQLException | ClassNotFoundException e) {
+                //Print error to view
+                MainController.printToView("Se ha producido un error.");
+
+                //Log the error
+                Logger.log("Exception in update user", TipoLog.ERROR);
+                Logger.log(e);
+                e.printStackTrace();
+            }
+        } else {
+            //Print errors to view
+            MainController.printToView(messages);
+        }
+    }
+
+    private List<String> userDataIsValid(User usuario) throws SQLException, ClassNotFoundException {
+        List<String> errores = new ArrayList<>();
+
+        UserModel userModel = new UserModel();
+        if(usuario.getUserName().trim().isEmpty()) {
+            errores.add("El alias es obligatorio.");
+        } else {
+            if(userModel.userNameExists(usuario) != null){
+                errores.add("Ya existe un usuario con ese alias.");
+            }
+        }
+
+        EmailValidator emailValidator = EmailValidator.getInstance();
+
+        if(usuario.getEmail().trim().isEmpty()){
+            errores.add("Debe introducir un email válido.");
+        } else if(!emailValidator.isValid(usuario.getEmail())){
+            errores.add("Debe introducir un email válido.");
+        } else {
+            if(userModel.emailExists(usuario) != null){
+                errores.add("Ya existe un usuario con ese email");
+            }
+        }
+
+        if(usuario.getNombre().trim().isEmpty()){
+            errores.add("El nombre es obligatorio.");
+        }
+
+        return errores;
+    }
+
+    /**
+     * Deletes the current user
+     */
+    public void borrarUsuario(){
+        try {
+            UserModel userModel = new UserModel();
+            userModel.borrarUsuario();
+        } catch (SQLException | ClassNotFoundException | ModelException e) {
+            e.printStackTrace();
+            Logger.log(e);
+            MainController.printToView("Se ha producido un error.");
         }
     }
 }

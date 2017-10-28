@@ -1,5 +1,6 @@
 package views;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -41,7 +42,7 @@ public class VistaLogin extends VistaPrincipal{
 		c.gridx=0;
 		c.gridy=0;
 		super.getPanel().add(labelUsuario,c);
-		
+
 		c.insets=new Insets(10, 0, 0, 0);
 		c.gridy=1;
 		super.getPanel().add(usuario,c);
@@ -91,13 +92,4 @@ public class VistaLogin extends VistaPrincipal{
 		String resultado= new String(cadena);
 		return resultado;	
 	}
-
-	@Override
-	public void pintar(Object o) {
-		String mensaje = (String) o;
-		mensajeError.showMessageDialog(this , mensaje ,"Error",JOptionPane.ERROR_MESSAGE);
-	}
-	
-	
-	
 }

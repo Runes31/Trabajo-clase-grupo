@@ -21,6 +21,22 @@ public class User {
         this.pk=0;
     }
 
+    /**
+     * This is used to create a new user object with other user's pk and type, usually to pass it to a controller to modify the data of the
+     * current user
+     * @param u Usually it comes from UserController.getCurrentUser()
+     * @param userName
+     * @param nombre
+     * @param email
+     */
+    public User(User u, String userName, String nombre, String email){
+        this.pk = u.pk;
+        this.tipoUsuario = u.tipoUsuario;
+        this.userName = userName;
+        this.nombre = nombre;
+        this.email = email;
+    }
+
     public int getPk() {
         return pk;
     }
