@@ -3,9 +3,9 @@ package models;
 import controllers.UserController;
 import dataStructures.TipoUsuario;
 import dataStructures.User;
+import helpers.Logger;
 import org.apache.commons.codec.digest.DigestUtils;
 
-import java.security.UnresolvedPermission;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,10 +50,13 @@ public class UserModel {
         String sql = "SELECT usu_pk, usu_nombre, usu_username, usu_email, tipousu.tipousu_nombre " +
                 "FROM usu_usuarios usu " +
                 "LEFT JOIN tipousu_tipo_usuario tipousu ON tipousu.tipousu_pk = usu.tipousu_tipo_usuario_tipousu_pk " +
-                "WHERE usu_username = ?";
+                "WHERE usu_username = ? AND usu_pk != ?";
 
         PreparedStatement selectUser = con.getConn().prepareStatement(sql);
         selectUser.setString(1, usuario.getUserName());
+
+        int userPk = UserController.getCurrentUser() == null ? 0 : UserController.getCurrentUser().getPk();
+        selectUser.setInt(2, userPk);
 
         ResultSet rs = selectUser.executeQuery();
         if(rs.next()) {
@@ -74,10 +77,13 @@ public class UserModel {
         String sql = "SELECT usu_pk, usu_nombre, usu_username, usu_email, tipousu.tipousu_nombre " +
                 "FROM usu_usuarios usu " +
                 "LEFT JOIN tipousu_tipo_usuario tipousu ON tipousu.tipousu_pk = usu.tipousu_tipo_usuario_tipousu_pk " +
-                "WHERE usu_email = ?";
+                "WHERE usu_email = ? AND usu_pk != ?";
 
         PreparedStatement selectUser = con.getConn().prepareStatement(sql);
         selectUser.setString(1, usuario.getEmail());
+
+        int userPk = UserController.getCurrentUser() == null ? 0 : UserController.getCurrentUser().getPk();
+        selectUser.setInt(2, userPk);
 
         ResultSet rs = selectUser.executeQuery();
         if(rs.next()) {
@@ -115,6 +121,17 @@ public class UserModel {
         return rs.getInt(1);
     }
 
+    public void actualizarUsuario(User usuario) throws SQLException {
+        String sql = "UPDATE usu_usuarios SET usu_nombre = ?, usu_email = ? " +
+                "WHERE usu_pk = ?";
+
+        PreparedStatement updateUser = con.getConn().prepareStatement(sql);
+        updateUser.setString(1, usuario.getNombre());
+        updateUser.setString(2, usuario.getEmail());
+        updateUser.setInt(3, UserController.getCurrentUser().getPk());
+        updateUser.executeUpdate();
+    }
+
     public void actualizarUsuario(User usuario, String password) throws SQLException {
         String sql = "UPDATE usu_usuarios SET usu_nombre = ?, usu_password = ?, usu_email = ? " +
                 "WHERE usu_pk = ?";
@@ -126,5 +143,37 @@ public class UserModel {
         updateUser.setString(3, usuario.getEmail());
         updateUser.setInt(4, UserController.getCurrentUser().getPk());
         updateUser.executeUpdate();
+    }
+
+    public void borrarUsuario() throws ModelException {
+        try {
+            con.getConn().setAutoCommit(false);
+            PrestamosModel prestamosModel = new PrestamosModel();
+            prestamosModel.deletePrestamosUsuario();
+
+            String sql = "DELETE FROM usu_usuarios WHERE usu_pk = ?";
+
+            PreparedStatement deleteUser = con.getConn().prepareStatement(sql);
+            deleteUser.setInt(1, UserController.getCurrentUser().getPk());
+
+            deleteUser.executeUpdate();
+
+            con.getConn().commit();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            Logger.log(e);
+            try {
+                con.getConn().rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            throw new ModelException(e);
+        } finally {
+            try {
+                con.getConn().setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

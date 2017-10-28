@@ -16,27 +16,11 @@ public class ProductoraModel {
 
     int insertProductora(Productora productora) throws SQLException {
 
-        String sql = "INSERT INTO pro_productoras(pro-nombre) "
-                + "VALUES (?)";
+        String sql = "INSERT INTO pro_productora(pro_nombre) VALUES (?) " +
+                "ON DUPLICATE KEY UPDATE pro_pk=LAST_INSERT_ID(pro_pk), pro_nombre=?";
 
         PreparedStatement ps = con.getConn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-        ps.setString(1, productora.getNombre());
-
-        ps.executeUpdate();
-
-        ResultSet rs = ps.getGeneratedKeys();
-        rs.next();
-
-        return rs.getInt(1);
-    }
-
-
-    int updateProductora(Productora productora) throws SQLException {
-        String sql = "INSERT INTO pro_productora (pro_nombre) VALUES (?) "
-                + "ON DUPLICATE KEY UPDATE pro_pk=LAST_INSERT_ID(pro_pk), pro_nombre=?;";
-
-        PreparedStatement ps = con.getConn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, productora.getNombre());
         ps.setString(2, productora.getNombre());
 

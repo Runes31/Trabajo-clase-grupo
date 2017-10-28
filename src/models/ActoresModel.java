@@ -9,17 +9,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActoresModel {
+class ActoresModel {
 
     private ConnectDB con;
 
-    public ActoresModel() throws SQLException, ClassNotFoundException {
+    ActoresModel() throws SQLException, ClassNotFoundException {
         con = new ConnectDB();
     }
 
     int insertActor(Actor actor) throws SQLException {
         String sql = "INSERT INTO act_actores (act_nombre) VALUES (?) "
-                + "ON DUPLICATE KEY UPDATE act_pk=LAST_INSERT_ID(act_pk), act_nombre=?;";
+                + "ON DUPLICATE KEY UPDATE act_pk=LAST_INSERT_ID(act_pk), act_nombre=?";
 
         PreparedStatement ps = con.getConn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, actor.getNombre());
@@ -34,7 +34,7 @@ public class ActoresModel {
 
     }
 
-    public List<Actor> getActores(int peliPk) throws SQLException {
+    List<Actor> getActores(int peliPk) throws SQLException {
 
         List<Actor> actores = new ArrayList<>();
         String sql = "SELECT act_pk,act_nombre "
@@ -53,17 +53,28 @@ public class ActoresModel {
         return actores;
     }
 
-    public void updateActores(Pelicula pelicula) throws SQLException {
+    void updateActores(Pelicula pelicula) throws SQLException {
         String sql = "DELETE FROM pelact_pelicula_actores WHERE pel_pelicula_pel_pk = ?";
 
         PreparedStatement deleteRelacion = con.getConn().prepareStatement(sql);
         deleteRelacion.setInt(1, pelicula.getPkPelicula());
 
         sql = "INSERT INTO pelact_pelicula_actores(pel_pelicula_pel_pk, act_actores_act_pk) VALUES(?,?)";
-        PreparedStatement insertActores = con.getConn().prepareStatement(sql);
-        insertActores.setInt(1, pelicula.getPkPelicula());
         for (Actor a : pelicula.getActores()){
+            PreparedStatement insertActores = con.getConn().prepareStatement(sql);
+            insertActores.setInt(1, pelicula.getPkPelicula());
             insertActores.setInt(2, insertActor(a));
+            insertActores.executeUpdate();
+        }
+    }
+
+    void insertActores(List<Actor> actores, int pkPelicula) throws SQLException {
+        String sql = "INSERT INTO pelact_pelicula_actores(pel_pelicula_pel_pk, act_actores_act_pk) VALUES(?,?)";
+        for (Actor a : actores){
+            PreparedStatement insertActores = con.getConn().prepareStatement(sql);
+            insertActores.setInt(1, pkPelicula);
+            insertActores.setInt(2, insertActor(a));
+
             insertActores.executeUpdate();
         }
     }

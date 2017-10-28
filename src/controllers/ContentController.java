@@ -87,8 +87,8 @@ public class ContentController {
             vista.pintarContenido(respuesta);
         }
         else {
-            //Método no hecho aun
-            //view.pintarTodo(respuesta);
+            //Método bueno no hecho aun
+            vista.pintarContenido(respuesta);
         }
     }
 

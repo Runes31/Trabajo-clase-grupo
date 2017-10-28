@@ -79,7 +79,7 @@ public class PrestamosModel {
         return peliculas;
     }
 
-    public List<Contenido> getLibros() throws SQLException {
+    public List<Contenido> getLibros() throws SQLException, ClassNotFoundException {
         List<Contenido> libros = new ArrayList<>();
         String sql = "SELECT lib_pk,lib_numero_paginas,lib_capitulo_muestra,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock"
                 + " FROM lib_libro lib"
@@ -91,6 +91,7 @@ public class PrestamosModel {
         st.setInt(1, UserController.getCurrentUser().getPk());
         ResultSet rs = st.executeQuery();
 
+        PrestamosModel prestamosModel = new PrestamosModel();
         while (rs.next()) {
             int pkLibro = rs.getInt(1);
             int numPag = rs.getInt(2);
@@ -103,7 +104,9 @@ public class PrestamosModel {
             Date contFecha = rs.getDate(8);
             int contStock = rs.getInt(9);
 
-            Libro libro1 = new Libro(pkCont, contTitulo, contCodigo, contImg, contFecha, contStock, true, pkLibro, numPag, capMuestra);
+            boolean prestado = prestamosModel.contenidoPrestado(pkCont);
+
+            Libro libro1 = new Libro(pkCont, contTitulo, contCodigo, contImg, contFecha, contStock, prestado, pkLibro, numPag, capMuestra);
 
             libros.add(libro1);
         }
@@ -202,5 +205,23 @@ public class PrestamosModel {
         devolver.setInt(1, contenido.getPk());
         devolver.setInt(2, userPk);
         devolver.executeUpdate();
+    }
+
+    void deletePrestamosUsuario() throws SQLException {
+        String sql = "DELETE FROM pres_prestamos WHERE usu_usuarios_usu_pk = ?";
+
+        PreparedStatement deletePrestamos = con.getConn().prepareStatement(sql);
+        deletePrestamos.setInt(1, UserController.getCurrentUser().getPk());
+
+        deletePrestamos.executeUpdate();
+    }
+
+    void deletePrestamosContenido(Contenido contenido) throws SQLException {
+        String sql = "DELETE FROM pres_prestamos WHERE con_contenido_con_pk = ?";
+
+        PreparedStatement deletePrestamos = con.getConn().prepareStatement(sql);
+        deletePrestamos.setInt(1, contenido.getPk());
+
+        deletePrestamos.executeUpdate();
     }
 }
