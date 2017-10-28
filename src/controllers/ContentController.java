@@ -77,6 +77,7 @@ public class ContentController {
         } catch (SQLException | ClassNotFoundException e) {
             //Se escribe en el log la excepcion
             Logger.log(e);
+            e.printStackTrace();
         }
 
         VistaInicio vista = (VistaInicio) MainController.getView();
@@ -161,6 +162,7 @@ public class ContentController {
             } catch (IOException e) {
                 errores.add("Se ha producido un error.");
                 Logger.log(e);
+                e.printStackTrace();
                 return errores;
             }
         }
@@ -193,6 +195,7 @@ public class ContentController {
             vistaInicio.pintarContenido(contenidoListMap);
         } catch (SQLException | ClassNotFoundException e) {
             Logger.log(e);
+            e.printStackTrace();
             MainController.printToView("Se ha producido un error");
         }
 

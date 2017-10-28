@@ -21,6 +21,7 @@ class MusicaController {
                 MainController.setView(new VistaInicio());
             } catch (SQLException | ClassNotFoundException | ModelException e) {
                 Logger.log(e);
+                e.printStackTrace();
                 MainController.printToView("Se ha producido un error.");
             }
         } else {
@@ -56,6 +57,7 @@ class MusicaController {
             MainController.setView(new VistaInicio());
         } catch (SQLException | ClassNotFoundException e) {
             Logger.log(e);
+            e.printStackTrace();
             MainController.printToView("Se ha producido un error.");
         }
     }
@@ -69,6 +71,7 @@ class MusicaController {
                 MainController.setView(new VistaInicio());
             } catch (SQLException | ClassNotFoundException e) {
                 Logger.log(e);
+                e.printStackTrace();
                 MainController.printToView("Se ha producido un error.");
             }
         } else {

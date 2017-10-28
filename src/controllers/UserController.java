@@ -57,6 +57,7 @@ public class UserController {
 
             Logger.log("Exception in login", TipoLog.ERROR);
             Logger.log(e);
+            e.printStackTrace();
         }
     }
 
@@ -81,6 +82,7 @@ public class UserController {
              messages = userDataIsValid(usuario, password, passwordConfirmation);
         } catch (SQLException | ClassNotFoundException e) {
             Logger.log(e);
+            e.printStackTrace();
             messages.add("Se ha producido un error.");
         }
 
@@ -107,6 +109,7 @@ public class UserController {
                 //Log it
                 Logger.log("Exception in registration", TipoLog.ERROR);
                 Logger.log(e);
+                e.printStackTrace();
             }
         } else {
             //Print errors to the view
@@ -175,6 +178,7 @@ public class UserController {
             messages = userDataIsValid(usuario, password, passwordConfirmation);
         } catch (SQLException | ClassNotFoundException e) {
             Logger.log(e);
+            e.printStackTrace();
             messages.add("Se ha producido un error.");
         }
 
@@ -201,6 +205,7 @@ public class UserController {
                 //Log the error
                 Logger.log("Exception in registration", TipoLog.ERROR);
                 Logger.log(e);
+                e.printStackTrace();
             }
         } else {
             //Print errors to view

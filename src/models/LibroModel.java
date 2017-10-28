@@ -31,10 +31,12 @@ public class LibroModel extends ContenidoModel {
         } catch (SQLException ex) {
             Logger.log("Exception in createLibro", TipoLog.ERROR);
             Logger.log(ex);
+            ex.printStackTrace();
             try {
                 con.getConn().rollback();
             } catch (SQLException e) {
                 Logger.log(e);
+                e.printStackTrace();
             }
             throw new ModelException(ex);
         } finally {
@@ -42,6 +44,7 @@ public class LibroModel extends ContenidoModel {
                 con.getConn().setAutoCommit(true);
             } catch (SQLException e) {
                 Logger.log(e);
+                e.printStackTrace();
             }
         }
 

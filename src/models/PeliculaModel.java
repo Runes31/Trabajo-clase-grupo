@@ -28,7 +28,6 @@ public class PeliculaModel extends ContenidoModel {
     }
     
     public void createPelicula(Pelicula pelicula) throws ModelException {
-        
         try {
             con.getConn().setAutoCommit(false);
             
@@ -42,7 +41,19 @@ public class PeliculaModel extends ContenidoModel {
             
         } catch (SQLException ex) {
             Logger.log(ex);
+            ex.printStackTrace();
+            try {
+                con.getConn().rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             throw new ModelException(ex);
+        } finally {
+            try {
+                con.getConn().setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
     

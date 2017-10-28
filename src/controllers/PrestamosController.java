@@ -24,6 +24,7 @@ public class PrestamosController {
             }
         } catch (SQLException | ClassNotFoundException e){
             Logger.log(e);
+            e.printStackTrace();
             MainController.printToView("Se ha producido un error.");
         }
     }
@@ -35,6 +36,7 @@ public class PrestamosController {
             MainController.printToView("Devolución realizada con éxito.");
         } catch (SQLException | ClassNotFoundException e){
             Logger.log(e);
+            e.printStackTrace();
             MainController.printToView("Se ha producido un error.");
         }
     }

@@ -111,9 +111,7 @@ public class CancionModel {
     }
 
     public void updateCanciones(List<Cancion> canciones, int musicaId) throws SQLException {
-
             deleteCanciones(musicaId);
             insertCanciones(canciones, musicaId);
-
     }
 }

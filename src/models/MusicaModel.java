@@ -4,6 +4,7 @@ import dataStructures.Cancion;
 import dataStructures.Contenido;
 import dataStructures.Discografica;
 import dataStructures.Musica;
+import helpers.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class MusicaModel extends ContenidoModel {
 
             con.getConn().commit();
         } catch (SQLException e) {
+            Logger.log(e);
             try {
                 e.printStackTrace();
                 con.getConn().rollback();
