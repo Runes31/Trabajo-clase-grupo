@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public class LibroController {
+class LibroController {
     void crearLibro(Libro libro){
         List<String> errores = checkDatos(libro);
         if(errores.isEmpty()) {
@@ -78,20 +78,4 @@ public class LibroController {
             MainController.printToView(errores);
         }
     }
-
-    public void verCapituloMuestra(Libro libro){
-        try {
-            Desktop.getDesktop().open(getCapituloMuestra(libro));
-        } catch (IOException e) {
-            e.printStackTrace();
-            Logger.log(e);
-            MainController.printToView("Se ha producido un error.");
-        }
-    }
-
-    private File getCapituloMuestra(Libro libro) {
-        return new File("capitulos_muestra/"+libro.getCapituloMuestra());
-    }
-
-
 }
