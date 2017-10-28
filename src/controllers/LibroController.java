@@ -6,11 +6,13 @@ import models.ModelException;
 import models.LibroModel;
 import views.VistaInicio;
 
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-class LibroController {
+public class LibroController {
     void crearLibro(Libro libro){
         List<String> errores = checkDatos(libro);
         if(errores.isEmpty()) {
@@ -20,6 +22,7 @@ class LibroController {
                 MainController.setView(new VistaInicio());
             } catch (SQLException | ClassNotFoundException | ModelException e) {
                 Logger.log(e);
+                e.printStackTrace();
                 MainController.printToView("Se ha producido un error.");
             }
         } else {
@@ -52,6 +55,7 @@ class LibroController {
             MainController.setView(new VistaInicio());
         } catch (SQLException | ClassNotFoundException e) {
             Logger.log(e);
+            e.printStackTrace();
             MainController.printToView("Se ha producido un error.");
         }
     }
@@ -65,10 +69,27 @@ class LibroController {
                 MainController.setView(new VistaInicio());
             } catch (SQLException | ClassNotFoundException e) {
                 Logger.log(e);
+                e.printStackTrace();
                 MainController.printToView("Se ha producido un error.");
             }
         } else {
             MainController.printToView(errores);
         }
     }
+
+    public void verCapituloMuestra(Libro libro){
+        try {
+            Desktop.getDesktop().open(getCapituloMuestra(libro));
+        } catch (IOException e) {
+            e.printStackTrace();
+            Logger.log(e);
+            MainController.printToView("Se ha producido un error.");
+        }
+    }
+
+    private File getCapituloMuestra(Libro libro) {
+        return new File("capitulos_muestra/"+libro.getCapituloMuestra());
+    }
+
+
 }
