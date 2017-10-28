@@ -41,7 +41,6 @@ public class VistaRegistro extends VistaPrincipal {
 	public VistaRegistro() {
 		super.crearPanel();
 		super.setSize(550, 300);
-		super.setResizable(false);
 		super.setLocationRelativeTo(null);
 
 		super.getPanel().setLayout(grid);
