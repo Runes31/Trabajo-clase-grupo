@@ -19,6 +19,6 @@ public class VistaPelicula extends VistaElemento{
     public VistaPelicula(Pelicula pelicula) {
         gbc.gridx=0;
         gbc.gridy=1;
-        panel.add(new JLabel("Productora"), gbc);
+        panel.add(new JLabel("Productora "+pelicula.getProductora().getNombre()), gbc);
     }
 }

@@ -40,6 +40,7 @@ import com.sun.xml.internal.ws.api.server.Container;
 
 import controllers.UserController;
 import dataStructures.TipoContenido;
+import helpers.ImageHelper;
 import dataStructures.Contenido;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderWidths;
@@ -190,19 +191,21 @@ public class VistaInicio extends VistaPrincipal{
 	}
 	
 	private void pintarFila(List<Contenido> listaContenidos,TipoContenido tipoContenido) {
-//	    if(listaContenidos.isEmpty()){
+	    if(!listaContenidos.isEmpty()){
 	        gbc1.gridx = 0;
 	        for (int i = 1; i < 6; i++) {
-	            pintarElemento(null);
+	            pintarElemento(listaContenidos.get(i));
                 gbc1.gridx++;
 	        }	
             
-//	    }
+	    }
 	}
 
 
     private void pintarElemento(Contenido contenido) {
-        JLabel elemento = new JLabel("prueba");
+        Image imagen = ImageHelper.getImagen(contenido.getImagen());
+        ImageIcon imagenFinal = new ImageIcon(imagen);
+        JLabel elemento = new JLabel(imagenFinal);
         panel1.add(elemento, gbc1);
     }
 
