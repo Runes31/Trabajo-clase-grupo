@@ -33,9 +33,8 @@ public class VistaLogin extends VistaPrincipal{
 	private JOptionPane mensajeError = new JOptionPane();
 	
 	public VistaLogin(){
-		super.crearPanel();
 		super.setSize(400,300);
-		super.setLocationRelativeTo(null);
+		super.crearPanel();
 		super.getPanel().setLayout(grid);
 		c.anchor=c.CENTER;
 		c.gridx=0;

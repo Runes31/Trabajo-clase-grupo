@@ -10,10 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Label;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -113,12 +110,21 @@ public class VistaInicio extends VistaPrincipal{
 		lista.setListData(contenidoMenu);
 		lista.setFixedCellHeight(50);
 		//Listener de la lista
-		lista.addListSelectionListener(new ListSelectionListener() {
-            
+		lista.addMouseListener(new MouseAdapter() {
             @Override
-            public void valueChanged(ListSelectionEvent elemento) {
-                // TODO Auto-generated method stub
-                
+            public void mouseClicked(MouseEvent e) {
+                ContentController contentController = new ContentController();
+
+                switch (lista.getSelectedIndex()){
+                    case 0: contentController.initHome(); break;
+                    case 1: contentController.initHome(TipoContenido.PELICULA); break;
+                    case 2: contentController.initHome(TipoContenido.LIBRO); break;
+                    case 3: contentController.initHome(TipoContenido.MUSICA); break;
+                    case 4: contentController.initHome(TipoContenido.PRESTAMO); break;
+                    case 5: contentController.initHome(TipoContenido.PRESTAMO_PELICULA); break;
+                    case 6: contentController.initHome(TipoContenido.PRESTAMO_LIBRO); break;
+                    case 7: contentController.initHome(TipoContenido.PRESTAMO_MUSICA); break;
+                }
             }
         });
 		//FIN listener de la lista
@@ -197,7 +203,7 @@ public class VistaInicio extends VistaPrincipal{
 			panel1.add(new Label(tipoContenido.getName(),Label.CENTER), gbc1);
             gbc1.gridy++;
 			List<Contenido> listaContenidos = mapa.get(tipoContenido);
-	    	pintarFila(listaContenidos,tipoContenido);
+	    	pintarFila(listaContenidos);
             gbc1.gridy++;
             gbc1.gridx=2;
             pintarBotonVerMas(tipoContenido);
@@ -205,7 +211,7 @@ public class VistaInicio extends VistaPrincipal{
 	    }
 	}
 	
-	private void pintarFila(List<Contenido> listaContenidos,TipoContenido tipoContenido) {
+	private void pintarFila(List<Contenido> listaContenidos) {
         gbc1.gridx = 0;
 	    if(listaContenidos.isEmpty()){
 	        JLabel elemento = new JLabel("No hay contenidos.");
@@ -263,6 +269,31 @@ public class VistaInicio extends VistaPrincipal{
             }
         });
         panel1.add(verMas, gbc1);
+    }
+
+    public void pintarContenido(List<Contenido> contenidoList, TipoContenido tipoContenido){
+	    gbc1.weightx=1;
+	    gbc1.gridy = 0;
+	    int elemPorFila = 5;
+	    int maxFilas = 4;
+
+        grid1.rowHeights= new int[]{40,40,40,40,40,40,40,40,40};
+        panel1.setLayout(grid1);
+
+        JLabel label = new JLabel(tipoContenido.getName());
+        gbc1.gridx = 2;
+        panel1.add(label, gbc1);
+
+	    int i = 0;
+	    int x = 5;
+	    while (i < contenidoList.size() && i < elemPorFila*maxFilas){
+	        if(i+5 > contenidoList.size())
+	            x = contenidoList.size()-i;
+
+	        pintarFila(contenidoList.subList(i, i+x));
+	        gbc1.gridy += 2;
+	        i += 5;
+        }
     }
 
 }

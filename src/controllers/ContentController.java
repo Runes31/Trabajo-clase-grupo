@@ -87,8 +87,9 @@ public class ContentController {
             vista.pintarContenido(respuesta);
         }
         else {
-            //Método bueno no hecho aun
-            vista.pintarContenido(respuesta);
+            Map.Entry<TipoContenido, List<Contenido>> entry = respuesta.entrySet().iterator().next();
+            List<Contenido> lista = entry.getValue();
+            vista.pintarContenido(lista, entry.getKey());
         }
     }
 

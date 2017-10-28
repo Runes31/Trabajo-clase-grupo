@@ -27,6 +27,7 @@ public abstract class VistaPrincipal extends JFrame{
         setTitle(NOMBREAPLICACION);
         setIconImage(imagenLogo);
         add(panel);
+        setLocationRelativeTo(null);
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         super.setResizable(false);
