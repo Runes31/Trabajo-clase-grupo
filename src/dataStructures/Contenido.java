@@ -25,6 +25,15 @@ public class Contenido implements Comparable<Contenido> {
     private int stock;
     private boolean resevado;
 
+    Contenido(int pk, String titulo, String codigo, String imagen, int stock, boolean resevado) {
+        this.pk = pk;
+        this.titulo = titulo;
+        this.codigo = codigo;
+        this.imagen = imagen;
+        this.stock = stock;
+        this.resevado = resevado;
+    }
+
     Contenido(int pk, String titulo, String codigo, String imagen, Date fechaCreacion, int stock, boolean resevado) {
         this.pk = pk;
         this.titulo = titulo;
@@ -65,15 +74,14 @@ public class Contenido implements Comparable<Contenido> {
     }
 
     public void copyImageToLocal() throws IOException {
-        String rutaLocal = String.valueOf(getClass().getResource("imagenes/caratulas/"+imagen.substring(imagen.lastIndexOf("/"),
-                imagen.length())
-        ));
+        long millis = System.currentTimeMillis();
+        String rutaLocal = "imagenes/caratulas/" + millis + imagen.substring(imagen.lastIndexOf("/"), imagen.length());
 
         File src = new File(imagen);
         File target = new File(rutaLocal);
 
         Files.copy(src.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        imagen = rutaLocal;
+        imagen = millis + imagen.substring(imagen.lastIndexOf("/"), imagen.length());
     }
 
     @Override

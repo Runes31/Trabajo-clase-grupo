@@ -18,9 +18,10 @@ public class LibroController {
         if(errores.isEmpty()) {
             try {
                 LibroModel libroModel = new LibroModel();
+                libro.copyCapituloToLocal();
                 libroModel.createLibro(libro);
                 MainController.setView(new VistaInicio());
-            } catch (SQLException | ClassNotFoundException | ModelException e) {
+            } catch (SQLException | ClassNotFoundException | ModelException | IOException e) {
                 Logger.log(e);
                 e.printStackTrace();
                 MainController.printToView("Se ha producido un error.");
@@ -65,9 +66,10 @@ public class LibroController {
         if(errores.isEmpty()) {
             try {
                 LibroModel libroModel = new LibroModel();
+                libro.copyCapituloToLocal();
                 libroModel.updateLibro(libro);
                 MainController.setView(new VistaInicio());
-            } catch (SQLException | ClassNotFoundException e) {
+            } catch (SQLException | ClassNotFoundException | IOException e) {
                 Logger.log(e);
                 e.printStackTrace();
                 MainController.printToView("Se ha producido un error.");
