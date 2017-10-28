@@ -63,7 +63,7 @@ public class UserController {
     /**
      * Deletes the session and changes view to login
      */
-    public static void logout(){
+    public void logout(){
         currentUser = null;
         MainController.setView(new VistaLogin());
     }
