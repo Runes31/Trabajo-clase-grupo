@@ -6,7 +6,6 @@ import dataStructures.User;
 import helpers.Logger;
 import org.apache.commons.codec.digest.DigestUtils;
 
-import java.security.UnresolvedPermission;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -150,7 +149,7 @@ public class UserModel {
         try {
             con.getConn().setAutoCommit(false);
             PrestamosModel prestamosModel = new PrestamosModel();
-            prestamosModel.deletePrestamos();
+            prestamosModel.deletePrestamosUsuario();
 
             String sql = "DELETE FROM usu_usuarios WHERE usu_pk = ?";
 
