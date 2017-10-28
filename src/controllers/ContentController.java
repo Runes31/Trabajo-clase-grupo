@@ -54,6 +54,7 @@ public class ContentController {
         } catch (SQLException | ClassNotFoundException e) {
             //Logear la excepcion
             Logger.log(e);
+            e.printStackTrace();
         }
         //Pintar el resultado a la vista
         VistaInicio vista = (VistaInicio) MainController.getView();
