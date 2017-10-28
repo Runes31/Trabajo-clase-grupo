@@ -203,4 +203,13 @@ public class PrestamosModel {
         devolver.setInt(2, userPk);
         devolver.executeUpdate();
     }
+
+    void deletePrestamos() throws SQLException {
+        String sql = "DELETE FROM pres_prestamos WHERE usu_usuarios_usu_pk = ?";
+
+        PreparedStatement deletePrestamos = con.getConn().prepareStatement(sql);
+        deletePrestamos.setInt(1, UserController.getCurrentUser().getPk());
+
+        deletePrestamos.executeUpdate();
+    }
 }
