@@ -48,3 +48,5 @@ logs/*
 !logs/.gitkeep
 
 \.idea/codeStyleSettings\.xml
+
+\.idea/libraries/lib\.xml

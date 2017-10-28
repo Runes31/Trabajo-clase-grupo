@@ -20,7 +20,7 @@ public class ImageHelper {
     
     public static Image getImagen(String nombreArchivo) {
         
-        File fl = new File("imagenes/"+nombreArchivo);
+        File fl = new File("imagenes/caratulas/"+nombreArchivo);
         String filePath = fl.getAbsolutePath();
 
         ImageIcon imagenCast = new ImageIcon(filePath);
