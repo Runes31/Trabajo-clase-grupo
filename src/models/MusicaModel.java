@@ -69,33 +69,30 @@ public class MusicaModel extends ContenidoModel {
         List<Cancion> canciones = new ArrayList<>();
         PrestamosModel prestamosModel = new PrestamosModel();
 
-        String sql = "SELECT mus_pk,con_contenido_con_pk,disc_discografica_disc_pk,con_pk,con_titulo,con_codigo,"
-                + "con_imagen,con_fecha_creacion,con_stock,canc_pk,canc_nombre,canc_orden,mus_musica_mus_pk,disc_pk,disc_nombre "
-                + "FROM mus_musica mus" +
-                "LEFT JOIN con_contenido con ON mus.con_contenido_con_pk = con.con_pk" +
-                "LEFT JOIN canc_canciones canc ON canc.mus_musica_mus_pk = mus.mus_pk" +
-                "LEFT JOIN disc_discografica disc ON disc.disc_pk = mus.disc_discografica_disc_pk" +
-                "LEFT JOIN pres_prestamo pres ON pres.con_contenido_con_pk = con.con_pk";
+        String sql = "SELECT mus_pk,con_pk,con_titulo,con_codigo,"
+                + "con_imagen,con_fecha_creacion,con_stock,canc_pk,canc_nombre,canc_orden,disc_pk,disc_nombre "
+                + "FROM mus_musica mus " +
+                "LEFT JOIN con_contenido con ON mus.con_contenido_con_pk = con.con_pk " +
+                "LEFT JOIN canc_canciones canc ON canc.mus_musica_mus_pk = mus.mus_pk " +
+                "LEFT JOIN disc_discografica disc ON disc.disc_pk = mus.disc_discografica_disc_pk " +
+                "LEFT JOIN pres_prestamo pres ON pres.con_contenido_con_pk = con.con_pk ";
 
         PreparedStatement st = con.getConn().prepareStatement(sql);
         ResultSet rs = st.executeQuery();
 
         while (rs.next()) {
             int musPk = rs.getInt(1);
-            int contPk = rs.getInt(2);
-            int discMusPk = rs.getInt(3);
-            int conPk = rs.getInt(4);
-            String contTitulo = rs.getString(5);
-            String contCodigo = rs.getString(6);
-            String contImg = rs.getString(7);
-            Date contDate = rs.getDate(8);
-            int contStock = rs.getInt(9);
-            int cancPk = rs.getInt(10);
-            String cancNombre = rs.getString(11);
-            int cancOrden = rs.getInt(12);
-            int cancMusPk = rs.getInt(13);
-            int discPk = rs.getInt(14);
-            String discNom = rs.getString(15);
+            int conPk = rs.getInt(2);
+            String contTitulo = rs.getString(3);
+            String contCodigo = rs.getString(4);
+            String contImg = rs.getString(5);
+            Date contDate = rs.getDate(6);
+            int contStock = rs.getInt(7);
+            int cancPk = rs.getInt(8);
+            String cancNombre = rs.getString(9);
+            int cancOrden = rs.getInt(10);
+            int discPk = rs.getInt(11);
+            String discNom = rs.getString(12);
 
             Discografica discografica = new Discografica(discPk, discNom);
 
@@ -103,16 +100,16 @@ public class MusicaModel extends ContenidoModel {
             canciones.add(cancion);
 
             while (rs.next() && rs.getInt(1) == musPk) {
-                cancPk = rs.getInt(10);
-                cancNombre = rs.getString(11);
-                cancOrden = rs.getInt(12);
+                cancPk = rs.getInt(8);
+                cancNombre = rs.getString(9);
+                cancOrden = rs.getInt(10);
 
                 cancion = new Cancion(cancPk, cancNombre, cancOrden);
                 canciones.add(cancion);
             }
 
-            boolean prestado = prestamosModel.contenidoPrestado(contPk);
-            Musica musica = new Musica(contPk, contTitulo, contCodigo, contImg, contDate, contStock, prestado, musPk, discografica, canciones);
+            boolean prestado = prestamosModel.contenidoPrestado(conPk);
+            Musica musica = new Musica(conPk, contTitulo, contCodigo, contImg, contDate, contStock, prestado, musPk, discografica, canciones);
             musicas.add(musica);
         }
         return musicas;
