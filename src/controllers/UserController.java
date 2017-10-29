@@ -66,6 +66,7 @@ public class UserController {
      * Deletes the session and changes view to login
      */
     public void logout(){
+        Logger.log("Logout usuario("+currentUser.getUserName()+")");
         currentUser = null;
         MainController.setView(new VistaLogin());
     }
