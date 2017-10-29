@@ -4,6 +4,8 @@ import dataStructures.Contenido;
 import helpers.ImageHelper;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -11,6 +13,7 @@ public abstract class VistaElemento extends VistaPrincipal{
     private JLabel imagen = new JLabel("", JLabel.CENTER);
     private JLabel titulo =new JLabel();
     private JLabel codigo =new JLabel();
+    private JButton botonAlquilar= new JButton("Alquilar");
     private GridBagConstraints gbc1= super.gbc1;
     
     
@@ -56,11 +59,21 @@ public abstract class VistaElemento extends VistaPrincipal{
         gbc1.gridy = 0;
         panelContenido.add(imagen, gbc1);
         
+        gbc1.insets= new Insets(30, 0, 0, 0);
         gbc1.gridy=1;
         panelContenido.add(codigo, gbc1);
+        gbc1.gridy++;
+        botonAlquilar.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
+        panelContenido.add(botonAlquilar, gbc1);
         
         gbc1.gridx=1;
-        gbc1.insets= new Insets(30, 0, 0, 0);
         gbc1.weighty = 1;
         gbc1.gridy = 0;
         gbc1.gridwidth=2;
