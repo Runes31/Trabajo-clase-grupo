@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-class VistaCrear extends VistaPrincipal {
+abstract class VistaCrear extends VistaPrincipal {
     private JLabelWhite titulo = new JLabelWhite("Titulo");
     private JLabelWhite codigo = new JLabelWhite("Código");
     private JTextField tituloField = new JTextField(10);
