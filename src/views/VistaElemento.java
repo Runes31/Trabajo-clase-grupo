@@ -97,7 +97,7 @@ public abstract class VistaElemento extends VistaPrincipal{
                     if(contenido instanceof Musica)
                         MainController.setView(new VistaCrearMusica((Musica) contenido));
                     else if(contenido instanceof Pelicula)
-                        MainController.setView(new VistaCrearPelicula(contenido));
+                        MainController.setView(new VistaCrearPelicula((Pelicula) contenido));
                     else
                         MainController.setView(new VistaCrearLibro((Libro) contenido));
                 }
