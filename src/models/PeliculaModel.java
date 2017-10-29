@@ -116,6 +116,7 @@ public class PeliculaModel extends ContenidoModel {
     }
     
     public void updatePelicula(Pelicula pelicula) throws SQLException {
+        updateContenido(pelicula);
         String sql = "UPDATE pel_pelicula "
                 + "SET pro_productora_pro_pk = ?,dir_directores_dir_pk = ? " +
                 "WHERE pel_pk = ?";
