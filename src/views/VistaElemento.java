@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 
 import javax.swing.Icon;
@@ -13,8 +14,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import helpers.ImageHelper;
+
 public abstract class VistaElemento extends VistaPrincipal{
-    private String imagen="";
+    private JLabel imagen = new JLabel("", JLabel.CENTER);
     private JLabel titulo =new JLabel("Título: ");
     private JLabel codigo =new JLabel("Código: ");
     private JLabel stock =new JLabel("Stock: ");
@@ -45,27 +48,23 @@ public abstract class VistaElemento extends VistaPrincipal{
         panel1.setLayout(grid1);
         gbcAux.gridx=0;
         gbcAux.gridy=0;
-        crearPanel1(imagen);
-        panel1.setBackground(Color.BLUE);
+        crearPanel1();
         super.getPanel().add(panel1,gbcAux);
         
         //panel derecha
+        gbcAux.anchor=GridBagConstraints.NORTHWEST;
         panel2.setPreferredSize(new Dimension(400,400));
         panel2.setLayout(grid2);
         gbcAux.gridx=1;
         gbcAux.gridy=0;
         crearPanel2();
-        panel2.setBackground(Color.BLACK);
         super.getPanel().add(panel2,gbcAux);
     }
     
-    private void crearPanel1(String rutaImagen) {
-        ImageIcon imagen = new ImageIcon(rutaImagen);
-        gbc1.weightx=1;
-        
+    private void crearPanel1() {
         gbc1.gridx=0;
         gbc1.gridy = 0;
-        panel1.add(new JLabel(imagen), gbc1);
+        panel1.add(imagen, gbc1);
         
         gbc1.gridy=1;
         panel1.add(codigo, gbc1);
@@ -78,8 +77,8 @@ public abstract class VistaElemento extends VistaPrincipal{
     }
     
     private void crearPanel2() {
-        gbc2.anchor=GridBagConstraints.NORTH;
-        gbc2.insets = new Insets(0, 0, 20, 0);
+        gbc2.insets= new Insets(30, 0, 0, 0);
+        gbc2.weighty = 1;
         gbc2.gridx=0;
         gbc2.gridy = 0;
         panel2.add(titulo, gbc2);
@@ -89,14 +88,15 @@ public abstract class VistaElemento extends VistaPrincipal{
         
     }
     
-    public String getImagen() {
+    
+    public JLabel getImagen() {
         return imagen;
     }
-    
-    public void setImagen(String imagen) {
+
+    public void setImagen(JLabel imagen) {
         this.imagen = imagen;
     }
-    
+
     public JLabel getTitulo() {
         return titulo;
     }

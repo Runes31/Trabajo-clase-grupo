@@ -84,7 +84,6 @@ public class VistaInicio extends VistaPrincipal{
 		grid2.rowHeights=new int []{50,470,50};
 		panel2.setLayout(grid2);
 		crearMenu();
-		panel2.setBackground(Color.BLACK);
 		gbcAux.gridx=1;
 		super.getPanel().add(panel2,gbcAux);		
 	}
@@ -214,6 +213,7 @@ public class VistaInicio extends VistaPrincipal{
 	private void pintarFila(List<Contenido> listaContenidos) {
         gbc1.gridx = 0;
 	    if(listaContenidos.isEmpty()){
+	        gbc1.gridx=2;
 	        JLabel elemento = new JLabel("No hay contenidos.");
 	        panel1.add(elemento, gbc1);
 	    } else {
