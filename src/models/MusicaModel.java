@@ -124,7 +124,7 @@ public class MusicaModel extends ContenidoModel {
         String sql = "SELECT mus_pk,con_pk,con_titulo,con_codigo," +
                 "con_imagen,con_fecha_creacion,con_stock,canc_pk,canc_nombre,canc_orden,disc_pk,disc_nombre " +
                 "FROM mus_musica mus " +
-                "LEFT JOIN con_contenido con ON mus.con_contenido_con_pk = con.con_pk " +
+                "JOIN con_contenido con ON mus.con_contenido_con_pk = con.con_pk " +
                 "LEFT JOIN canc_canciones canc ON canc.mus_musica_mus_pk = mus.mus_pk " +
                 "LEFT JOIN disc_discografica disc ON disc.disc_pk = mus.disc_discografica_disc_pk " +
                 "LEFT JOIN pres_prestamo pres ON pres.con_contenido_con_pk = con.con_pk " +

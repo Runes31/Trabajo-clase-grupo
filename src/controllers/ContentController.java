@@ -89,7 +89,7 @@ public class ContentController {
         else {
             Map.Entry<TipoContenido, List<Contenido>> entry = respuesta.entrySet().iterator().next();
             List<Contenido> lista = entry.getValue();
-            vista.pintarContenido(lista, entry.getKey());
+            vista.pintarContenido(lista);
         }
     }
 
@@ -189,12 +189,12 @@ public class ContentController {
     public void buscarContenido(String titulo){
 
         try {
-            Map<TipoContenido, List<Contenido>> contenidoListMap = getContenidoBusqueda(titulo);
+            List<Contenido> result = getContenidoBusqueda(titulo);
 
             MainController.setView(new VistaInicio());
             VistaInicio vistaInicio = (VistaInicio) MainController.getView();
 
-            vistaInicio.pintarContenido(contenidoListMap);
+            vistaInicio.pintarContenido(result);
         } catch (SQLException | ClassNotFoundException e) {
             Logger.log(e);
             e.printStackTrace();
@@ -203,19 +203,18 @@ public class ContentController {
 
     }
 
-    private Map<TipoContenido,List<Contenido>> getContenidoBusqueda(String titulo) throws SQLException, ClassNotFoundException {
-        Map<TipoContenido, List<Contenido>> contenidoListMap = new HashMap<>();
-
+    private List<Contenido> getContenidoBusqueda(String titulo) throws SQLException, ClassNotFoundException {
+        List<Contenido> resultado = new ArrayList<>();
         LibroModel libroModel = new LibroModel();
-        contenidoListMap.put(TipoContenido.LIBRO, libroModel.getLibros(titulo));
+        resultado.addAll(libroModel.getLibros(titulo));
 
         PeliculaModel peliculaModel = new PeliculaModel();
-        contenidoListMap.put(TipoContenido.PELICULA, peliculaModel.getPeliculas(titulo));
+        resultado.addAll(peliculaModel.getPeliculas(titulo));
 
         MusicaModel musicaModel = new MusicaModel();
-        contenidoListMap.put(TipoContenido.MUSICA, musicaModel.getMusica(titulo));
+        resultado.addAll(musicaModel.getMusica(titulo));
 
-        return contenidoListMap;
+        return resultado;
     }
 
     public void actualizarContenido(Contenido contenido){
