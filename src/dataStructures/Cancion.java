@@ -5,7 +5,7 @@
  */
 package dataStructures;
 
-public class Cancion {
+public class Cancion implements Comparable<Cancion> {
     private int pkCancion;
     private String nombre;
     private int orden;
@@ -31,5 +31,14 @@ public class Cancion {
 
     public int getOrden() {
         return orden;
+    }
+
+    @Override
+    public int compareTo(Cancion other) {
+        if(other.orden > orden)
+            return -1;
+        if (other.orden < orden)
+            return 1;
+        return 0;
     }
 }

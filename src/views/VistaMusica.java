@@ -4,6 +4,7 @@ import dataStructures.Cancion;
 import dataStructures.Musica;
 
 import java.awt.*;
+import java.util.Collections;
 
 public class VistaMusica extends VistaElemento{
     private GridBagConstraints gbc=super.getGbc1();
@@ -26,9 +27,10 @@ public class VistaMusica extends VistaElemento{
 
 
     private void crearCanciones(java.util.List<Cancion> listaCanciones) {
+        Collections.sort(listaCanciones);
         for (Cancion cancion : listaCanciones) {
             gbc.gridy++;
-            panelContenido.add(new JLabelWhite(cancion.getNombre()), gbc);
+            panelContenido.add(new JLabelWhite(cancion.getOrden()+". " + cancion.getNombre()), gbc);
         }
     }
 }
