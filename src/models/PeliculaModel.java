@@ -29,8 +29,6 @@ public class PeliculaModel extends ContenidoModel {
     
     public void createPelicula(Pelicula pelicula) throws ModelException {
         try {
-            con.getConn().setAutoCommit(false);
-            
             int pkCont = insertContenido(pelicula);
             int pkProd = productora.insertProductora(pelicula.getProductora());
             int pkDir = director.insertDirector(pelicula.getDirector());
@@ -38,29 +36,14 @@ public class PeliculaModel extends ContenidoModel {
             int pkPelicula = insertPelicula(pkCont, pkProd, pkDir);
 
             actores.insertActores(pelicula.getActores(), pkPelicula);
-            
-            con.getConn().commit();
-            
         } catch (SQLException ex) {
             Logger.log(ex);
             ex.printStackTrace();
-            try {
-                con.getConn().rollback();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
             throw new ModelException(ex);
-        } finally {
-            try {
-                con.getConn().setAutoCommit(true);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
     
     private int insertPelicula(int conPk, int proPk, int dirPk) throws SQLException {
-        
         String sql = "INSERT INTO pel_pelicula (con_contenido_con_pk,pro_productora_pro_pk,dir_directores_dir_pk) "
                 + "VALUES (?,?,?)";
         
@@ -79,7 +62,6 @@ public class PeliculaModel extends ContenidoModel {
     }
 
     public List<Contenido> getPeliculas() throws SQLException, ClassNotFoundException {
-
         List<Contenido> peliculas = new ArrayList<>();
         String sql = "SELECT pel_pk,pro_productora_pro_pk,pro_nombre,dir_directores_dir_pk,dir_nombre," +
                 "con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock " +
@@ -106,7 +88,6 @@ public class PeliculaModel extends ContenidoModel {
     }
 
     public List<Contenido> getPeliculas(String titulo) throws SQLException, ClassNotFoundException {
-
         List<Contenido> peliculas = new ArrayList<>();
         String sql = "SELECT pel_pk,pro_productora_pro_pk,pro_nombre,dir_directores_dir_pk,dir_nombre," +
                 "con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock " +
@@ -136,11 +117,13 @@ public class PeliculaModel extends ContenidoModel {
     
     public void updatePelicula(Pelicula pelicula) throws SQLException {
         String sql = "UPDATE pel_pelicula "
-                + "SET pro_productora_pro_pk = ?,dir_directores_dir_pk = ?";
+                + "SET pro_productora_pro_pk = ?,dir_directores_dir_pk = ? " +
+                "WHERE pel_pk = ?";
         
         PreparedStatement psPel = con.getConn().prepareStatement(sql);
         psPel.setInt(1, productora.insertProductora(pelicula.getProductora()));
         psPel.setInt(2, director.insertDirector(pelicula.getDirector()));
+        psPel.setInt(3, pelicula.getPkPelicula());
 
         actores.updateActores(pelicula);
         
