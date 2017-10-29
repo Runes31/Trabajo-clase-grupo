@@ -31,8 +31,6 @@ public abstract class VistaPrincipal extends JFrame{
     private JTextField buscador = new JTextField("Buscar");
     private JButton desconectar = new JButton("Desconectar");
 
-    private int mHoveredJListIndex = -1;
-
     public void crearPanel(){
         setTitle(NOMBREAPLICACION);
         setIconImage(imagenLogo);
@@ -127,48 +125,31 @@ public abstract class VistaPrincipal extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 ContentController contentController = new ContentController();
-                if (UserController.getCurrentUser().esAdmin()) {
-                    switch (lista.getSelectedIndex()) {
-                        case 0:
-                            contentController.initHome();
-                            break;
-                        case 1:
-                            contentController.initHome(TipoContenido.PELICULA);
-                            break;
-                        case 2:
-                            contentController.initHome(TipoContenido.LIBRO);
-                            break;
-                        case 3:
-                            contentController.initHome(TipoContenido.MUSICA);
-                            break;
-                        case 4:
-                            contentController.initHome(TipoContenido.PRESTAMO);
-                            break;
-                        case 5:
-                            contentController.initHome(TipoContenido.PRESTAMO_PELICULA);
-                            break;
-                        case 6:
-                            contentController.initHome(TipoContenido.PRESTAMO_LIBRO);
-                            break;
-                        case 7:
-                            contentController.initHome(TipoContenido.PRESTAMO_MUSICA);
-                            break;
-                    }
-                } else {
-                    switch (lista.getSelectedIndex()) {
-                        case 0:
-                            contentController.initHome();
-                            break;
-                        case 1:
-                            contentController.initHome(TipoContenido.PELICULA);
-                            break;
-                        case 2:
-                            contentController.initHome(TipoContenido.LIBRO);
-                            break;
-                        case 3:
-                            contentController.initHome(TipoContenido.MUSICA);
-                            break;
-                    }
+                switch (lista.getSelectedIndex()) {
+                    case 0:
+                        contentController.initHome();
+                        break;
+                    case 1:
+                        contentController.initHome(TipoContenido.PELICULA);
+                        break;
+                    case 2:
+                        contentController.initHome(TipoContenido.LIBRO);
+                        break;
+                    case 3:
+                        contentController.initHome(TipoContenido.MUSICA);
+                        break;
+                    case 4:
+                        contentController.initHome(TipoContenido.PRESTAMO);
+                        break;
+                    case 5:
+                        contentController.initHome(TipoContenido.PRESTAMO_PELICULA);
+                        break;
+                    case 6:
+                        contentController.initHome(TipoContenido.PRESTAMO_LIBRO);
+                        break;
+                    case 7:
+                        contentController.initHome(TipoContenido.PRESTAMO_MUSICA);
+                        break;
                 }
             }
         });
