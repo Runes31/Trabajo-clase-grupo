@@ -8,4 +8,8 @@ public class JLabelWhite extends JLabel {
         setForeground(Color.WHITE);
         setText(text);
     }
+
+    JLabelWhite(){
+        setForeground(Color.WHITE);
+    }
 }

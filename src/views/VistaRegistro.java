@@ -13,7 +13,7 @@ import controllers.MainController;
 import controllers.UserController;
 import dataStructures.User;
 
-public class VistaRegistro extends VistaPrincipal {
+class VistaRegistro extends VistaPrincipal {
 	private GridBagLayout grid = new GridBagLayout();
 	private GridBagConstraints c = new GridBagConstraints();
 
@@ -31,7 +31,7 @@ public class VistaRegistro extends VistaPrincipal {
 	private JButton botonCancelar = new JButton("Cancelar");
 
 
-	public VistaRegistro() {
+	VistaRegistro() {
 		super.setSize(550, 300);
 		super.crearPanel();
 

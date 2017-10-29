@@ -2,6 +2,7 @@ package views;
 
 import controllers.ContentController;
 import controllers.MainController;
+import controllers.UserController;
 import dataStructures.*;
 import helpers.ImageHelper;
 
@@ -9,9 +10,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class VistaInicio extends VistaPrincipal{
 	private JOptionPane mensajeError;
@@ -22,18 +24,20 @@ public class VistaInicio extends VistaPrincipal{
 		crearMenu();
 	}
 	
-	public void pintarContenido(Object o) {
-		HashMap<TipoContenido, List<Contenido>> mapa= (HashMap<TipoContenido, List<Contenido>>) o;
+	public void pintarContenido(LinkedHashMap<TipoContenido, List<Contenido>> mapa) {
 		Iterator it = mapa.keySet().iterator();
 
 		int numRows = mapa.size()*3;
+
+		if (UserController.getCurrentUser().esAdmin()){
+		    numRows += 2;
+        }
 
 		int[] rowHeight = new int[numRows];
 
 		int height = 100;
 		if(mapa.size() > 2)
 		    height = 40;
-
 
 		for (int i = 0; i<numRows; i++){
             rowHeight[i] = height;
@@ -44,6 +48,115 @@ public class VistaInicio extends VistaPrincipal{
 
 		gbc1.weightx=1;
 		gbc1.gridy = 0;
+
+		//Mostrar solo si es admin y está en la home por defecto
+        Map.Entry<TipoContenido, List<Contenido>> entry = mapa.entrySet().iterator().next();
+        if (UserController.getCurrentUser().esAdmin() && entry.getKey() == TipoContenido.NOVEDADES){
+		    JLabelWhite crear = new JLabelWhite("Crear");
+		    gbc1.gridx = 2;
+		    panelContenido.add(crear, gbc1);
+
+		    gbc1.gridx = 1;
+		    gbc1.gridy++;
+
+            JButton musica = new JButton("Música");
+            EstilosBotones.setCursor(musica);
+            EstilosBotones.setColor(musica, Color.BLUE);
+            musica.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    MainController.setView(new VistaCrearMusica());
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
+            panelContenido.add(musica, gbc1);
+            gbc1.gridx++;
+
+            JButton pelicula = new JButton("Pelicula");
+            pelicula.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    MainController.setView(new VistaCrearPelicula());
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
+            EstilosBotones.setCursor(pelicula);
+            EstilosBotones.setColor(pelicula, Color.BLUE);
+            panelContenido.add(pelicula, gbc1);
+            gbc1.gridx++;
+
+            JButton libro = new JButton("Libro");
+            libro.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    MainController.setView(new VistaCrearLibro());
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
+            EstilosBotones.setCursor(libro);
+            EstilosBotones.setColor(libro, Color.BLUE);
+            panelContenido.add(libro, gbc1);
+
+            gbc1.gridy++;
+        }
+
 	    while (it.hasNext()) {
 	        TipoContenido tipoContenido = (TipoContenido) it.next();
 			gbc1.gridx=2;

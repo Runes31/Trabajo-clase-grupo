@@ -1,20 +1,31 @@
 package views;
 
+import controllers.ContentController;
+import controllers.MainController;
+import controllers.PrestamosController;
+import controllers.UserController;
 import dataStructures.Contenido;
+import dataStructures.Libro;
+import dataStructures.Musica;
+import dataStructures.Pelicula;
 import helpers.ImageHelper;
+import sun.applet.Main;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
 public abstract class VistaElemento extends VistaPrincipal{
-    private JLabel imagen = new JLabel("", JLabel.CENTER);
-    private JLabel titulo =new JLabel();
-    private JLabel codigo =new JLabel();
-    private JButton botonAlquilar= new JButton("Alquilar");
+    private JLabelWhite imagen = new JLabelWhite("");
+    private JLabelWhite titulo =new JLabelWhite();
+    private JLabelWhite codigo =new JLabelWhite();
+    private JButton botonAlquilar= new JButton();
     private GridBagConstraints gbc1= super.gbc1;
+    private JButton botonBorrar = new JButton("Borrar");
     
     
 
@@ -34,15 +45,10 @@ public abstract class VistaElemento extends VistaPrincipal{
 
         setVariablesContenido(contenido);
 
-        //GridX = 0
         super.panelContenido.setPreferredSize(new Dimension(700,600));
         grid1.columnWidths=new int[]{400,200,200};
 
-        crearPanel1();
-
-        
-        //GridX = 1
-        panelContenido.setBackground(Color.white);
+        crearPanel1(contenido);
     }
 
     private void setVariablesContenido(Contenido contenido) {
@@ -53,7 +59,7 @@ public abstract class VistaElemento extends VistaPrincipal{
         codigo.setText("Código: " + contenido.getCodigo());
     }
 
-    private void crearPanel1() {
+    private void crearPanel1(Contenido contenido) {
         grid1.rowHeights=new int []{300,45,45,45,45,45,45};
         gbc1.gridx=0;
         gbc1.gridy = 0;
@@ -63,15 +69,10 @@ public abstract class VistaElemento extends VistaPrincipal{
         gbc1.gridy=1;
         panelContenido.add(codigo, gbc1);
         gbc1.gridy++;
-        botonAlquilar.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
-                
-            }
-        });
-        panelContenido.add(botonAlquilar, gbc1);
+        crearBoton(contenido);
+
+        if(UserController.getCurrentUser().esAdmin())
+            crearBotonBorrar(contenido);
         
         gbc1.gridx=1;
         gbc1.weighty = 1;
@@ -83,22 +84,92 @@ public abstract class VistaElemento extends VistaPrincipal{
         gbc1.gridy = 1;
 
     }
-    
-    
-    
-    public JLabel getImagen() {
-        return imagen;
+
+    private void crearBoton(Contenido contenido) {
+        EstilosBotones.setCursor(botonAlquilar);
+        if (UserController.getCurrentUser().esAdmin()) {
+            botonAlquilar.setText("Editar");
+            EstilosBotones.setColor(botonAlquilar, Color.BLUE);
+            botonAlquilar.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(contenido instanceof Musica)
+                        MainController.setView(new VistaCrearMusica((Musica) contenido));
+                    else if(contenido instanceof Pelicula)
+                        MainController.setView(new VistaCrearPelicula(contenido));
+                    else
+                        MainController.setView(new VistaCrearLibro((Libro) contenido));
+                }
+            });
+        } else if (contenido.isResevado()){
+            botonAlquilar.setText("Devolver");
+            EstilosBotones.setColor(botonAlquilar, Color.RED);
+            botonAlquilar.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    PrestamosController prestamosController = new PrestamosController();
+                    prestamosController.devolverPrestamo(contenido);
+                }
+            });
+
+        } else {
+            botonAlquilar.setText("Alquilar");
+            EstilosBotones.setColor(botonAlquilar, Color.GREEN);
+            botonAlquilar.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    PrestamosController prestamosController = new PrestamosController();
+                    prestamosController.hacerPrestamo(contenido);
+                }
+            });
+        }
+        panelContenido.add(botonAlquilar, gbc1);
     }
 
-    public void setImagen(JLabel imagen) {
-        this.imagen = imagen;
+    private void crearBotonBorrar(Contenido contenido){
+        gbc1.gridy++;
+        EstilosBotones.setColor(botonBorrar, Color.RED);
+        EstilosBotones.setCursor(botonBorrar);
+
+        botonBorrar.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ContentController contentController = new ContentController();
+                contentController.borrarContenido(contenido);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        panelContenido.add(botonBorrar, gbc1);
     }
 
     public JLabel getTitulo() {
         return titulo;
     }
     
-    public void setTitulo(JLabel titulo) {
+    public void setTitulo(JLabelWhite titulo) {
         this.titulo = titulo;
     }
     
@@ -106,7 +177,7 @@ public abstract class VistaElemento extends VistaPrincipal{
         return codigo;
     }
     
-    public void setCodigo(JLabel codigo) {
+    public void setCodigo(JLabelWhite codigo) {
         this.codigo = codigo;
     }
     

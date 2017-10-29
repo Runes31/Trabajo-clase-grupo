@@ -1,17 +1,9 @@
 package views;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.List;
-import java.util.ArrayList;
+import dataStructures.Cancion;
+import dataStructures.Musica;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import dataStructures.*;
-import helpers.ImageHelper;
+import java.awt.*;
 
 public class VistaMusica extends VistaElemento{
     private GridBagConstraints gbc=super.getGbc1();
@@ -23,10 +15,10 @@ public class VistaMusica extends VistaElemento{
         
         gbc.gridx=1;
         gbc.gridy=2;
-        panelContenido.add(new JLabel("Discográfica: "+musica.getDiscografica().getNombre()), gbc);
+        panelContenido.add(new JLabelWhite("Discográfica: "+musica.getDiscografica().getNombre()), gbc);
         
         gbc.gridy=3;
-        panelContenido.add(new JLabel("Canciones: "), gbc);
+        panelContenido.add(new JLabelWhite("Canciones: "), gbc);
         
         crearCanciones(musica.getCanciones());
     }
@@ -36,7 +28,7 @@ public class VistaMusica extends VistaElemento{
     private void crearCanciones(java.util.List<Cancion> listaCanciones) {
         for (Cancion cancion : listaCanciones) {
             gbc.gridy++;
-            panelContenido.add(new JLabel(cancion.getNombre()), gbc);
+            panelContenido.add(new JLabelWhite(cancion.getNombre()), gbc);
         }
     }
 }
