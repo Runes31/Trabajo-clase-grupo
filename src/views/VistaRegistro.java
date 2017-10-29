@@ -2,17 +2,12 @@ package views;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -42,61 +37,61 @@ public class VistaRegistro extends VistaPrincipal {
 		super.setSize(550, 300);
 		super.crearPanel();
 
-		super.getPanel().setLayout(grid);
+		super.getPanelGeneral().setLayout(grid);
 		c.weighty = 0.1;
 		c.gridheight = 1;
 		c.anchor = c.WEST;
 
 		c.gridx = 0;
 		c.gridy = 0;
-		super.getPanel().add(labelNombreUsuario, c);
+		super.getPanelGeneral().add(labelNombreUsuario, c);
 
 		c.gridx = 1;
-		super.getPanel().add(nombreUsuario, c);
+		super.getPanelGeneral().add(nombreUsuario, c);
 
 		c.anchor = c.EAST;
 		c.insets = new Insets(0, 20, 0, 0);
 		c.gridx = 2;
-		super.getPanel().add(labelNombreCompleto, c);
+		super.getPanelGeneral().add(labelNombreCompleto, c);
 
 		c.anchor = c.WEST;
 
 		c.insets = new Insets(0, 0, 0, 0);
 		c.gridx = 3;
-		super.getPanel().add(nombreCompleto, c);
+		super.getPanelGeneral().add(nombreCompleto, c);
 
 		c.gridx = 0;
 		c.gridy = 1;
-		super.getPanel().add(labelEmail, c);
+		super.getPanelGeneral().add(labelEmail, c);
 
 
 		c.gridx = 1;
 		c.gridwidth = 3;
-		super.getPanel().add(email, c);
+		super.getPanelGeneral().add(email, c);
 
 		c.gridwidth = 1;
 
 		c.gridx = 0;
 		c.gridy = 2;
-		super.getPanel().add(labelContraseña, c);
+		super.getPanelGeneral().add(labelContraseña, c);
 
 		c.gridx = 1;
-		super.getPanel().add(contraseña, c);
+		super.getPanelGeneral().add(contraseña, c);
 
 		c.gridx = 2;
 		c.anchor = c.EAST;
-		super.getPanel().add(labelVerificarContraseña, c);
+		super.getPanelGeneral().add(labelVerificarContraseña, c);
 
 		c.anchor = c.WEST;
 
 		c.gridx = 3;
-		super.getPanel().add(verificarContraseña, c);
+		super.getPanelGeneral().add(verificarContraseña, c);
 
 		c.gridwidth = 2;
 		c.gridy = 3;
 		c.gridx = 0;
 		c.anchor = c.EAST;
-		super.getPanel().add(botonRegistrarse, c);
+		super.getPanelGeneral().add(botonRegistrarse, c);
 
 		botonRegistrarse.addActionListener(new ActionListener() {
 
@@ -113,7 +108,7 @@ public class VistaRegistro extends VistaPrincipal {
 		c.gridwidth = 1;
 		c.gridx = 2;
 		c.anchor = c.WEST;
-		super.getPanel().add(botonCancelar, c);
+		super.getPanelGeneral().add(botonCancelar, c);
 
 		botonCancelar.addActionListener(new ActionListener() {
 

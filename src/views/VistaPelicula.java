@@ -20,7 +20,7 @@ public class VistaPelicula extends VistaElemento{
     
   
     public VistaPelicula(Pelicula pelicula) {
-        
+        super(pelicula);
         //PRUEBA MAIN
 //        VistaPelicula vp = new VistaPelicula(new Pelicula("Hola", "Hola", "RUTAIMAGEN", 1, true, new Productora("Hola"),new Director("Hola"), new ArrayList<Actor>() {{
 //        add(new Actor("Juan"));

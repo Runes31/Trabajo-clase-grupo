@@ -1,27 +1,16 @@
 package views;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Insets;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
+import dataStructures.Contenido;
 import helpers.ImageHelper;
+
+import java.awt.*;
+
+import javax.swing.*;
 
 public abstract class VistaElemento extends VistaPrincipal{
     private JLabel imagen = new JLabel("", JLabel.CENTER);
-    private JLabel titulo =new JLabel("Título: ");
-    private JLabel codigo =new JLabel("Código: ");
-    private JLabel stock =new JLabel("Stock: ");
-    private JLabel reservado =new JLabel("Reservado: ");
+    private JLabel titulo =new JLabel();
+    private JLabel codigo =new JLabel();
     
     private JPanel panel1 = new JPanel(); 
     private JPanel panel2 = new JPanel();
@@ -34,14 +23,18 @@ public abstract class VistaElemento extends VistaPrincipal{
     
     
 
-    public VistaElemento() {
-        super.setSize(850,600);
+    public VistaElemento(Contenido contenido) {
+        super.setSize(1000,600);
         super.crearPanel();
         GridBagLayout gridAuxiliar = new GridBagLayout();
         GridBagConstraints gbcAux = new GridBagConstraints();
         gridAuxiliar.columnWidths = new int[]{400 , 400};
-        super.getPanel().setLayout(gridAuxiliar);
-        
+        super.getPanelGeneral().setLayout(gridAuxiliar);
+
+        crearMenu();
+
+        setVariablesContenido(contenido);
+
         //panel izquierda
         panel1.setPreferredSize(new Dimension(400,600));
         grid1.rowHeights=new int []{400,50,50,50,50};
@@ -49,7 +42,7 @@ public abstract class VistaElemento extends VistaPrincipal{
         gbcAux.gridx=0;
         gbcAux.gridy=0;
         crearPanel1();
-        super.getPanel().add(panel1,gbcAux);
+        panelContenido.add(panel1,gbcAux);
         
         //panel derecha
         gbcAux.anchor=GridBagConstraints.NORTHWEST;
@@ -58,9 +51,17 @@ public abstract class VistaElemento extends VistaPrincipal{
         gbcAux.gridx=1;
         gbcAux.gridy=0;
         crearPanel2();
-        super.getPanel().add(panel2,gbcAux);
+        panelContenido.add(panel2,gbcAux);
     }
-    
+
+    private void setVariablesContenido(Contenido contenido) {
+        Image img = ImageHelper.getImagen(contenido.getImagen()).getScaledInstance(80, 100, Image.SCALE_SMOOTH);
+        ImageIcon icon = new ImageIcon(img);
+        imagen.setIcon(icon);
+        titulo.setText("Título: " + contenido.getTitulo());
+        codigo.setText("Código: " + contenido.getCodigo());
+    }
+
     private void crearPanel1() {
         gbc1.gridx=0;
         gbc1.gridy = 0;
@@ -68,12 +69,6 @@ public abstract class VistaElemento extends VistaPrincipal{
         
         gbc1.gridy=1;
         panel1.add(codigo, gbc1);
-        
-        gbc1.gridy=2;
-        panel1.add(stock, gbc1);
-        
-        gbc1.gridy=3;
-        panel1.add(reservado, gbc1);       
     }
     
     private void crearPanel2() {
@@ -113,22 +108,6 @@ public abstract class VistaElemento extends VistaPrincipal{
         this.codigo = codigo;
     }
     
-    public JLabel getStock() {
-        return stock;
-    }
-    
-    public void setStock(JLabel stock) {
-        this.stock = stock;
-    }
-    
-    public JLabel getReservado() {
-        return reservado;
-    }
-    
-    public void setReservado(JLabel reservado) {
-        this.reservado = reservado;
-    }
-    
     public JPanel getPanel1() {
         return panel1;
     }
@@ -144,35 +123,35 @@ public abstract class VistaElemento extends VistaPrincipal{
     public void setPanel2(JPanel panel2) {
         this.panel2 = panel2;
     }
-    
+
     public GridBagLayout getGrid1() {
         return grid1;
     }
-    
+
     public void setGrid1(GridBagLayout grid1) {
         this.grid1 = grid1;
     }
-    
+
     public GridBagConstraints getGbc1() {
         return gbc1;
     }
-    
+
     public void setGbc1(GridBagConstraints gbc1) {
         this.gbc1 = gbc1;
     }
-    
+
     public GridBagLayout getGrid2() {
         return grid2;
     }
-    
+
     public void setGrid2(GridBagLayout grid2) {
         this.grid2 = grid2;
     }
-    
+
     public GridBagConstraints getGbc2() {
         return gbc2;
     }
-    
+
     public void setGbc2(GridBagConstraints gbc2) {
         this.gbc2 = gbc2;
     }

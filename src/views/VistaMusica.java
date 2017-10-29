@@ -21,9 +21,7 @@ public class VistaMusica extends VistaElemento{
 
 
     public VistaMusica(Musica musica) {
-        Image imagen = ImageHelper.getImagen(musica.getImagen()).getScaledInstance(300, 300, Image.SCALE_SMOOTH);
-        ImageIcon imagenFinal = new ImageIcon(imagen);
-        super.setImagen(new JLabel(imagenFinal));
+        super(musica);
         
         gbc.gridx=0;
         gbc.gridy=2;

@@ -1,10 +1,6 @@
 package views;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,9 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
-import controllers.ContentController;
 import controllers.MainController;
 import controllers.UserController;
 
@@ -38,27 +32,27 @@ public class VistaLogin extends VistaPrincipal{
 	public VistaLogin(){
 		super.setSize(400,300);
 		super.crearPanel();
-		super.getPanel().setLayout(grid);
+		super.getPanelGeneral().setLayout(grid);
 		c.anchor=c.CENTER;
 		c.gridx=0;
 		c.gridy=0;
-		super.getPanel().add(labelUsuario,c);
+		super.getPanelGeneral().add(labelUsuario,c);
 
 		c.insets=new Insets(10, 0, 0, 0);
 		c.gridy=1;
-		super.getPanel().add(usuario,c);
+		super.getPanelGeneral().add(usuario,c);
 		
 		c.gridy=2;
-		super.getPanel().add(labelPassword,c);
+		super.getPanelGeneral().add(labelPassword,c);
 		
 		c.gridy=3;
-		super.getPanel().add(password,c);
+		super.getPanelGeneral().add(password,c);
 		
 		c.gridy=4;
-		super.getPanel().add(botonLogin,c);
+		super.getPanelGeneral().add(botonLogin,c);
 		
 		c.gridy=5;
-		super.getPanel().add(botonRegistrarse,c);
+		super.getPanelGeneral().add(botonRegistrarse,c);
 
         //Si presiona enter teniendo seleccionado el jtextfield intenta logearse
         usuario.addKeyListener(new KeyAdapter() {

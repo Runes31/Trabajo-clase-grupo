@@ -21,9 +21,7 @@ public class VistaLibro extends VistaElemento{
 
 
     public VistaLibro(Libro libro) {
-        Image imagen = ImageHelper.getImagen(libro.getImagen()).getScaledInstance(300, 300, Image.SCALE_SMOOTH);
-        ImageIcon imagenFinal = new ImageIcon(imagen);
-        super.setImagen(new JLabel(imagenFinal));
+        super(libro);
         
         gbc.gridx=0;
         gbc.gridy=2;
