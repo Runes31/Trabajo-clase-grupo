@@ -1,8 +1,6 @@
 package views;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,15 +17,15 @@ public class VistaRegistro extends VistaPrincipal {
 	private GridBagLayout grid = new GridBagLayout();
 	private GridBagConstraints c = new GridBagConstraints();
 
-	private JLabel labelNombreUsuario = new JLabel("Alias: ");
+	private JLabelWhite labelNombreUsuario = new JLabelWhite("Alias: ");
 	private JTextField nombreUsuario = new JTextField(10);
-	private JLabel labelNombreCompleto = new JLabel("Nombre y Apellidos: ");
+	private JLabelWhite labelNombreCompleto = new JLabelWhite("Nombre y Apellidos: ");
 	private JTextField nombreCompleto = new JTextField(10);
-	private JLabel labelContraseña = new JLabel("Contraseña: ");
+	private JLabelWhite labelContraseña = new JLabelWhite("Contraseña: ");
 	private JPasswordField contraseña = new JPasswordField(10);
-	private JLabel labelVerificarContraseña = new JLabel("Verificar contraseña: ");
+	private JLabelWhite labelVerificarContraseña = new JLabelWhite("Verificar contraseña: ");
 	private JPasswordField verificarContraseña = new JPasswordField(10);
-	private JLabel labelEmail = new JLabel("Email: ");
+	private JLabelWhite labelEmail = new JLabelWhite("Email: ");
 	private JTextField email = new JTextField(33);
 	private JButton botonRegistrarse = new JButton("Registrarse");
 	private JButton botonCancelar = new JButton("Cancelar");
@@ -36,6 +34,11 @@ public class VistaRegistro extends VistaPrincipal {
 	public VistaRegistro() {
 		super.setSize(550, 300);
 		super.crearPanel();
+
+		EstilosBotones.setColor(botonRegistrarse, Color.GREEN);
+		EstilosBotones.setCursor(botonRegistrarse);
+		EstilosBotones.setColor(botonCancelar, Color.RED);
+		EstilosBotones.setCursor(botonCancelar);
 
 		super.getPanelGeneral().setLayout(grid);
 		c.weighty = 0.1;

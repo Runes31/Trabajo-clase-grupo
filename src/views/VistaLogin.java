@@ -1,7 +1,5 @@
 package views;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -21,9 +19,9 @@ public class VistaLogin extends VistaPrincipal{
 	private GridBagLayout grid = new GridBagLayout();
 	private GridBagConstraints c = new GridBagConstraints();
 	
-	private JLabel labelUsuario = new JLabel("Usuario");
+	private JLabelWhite labelUsuario = new JLabelWhite("Usuario");
 	private JTextField usuario = new JTextField(10);
-	private JLabel labelPassword = new JLabel("Contraseña");
+	private JLabelWhite labelPassword = new JLabelWhite("Contraseña");
 	private JPasswordField password= new JPasswordField(10);
 	private JButton botonLogin = new JButton("Login");
 	private JButton botonRegistrarse = new JButton("Registrarse");
@@ -53,6 +51,11 @@ public class VistaLogin extends VistaPrincipal{
 		
 		c.gridy=5;
 		super.getPanelGeneral().add(botonRegistrarse,c);
+
+		EstilosBotones.setColor(botonLogin, Color.BLUE);
+		EstilosBotones.setCursor(botonLogin);
+        EstilosBotones.setColor(botonRegistrarse, Color.BLUE);
+		EstilosBotones.setCursor(botonRegistrarse);
 
         //Si presiona enter teniendo seleccionado el jtextfield intenta logearse
         usuario.addKeyListener(new KeyAdapter() {

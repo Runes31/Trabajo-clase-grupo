@@ -31,11 +31,16 @@ public abstract class VistaPrincipal extends JFrame{
     private JTextField buscador = new JTextField("Buscar");
     private JButton desconectar = new JButton("Desconectar");
 
+    private int mHoveredJListIndex = -1;
+
     public void crearPanel(){
         setTitle(NOMBREAPLICACION);
         setIconImage(imagenLogo);
         add(panelGeneral);
         setLocationRelativeTo(null);
+        panelGeneral.setBackground(Color.BLACK);
+        panelContenido.setBackground(Color.BLACK);
+        panelLista.setBackground(Color.BLACK);
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         super.setResizable(false);
@@ -60,7 +65,8 @@ public abstract class VistaPrincipal extends JFrame{
     }
 
     protected void paintComponent(Graphics g) {
-        // TODO Auto-generated method stub
+        super.paintComponents(g);
+        g.setColor(Color.WHITE);
     }
 
     void crearMenu(){
@@ -105,6 +111,7 @@ public abstract class VistaPrincipal extends JFrame{
         DefaultListCellRenderer renderer =  (DefaultListCellRenderer)lista.getCellRenderer();
         renderer.setHorizontalAlignment(JLabel.CENTER);
         renderer.setVerticalAlignment(JLabel.BOTTOM);
+        EstilosBotones.setCursor(lista);
         lista.setFont(new Font("serif",Font.ITALIC , 15));
         lista.setSelectedIndex(0);
         lista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -136,6 +143,8 @@ public abstract class VistaPrincipal extends JFrame{
 //		BOTON DESCONECTAR
         gbc2.gridy=2;
         panelLista.add(desconectar,gbc2);
+        EstilosBotones.setCursor(desconectar);
+        EstilosBotones.setColor(desconectar, Color.RED);
         desconectar.addMouseListener(new MouseListener() {
 
 

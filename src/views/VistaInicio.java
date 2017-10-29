@@ -47,7 +47,7 @@ public class VistaInicio extends VistaPrincipal{
 	    while (it.hasNext()) {
 	        TipoContenido tipoContenido = (TipoContenido) it.next();
 			gbc1.gridx=2;
-			panelContenido.add(new Label(tipoContenido.getName(),Label.CENTER), gbc1);
+			panelContenido.add(new JLabelWhite(tipoContenido.getName()), gbc1);
             gbc1.gridy++;
 			List<Contenido> listaContenidos = mapa.get(tipoContenido);
 	    	pintarFila(listaContenidos);
@@ -62,7 +62,7 @@ public class VistaInicio extends VistaPrincipal{
         gbc1.gridx = 0;
 	    if(listaContenidos.isEmpty()){
 	        gbc1.gridx=2;
-	        JLabel elemento = new JLabel("No hay contenidos.");
+	        JLabelWhite elemento = new JLabelWhite("No hay contenidos.");
 	        panelContenido.add(elemento, gbc1);
 	    } else {
             int maxFila = 5;
@@ -80,9 +80,11 @@ public class VistaInicio extends VistaPrincipal{
 
     private void pintarElemento(Contenido contenido) {
 		JLabel elemento = new JLabel();
+		EstilosBotones.setCursor(elemento);
         Image imagen = ImageHelper.getImagen(contenido.getImagen()).getScaledInstance(80, 100, Image.SCALE_SMOOTH);
         ImageIcon imagenFinal = new ImageIcon(imagen);
         elemento.setIcon(imagenFinal);
+        EstilosBotones.removeHoverStyle(elemento);
         elemento.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -107,12 +109,12 @@ public class VistaInicio extends VistaPrincipal{
 
             @Override
             public void mouseEntered(MouseEvent e) {
-
+                EstilosBotones.setHoverStyle(elemento);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-
+                EstilosBotones.removeHoverStyle(elemento);
             }
         });
         panelContenido.add(elemento, gbc1);
@@ -121,6 +123,8 @@ public class VistaInicio extends VistaPrincipal{
 
     private void pintarBotonVerMas(TipoContenido tipoContenido) {
 	    JButton verMas = new JButton("Ver más");
+	    EstilosBotones.setCursor(verMas);
+	    EstilosBotones.setColor(verMas, Color.BLUE);
         verMas.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -160,7 +164,7 @@ public class VistaInicio extends VistaPrincipal{
 
         if(contenidoList.isEmpty()){
             gbc1.gridx = 2;
-            JLabel label = new JLabel("No hay contenidos.");
+            JLabelWhite label = new JLabelWhite("No hay contenidos.");
             panelContenido.add(label, gbc1);
         } else {
             int elemPorFila = 5;
