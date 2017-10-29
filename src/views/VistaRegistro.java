@@ -1,17 +1,13 @@
 package views;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
 import controllers.MainController;
 import controllers.UserController;
 import dataStructures.User;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 class VistaRegistro extends VistaPrincipal {
 	private GridBagLayout grid = new GridBagLayout();

@@ -1,18 +1,13 @@
 package views;
+import controllers.MainController;
+import controllers.UserController;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
-import controllers.MainController;
-import controllers.UserController;
 
 public class VistaLogin extends VistaPrincipal{
 	//layout

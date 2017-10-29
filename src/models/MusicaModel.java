@@ -4,7 +4,6 @@ import dataStructures.Cancion;
 import dataStructures.Contenido;
 import dataStructures.Discografica;
 import dataStructures.Musica;
-import helpers.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;

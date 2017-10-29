@@ -3,7 +3,6 @@ package views;
 import dataStructures.Actor;
 import dataStructures.Pelicula;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class VistaPelicula extends VistaElemento{
