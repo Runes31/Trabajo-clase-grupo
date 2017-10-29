@@ -1,5 +1,7 @@
 package helpers;
 
+import dataStructures.Contenido;
+
 import java.awt.Image;
 import java.io.File;
 
@@ -21,12 +23,28 @@ public class ImageHelper {
     public static Image getImagen(String nombreArchivo) {
         
         File fl = new File("imagenes/caratulas/"+nombreArchivo);
-        String filePath = fl.getAbsolutePath();
+        Image imagenLogo;
+        if (fl.exists() && !fl.isDirectory()) {
+            String filePath = fl.getAbsolutePath();
 
-        ImageIcon imagenCast = new ImageIcon(filePath);
-        Image imagenLogo = imagenCast.getImage();
+            ImageIcon imagenCast = new ImageIcon(filePath);
+            imagenLogo = imagenCast.getImage();
+        } else {
+            fl = new File("imagenes/caratulas/default.jpg");
+            String filePath = fl.getAbsolutePath();
+
+            ImageIcon imagenCast = new ImageIcon(filePath);
+            imagenLogo = imagenCast.getImage();
+        }
         
         return imagenLogo;
     }
-    
+
+    public static String getAbsolutePath(Contenido contenido){
+        if(contenido.getImagen().isEmpty()){
+            return "";
+        }
+        File fl = new File("imagenes/caratulas/"+contenido.getImagen());
+        return fl.getAbsolutePath();
+    }
 }

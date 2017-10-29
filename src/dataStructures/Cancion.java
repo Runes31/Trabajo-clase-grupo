@@ -16,6 +16,11 @@ public class Cancion {
         this.orden = orden;
     }
 
+    public Cancion(String nombre, int orden) {
+        this.nombre = nombre;
+        this.orden = orden;
+    }
+
     public int getPkCancion() {
         return pkCancion;
     }
