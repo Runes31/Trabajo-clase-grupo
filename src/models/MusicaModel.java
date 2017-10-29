@@ -22,29 +22,12 @@ public class MusicaModel extends ContenidoModel {
 
     public void createMusica(Musica musica) throws ModelException {
         try {
-            con.getConn().setAutoCommit(false);
-
             int contenidoId = insertContenido(musica);
             int discId = discograficaModel.insertDiscografica(musica.getDiscografica());
             int musicaId = insertMusica(contenidoId, discId);
             cancionModel.insertCanciones(musica.getCanciones(), musicaId);
-
-            con.getConn().commit();
         } catch (SQLException e) {
-            Logger.log(e);
-            try {
-                e.printStackTrace();
-                con.getConn().rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
             throw new ModelException(e);
-        } finally {
-            try {
-                con.getConn().setAutoCommit(true);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -70,10 +53,9 @@ public class MusicaModel extends ContenidoModel {
         PrestamosModel prestamosModel = new PrestamosModel();
 
         String sql = "SELECT mus_pk,con_pk,con_titulo,con_codigo,"
-                + "con_imagen,con_fecha_creacion,con_stock,canc_pk,canc_nombre,canc_orden,disc_pk,disc_nombre "
+                + "con_imagen,con_fecha_creacion,con_stock, disc_pk,disc_nombre "
                 + "FROM mus_musica mus " +
                 "LEFT JOIN con_contenido con ON mus.con_contenido_con_pk = con.con_pk " +
-                "LEFT JOIN canc_canciones canc ON canc.mus_musica_mus_pk = mus.mus_pk " +
                 "LEFT JOIN disc_discografica disc ON disc.disc_pk = mus.disc_discografica_disc_pk " +
                 "LEFT JOIN pres_prestamo pres ON pres.con_contenido_con_pk = con.con_pk ";
 
@@ -88,25 +70,12 @@ public class MusicaModel extends ContenidoModel {
             String contImg = rs.getString(5);
             Date contDate = rs.getDate(6);
             int contStock = rs.getInt(7);
-            int cancPk = rs.getInt(8);
-            String cancNombre = rs.getString(9);
-            int cancOrden = rs.getInt(10);
-            int discPk = rs.getInt(11);
-            String discNom = rs.getString(12);
+            int discPk = rs.getInt(8);
+            String discNom = rs.getString(9);
 
             Discografica discografica = new Discografica(discPk, discNom);
 
-            Cancion cancion = new Cancion(cancPk, cancNombre, cancOrden);
-            canciones.add(cancion);
-
-            while (rs.next() && rs.getInt(1) == musPk) {
-                cancPk = rs.getInt(8);
-                cancNombre = rs.getString(9);
-                cancOrden = rs.getInt(10);
-
-                cancion = new Cancion(cancPk, cancNombre, cancOrden);
-                canciones.add(cancion);
-            }
+            canciones = cancionModel.getCanciones(musPk);
 
             boolean prestado = prestamosModel.contenidoPrestado(conPk);
             Musica musica = new Musica(conPk, contTitulo, contCodigo, contImg, contDate, contStock, prestado, musPk, discografica, canciones);
@@ -193,7 +162,7 @@ public class MusicaModel extends ContenidoModel {
         int musPk = m.getPkMusica();
         cancionModel.deleteCanciones(musPk);
 
-        String sql = "DELETE FROM mus_musica"
+        String sql = "DELETE FROM mus_musica "
                 + "WHERE mus_pk = ?";
 
         PreparedStatement ps = con.getConn().prepareStatement(sql);

@@ -51,8 +51,8 @@ public class PrestamosModel {
 
     public List<Contenido> getPeliculas() throws SQLException, ClassNotFoundException {
         List<Contenido> peliculas = new ArrayList<>();
-        String sql = "SELECT pel_pk,pel.con_contenido_con_pk,pro_productora_pro_pk,dir_directores_dir_pk,dir_nombre," +
-                "pro_nombre,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock " +
+        String sql = "SELECT pel_pk,pro_productora_pro_pk,pro_nombre,dir_directores_dir_pk,dir_nombre," +
+                "con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock " +
                 "FROM con_contenido con " +
                 "LEFT JOIN pel_pelicula pel ON pel.con_contenido_con_pk = con.con_pk " +
                 "LEFT JOIN dir_directores dir ON dir.dir_pk = pel.dir_directores_dir_pk " +
@@ -65,14 +65,14 @@ public class PrestamosModel {
         ResultSet rs = st.executeQuery();
 
         ActoresModel actores = new ActoresModel();
+        PrestamosModel prestamosModel = new PrestamosModel();
         while (rs.next()) {
-            PrestamosModel prestamosModel = new PrestamosModel();
-            boolean prestado = prestamosModel.contenidoPrestado(rs.getInt(8));
-            Productora p = new Productora(rs.getString(6));
-            Director d = new Director(rs.getString(5));
+            boolean prestado = prestamosModel.contenidoPrestado(rs.getInt(6));
+            Productora p = new Productora(rs.getInt(2),rs.getString(3));
+            Director d = new Director(rs.getInt(4), rs.getString(5));
 
-            Pelicula pel = new Pelicula(rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getDate(11),
-                    rs.getInt(12), prestado, rs.getInt(1), p, d, actores.getActores(rs.getInt(1)));
+            Pelicula pel = new Pelicula(rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getDate(10),
+                    rs.getInt(11), prestado, rs.getInt(1), p, d, actores.getActores(rs.getInt(1)));
             peliculas.add(pel);
         }
 
@@ -208,7 +208,7 @@ public class PrestamosModel {
     }
 
     void deletePrestamosUsuario() throws SQLException {
-        String sql = "DELETE FROM pres_prestamos WHERE usu_usuarios_usu_pk = ?";
+        String sql = "DELETE FROM pres_prestamo WHERE usu_usuarios_usu_pk = ?";
 
         PreparedStatement deletePrestamos = con.getConn().prepareStatement(sql);
         deletePrestamos.setInt(1, UserController.getCurrentUser().getPk());
@@ -217,7 +217,7 @@ public class PrestamosModel {
     }
 
     void deletePrestamosContenido(Contenido contenido) throws SQLException {
-        String sql = "DELETE FROM pres_prestamos WHERE con_contenido_con_pk = ?";
+        String sql = "DELETE FROM pres_prestamo WHERE con_contenido_con_pk = ?";
 
         PreparedStatement deletePrestamos = con.getConn().prepareStatement(sql);
         deletePrestamos.setInt(1, contenido.getPk());

@@ -143,13 +143,13 @@ public class LibroModel extends ContenidoModel {
         String sqlLibro = "DELETE FROM lib_libro "
                 + "WHERE lib_pk = ?";
 
-        deleteContenido(pkContenido);
-
         PreparedStatement stLibro = con.getConn().prepareStatement(sqlLibro);
 
         stLibro.setInt(1, pkLibro);
 
-        stLibro.executeUpdate(sqlLibro);
+        stLibro.executeUpdate();
+
+        deleteContenido(pkContenido);
     }
 
     public void updateLibro(Libro libro) throws SQLException {
