@@ -14,23 +14,21 @@ import dataStructures.*;
 import helpers.ImageHelper;
 
 public class VistaLibro extends VistaElemento{
-    private JPanel panel=super.getPanel2();
-    private GridBagLayout grid=super.getGrid2();
-    private GridBagConstraints gbc=super.getGbc2();
+    private GridBagConstraints gbc;
     
 
 
     public VistaLibro(Libro libro) {
         super(libro);
         
-        gbc.gridx=0;
+        gbc.gridx=1;
         gbc.gridy=2;
-        panel.add(new JLabel("Número de páginas: "+libro.getNumPag()), gbc);
+        panelContenido.add(new JLabel("Número de páginas: "+libro.getNumPag()), gbc);
         
         
         //CUIDADO CON ESTO
         gbc.gridy=3;
-        panel.add(new JLabel("Capítulo de muestra: "+libro.getCapituloMuestra()), gbc);
+        panelContenido.add(new JLabel("Capítulo de muestra: "+libro.getCapituloMuestra()), gbc);
 
     }
 

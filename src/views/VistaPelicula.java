@@ -14,9 +14,7 @@ import dataStructures.*;
 import helpers.ImageHelper;
 
 public class VistaPelicula extends VistaElemento{
-    private JPanel panel=super.getPanel2();
-    private GridBagLayout grid=super.getGrid2();
-    private GridBagConstraints gbc=super.getGbc2();
+    private GridBagConstraints gbc=super.getGbc1();
     
   
     public VistaPelicula(Pelicula pelicula) {
@@ -30,16 +28,16 @@ public class VistaPelicula extends VistaElemento{
         ImageIcon imagenFinal = new ImageIcon(imagen);
         super.setImagen(new JLabel(imagenFinal));
         
-        gbc.gridx=0;
+        gbc.gridx=1;
         gbc.gridy=2;
-        panel.add(new JLabel("Productora: "+pelicula.getProductora().getNombre()), gbc);
+        panelContenido.add(new JLabel("Productora: "+pelicula.getProductora().getNombre()), gbc);
 
         
         gbc.gridy=3;
-        panel.add(new JLabel("Director: "+pelicula.getDirector().getNombre()), gbc);
+        panelContenido.add(new JLabel("Director: "+pelicula.getDirector().getNombre()), gbc);
         
         gbc.gridy=4;
-        panel.add(new JLabel("Actores: "), gbc);
+        panelContenido.add(new JLabel("Actores: "), gbc);
         
         crearActores(pelicula.getActores());
     }
@@ -49,7 +47,7 @@ public class VistaPelicula extends VistaElemento{
     private void crearActores(java.util.List<Actor> listaActores) {
         for (Actor actor : listaActores) {
             gbc.gridy++;
-            panel.add(new JLabel(actor.getNombre()), gbc);
+            panelContenido.add(new JLabel(actor.getNombre()), gbc);
         }
     }
 }
