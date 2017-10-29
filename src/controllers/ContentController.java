@@ -24,16 +24,21 @@ public class ContentController {
         VistaPrincipal view = new VistaInicio();
         MainController.setView(view);
 
-        Map<TipoContenido, List<Contenido>> respuesta = new LinkedHashMap<>();
-        respuesta.put(TipoContenido.PRESTAMO, new ArrayList<>());
+        LinkedHashMap<TipoContenido, List<Contenido>> respuesta = new LinkedHashMap<>();
+        if (!UserController.getCurrentUser().esAdmin())
+            respuesta.put(TipoContenido.PRESTAMO, new ArrayList<>());
         respuesta.put(TipoContenido.NOVEDADES, new ArrayList<>());
 
         try {
             //Coger prestamos
-            PrestamosModel prestamosModel = new PrestamosModel();
-            List<Contenido> prestamos = prestamosModel.getLibros();
-            prestamos.addAll(prestamosModel.getMusica());
-            prestamos.addAll(prestamosModel.getPeliculas());
+            if (!UserController.getCurrentUser().esAdmin()) {
+                PrestamosModel prestamosModel = new PrestamosModel();
+                List<Contenido> prestamos = prestamosModel.getLibros();
+                prestamos.addAll(prestamosModel.getMusica());
+                prestamos.addAll(prestamosModel.getPeliculas());
+
+                respuesta.put(TipoContenido.PRESTAMO, prestamos);
+            }
 
             //Coger novedades
             List<Contenido> novedades = new ArrayList<>();
@@ -47,9 +52,7 @@ public class ContentController {
             //Ordenarlas de más nueva a más antigua
             Collections.sort(novedades);
 
-
             //Meterlas en el mapa
-            respuesta.put(TipoContenido.PRESTAMO, prestamos);
             respuesta.put(TipoContenido.NOVEDADES, novedades);
         } catch (SQLException | ClassNotFoundException e) {
             //Logear la excepcion
@@ -70,7 +73,7 @@ public class ContentController {
         VistaPrincipal view = new VistaInicio();
         MainController.setView(view);
 
-        Map<TipoContenido, List<Contenido>> respuesta = new LinkedHashMap<>();
+        LinkedHashMap<TipoContenido, List<Contenido>> respuesta = new LinkedHashMap<>();
 
         try {
             //Se obtiene el contenido
@@ -100,8 +103,8 @@ public class ContentController {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    private Map<TipoContenido, List<Contenido>> getContenidoByTipo(TipoContenido tipoContenido) throws SQLException, ClassNotFoundException {
-        Map<TipoContenido, List<Contenido>> respuesta = new LinkedHashMap<>();
+    private LinkedHashMap<TipoContenido, List<Contenido>> getContenidoByTipo(TipoContenido tipoContenido) throws SQLException, ClassNotFoundException {
+        LinkedHashMap<TipoContenido, List<Contenido>> respuesta = new LinkedHashMap<>();
 
         if (tipoContenido == TipoContenido.PRESTAMO){
 
