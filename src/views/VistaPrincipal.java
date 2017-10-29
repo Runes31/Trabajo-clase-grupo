@@ -181,15 +181,13 @@ public abstract class VistaPrincipal extends JFrame{
         //panelLista
         grid2.columnWidths=new int[]{196};
         grid2.rowHeights=new int []{50,470,50};
+        gbc2.fill=GridBagConstraints.BOTH;
         panelLista.setLayout(grid2);
         gbcAux.gridx=1;
         getPanelGeneral().add(panelLista,gbcAux);
 
-        gbc2.fill=GridBagConstraints.BOTH;
-
 
         //panelContenido
-        panelContenido.setPreferredSize(new Dimension(800,600));
         grid1.columnWidths=new int[]{160,160,160,160,160};
         grid1.rowHeights=new int []{100,100,100,100,100,100};
         panelContenido.setLayout(grid1);
