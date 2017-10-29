@@ -29,14 +29,15 @@ public class VistaPelicula extends VistaElemento{
         super.setImagen(new JLabel(imagenFinal));
         
         gbc.gridx=1;
-        gbc.gridy=2;
+        gbc.gridy=1;
         panelContenido.add(new JLabel("Productora: "+pelicula.getProductora().getNombre()), gbc);
 
         
-        gbc.gridy=3;
+        gbc.gridy++;
         panelContenido.add(new JLabel("Director: "+pelicula.getDirector().getNombre()), gbc);
         
-        gbc.gridy=4;
+        gbc.gridx=2;
+        gbc.gridy=1;
         panelContenido.add(new JLabel("Actores: "), gbc);
         
         crearActores(pelicula.getActores());

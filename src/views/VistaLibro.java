@@ -14,7 +14,7 @@ import dataStructures.*;
 import helpers.ImageHelper;
 
 public class VistaLibro extends VistaElemento{
-    private GridBagConstraints gbc;
+    private GridBagConstraints gbc=super.getGbc1();
     
 
 

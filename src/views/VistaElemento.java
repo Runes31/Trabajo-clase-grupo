@@ -33,8 +33,7 @@ public abstract class VistaElemento extends VistaPrincipal{
 
         //GridX = 0
         super.panelContenido.setPreferredSize(new Dimension(700,600));
-        grid1.columnWidths=new int[]{400,400};
-//        grid1.rowHeights=new int []{400,50,50,50,50};
+        grid1.columnWidths=new int[]{400,200,200};
 
         crearPanel1();
 
@@ -52,6 +51,7 @@ public abstract class VistaElemento extends VistaPrincipal{
     }
 
     private void crearPanel1() {
+        grid1.rowHeights=new int []{300,45,45,45,45,45,45};
         gbc1.gridx=0;
         gbc1.gridy = 0;
         panelContenido.add(imagen, gbc1);
@@ -63,9 +63,12 @@ public abstract class VistaElemento extends VistaPrincipal{
         gbc1.insets= new Insets(30, 0, 0, 0);
         gbc1.weighty = 1;
         gbc1.gridy = 0;
+        gbc1.gridwidth=2;
         panelContenido.add(titulo, gbc1);
+        
+        gbc1.gridwidth=1;
         gbc1.gridy = 1;
-        panelContenido.add(new JLabel("Hola"), gbc1);
+
     }
     
     
