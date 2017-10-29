@@ -115,7 +115,6 @@ public class UserModel {
         insertUser.setString(5, TipoUsuario.TipoToDBString(TipoUsuario.USER));
 
         insertUser.executeUpdate();
-
         ResultSet rs = insertUser.getGeneratedKeys();
         rs.next();
         return rs.getInt(1);

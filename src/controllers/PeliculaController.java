@@ -17,7 +17,8 @@ class PeliculaController {
             try {
                 PeliculaModel peliculaModel = new PeliculaModel();
                 peliculaModel.createPelicula(pelicula);
-                MainController.setView(new VistaInicio());
+                ContentController contentController = new ContentController();
+                contentController.initHome();
             } catch (SQLException | ClassNotFoundException | ModelException e) {
                 Logger.log(e);
                 e.printStackTrace();
@@ -57,7 +58,9 @@ class PeliculaController {
         try{
             PeliculaModel peliculaModel =  new PeliculaModel();
             peliculaModel.deletePelicula(pelicula);
-            MainController.setView(new VistaInicio());
+            pelicula.deleteImage();
+            ContentController contentController = new ContentController();
+            contentController.initHome();
         } catch (SQLException | ClassNotFoundException e) {
             Logger.log(e);
             e.printStackTrace();
@@ -71,7 +74,8 @@ class PeliculaController {
             try{
                 PeliculaModel peliculaModel =  new PeliculaModel();
                 peliculaModel.updatePelicula(pelicula);
-                MainController.setView(new VistaInicio());
+                ContentController contentController = new ContentController();
+                contentController.initHome();
             } catch (SQLException | ClassNotFoundException e) {
                 Logger.log(e);
                 e.printStackTrace();

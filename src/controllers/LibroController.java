@@ -20,7 +20,8 @@ class LibroController {
                 LibroModel libroModel = new LibroModel();
                 libro.copyCapituloToLocal();
                 libroModel.createLibro(libro);
-                MainController.setView(new VistaInicio());
+                ContentController contentController = new ContentController();
+                contentController.initHome();
             } catch (SQLException | ClassNotFoundException | ModelException | IOException e) {
                 Logger.log(e);
                 e.printStackTrace();
@@ -53,7 +54,10 @@ class LibroController {
         try{
             LibroModel libroModel =  new LibroModel();
             libroModel.deleteLibro(libro);
-            MainController.setView(new VistaInicio());
+            libro.deleteCapitulo();
+            libro.deleteImage();
+            ContentController contentController = new ContentController();
+            contentController.initHome();
         } catch (SQLException | ClassNotFoundException e) {
             Logger.log(e);
             e.printStackTrace();
@@ -68,7 +72,8 @@ class LibroController {
                 LibroModel libroModel = new LibroModel();
                 libro.copyCapituloToLocal();
                 libroModel.updateLibro(libro);
-                MainController.setView(new VistaInicio());
+                ContentController contentController = new ContentController();
+                contentController.initHome();
             } catch (SQLException | ClassNotFoundException | IOException e) {
                 Logger.log(e);
                 e.printStackTrace();

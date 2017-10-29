@@ -102,7 +102,7 @@ public class LibroModel extends ContenidoModel {
         List<Contenido> libros = new ArrayList<>();
         String sql = "SELECT lib_pk,lib_numero_paginas,lib_capitulo_muestra,con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock"
                 + " FROM lib_libro lib"
-                + " LEFT JOIN con_contenido AS con ON con.con_pk = lib.con_contenido_con_pk" +
+                + " JOIN con_contenido AS con ON con.con_pk = lib.con_contenido_con_pk" +
                   " WHERE con.con_titulo LIKE ?";
 
         PreparedStatement st = con.getConn().prepareStatement(sql);
@@ -143,13 +143,13 @@ public class LibroModel extends ContenidoModel {
         String sqlLibro = "DELETE FROM lib_libro "
                 + "WHERE lib_pk = ?";
 
-        deleteContenido(pkContenido);
-
         PreparedStatement stLibro = con.getConn().prepareStatement(sqlLibro);
 
         stLibro.setInt(1, pkLibro);
 
-        stLibro.executeUpdate(sqlLibro);
+        stLibro.executeUpdate();
+
+        deleteContenido(pkContenido);
     }
 
     public void updateLibro(Libro libro) throws SQLException {

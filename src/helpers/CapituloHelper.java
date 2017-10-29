@@ -17,7 +17,15 @@ public class CapituloHelper {
         Desktop.getDesktop().open(getCapituloMuestra(libro));
     }
 
-    private static File getCapituloMuestra(Libro libro) {
+    public static File getCapituloMuestra(Libro libro) {
         return new File("capitulos_muestra/"+libro.getCapituloMuestra());
+    }
+
+    public static String getAbsolutePath(Libro libro) {
+        File f = new File("capitulos_muestra/"+libro.getCapituloMuestra());
+        if(f.exists()){
+            return f.getAbsolutePath();
+        }
+        return "";
     }
 }

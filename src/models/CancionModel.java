@@ -51,4 +51,20 @@ public class CancionModel {
 
         psCanc.executeUpdate();
     }
+
+    List<Cancion> getCanciones(int musPk) throws SQLException {
+        String sql = "SELECT canc_pk, canc_nombre, canc_orden FROM canc_canciones WHERE mus_musica_mus_pk = ?";
+
+        PreparedStatement getCanciones = con.getConn().prepareStatement(sql);
+        getCanciones.setInt(1, musPk);
+
+        ResultSet rs = getCanciones.executeQuery();
+
+        List<Cancion> canciones = new ArrayList<>();
+        while (rs.next()){
+            canciones.add(new Cancion(rs.getInt(1), rs.getString(2), rs.getInt(3)));
+        }
+
+        return canciones;
+    }
 }

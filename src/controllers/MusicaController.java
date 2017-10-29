@@ -6,6 +6,7 @@ import helpers.Logger;
 import models.ModelException;
 import models.MusicaModel;
 import views.VistaInicio;
+import views.VistaMusica;
 
 import java.io.File;
 import java.sql.SQLException;
@@ -18,7 +19,8 @@ class MusicaController {
             try {
                 MusicaModel musicaModel = new MusicaModel();
                 musicaModel.createMusica(musica);
-                MainController.setView(new VistaInicio());
+                ContentController contentController = new ContentController();
+                contentController.initHome();
             } catch (SQLException | ClassNotFoundException | ModelException e) {
                 Logger.log(e);
                 e.printStackTrace();
@@ -54,7 +56,9 @@ class MusicaController {
         try{
             MusicaModel musicaModel =  new MusicaModel();
             musicaModel.deleteMusica(musica);
-            MainController.setView(new VistaInicio());
+            musica.deleteImage();
+            ContentController contentController = new ContentController();
+            contentController.initHome();
         } catch (SQLException | ClassNotFoundException e) {
             Logger.log(e);
             e.printStackTrace();
@@ -68,7 +72,8 @@ class MusicaController {
             try {
                 MusicaModel musicaModel = new MusicaModel();
                 musicaModel.updateMusica(musica);
-                MainController.setView(new VistaInicio());
+                ContentController contentController = new ContentController();
+                contentController.initHome();
             } catch (SQLException | ClassNotFoundException e) {
                 Logger.log(e);
                 e.printStackTrace();

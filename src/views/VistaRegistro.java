@@ -1,18 +1,11 @@
 package views;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -20,85 +13,88 @@ import controllers.MainController;
 import controllers.UserController;
 import dataStructures.User;
 
-public class VistaRegistro extends VistaPrincipal {
+class VistaRegistro extends VistaPrincipal {
 	private GridBagLayout grid = new GridBagLayout();
 	private GridBagConstraints c = new GridBagConstraints();
 
-	private JLabel labelNombreUsuario = new JLabel("Alias: ");
+	private JLabelWhite labelNombreUsuario = new JLabelWhite("Alias: ");
 	private JTextField nombreUsuario = new JTextField(10);
-	private JLabel labelNombreCompleto = new JLabel("Nombre y Apellidos: ");
+	private JLabelWhite labelNombreCompleto = new JLabelWhite("Nombre y Apellidos: ");
 	private JTextField nombreCompleto = new JTextField(10);
-	private JLabel labelContraseña = new JLabel("Contraseña: ");
+	private JLabelWhite labelContraseña = new JLabelWhite("Contraseña: ");
 	private JPasswordField contraseña = new JPasswordField(10);
-	private JLabel labelVerificarContraseña = new JLabel("Verificar contraseña: ");
+	private JLabelWhite labelVerificarContraseña = new JLabelWhite("Verificar contraseña: ");
 	private JPasswordField verificarContraseña = new JPasswordField(10);
-	private JLabel labelEmail = new JLabel("Email: ");
+	private JLabelWhite labelEmail = new JLabelWhite("Email: ");
 	private JTextField email = new JTextField(33);
 	private JButton botonRegistrarse = new JButton("Registrarse");
 	private JButton botonCancelar = new JButton("Cancelar");
 
 
-	public VistaRegistro() {
-		super.crearPanel();
+	VistaRegistro() {
 		super.setSize(550, 300);
-		super.setResizable(false);
-		super.setLocationRelativeTo(null);
+		super.crearPanel();
 
-		super.getPanel().setLayout(grid);
+		EstilosBotones.setColor(botonRegistrarse, Color.GREEN);
+		EstilosBotones.setCursor(botonRegistrarse);
+		EstilosBotones.setColor(botonCancelar, Color.RED);
+		EstilosBotones.setCursor(botonCancelar);
+
+		super.getPanelGeneral().setLayout(grid);
 		c.weighty = 0.1;
 		c.gridheight = 1;
 		c.anchor = c.WEST;
 
 		c.gridx = 0;
 		c.gridy = 0;
-		super.getPanel().add(labelNombreUsuario, c);
+		super.getPanelGeneral().add(labelNombreUsuario, c);
 
 		c.gridx = 1;
-		super.getPanel().add(nombreUsuario, c);
+		super.getPanelGeneral().add(nombreUsuario, c);
 
 		c.anchor = c.EAST;
 		c.insets = new Insets(0, 20, 0, 0);
 		c.gridx = 2;
-		super.getPanel().add(labelNombreCompleto, c);
+		super.getPanelGeneral().add(labelNombreCompleto, c);
 
 		c.anchor = c.WEST;
 
 		c.insets = new Insets(0, 0, 0, 0);
 		c.gridx = 3;
-		super.getPanel().add(nombreCompleto, c);
+		super.getPanelGeneral().add(nombreCompleto, c);
 
 		c.gridx = 0;
 		c.gridy = 1;
-		super.getPanel().add(labelEmail, c);
+		super.getPanelGeneral().add(labelEmail, c);
 
 
 		c.gridx = 1;
 		c.gridwidth = 3;
-		super.getPanel().add(email, c);
+		super.getPanelGeneral().add(email, c);
 
 		c.gridwidth = 1;
 
 		c.gridx = 0;
 		c.gridy = 2;
-		super.getPanel().add(labelContraseña, c);
+		super.getPanelGeneral().add(labelContraseña, c);
 
 		c.gridx = 1;
-		super.getPanel().add(contraseña, c);
+		super.getPanelGeneral().add(contraseña, c);
 
 		c.gridx = 2;
 		c.anchor = c.EAST;
-		super.getPanel().add(labelVerificarContraseña, c);
+		super.getPanelGeneral().add(labelVerificarContraseña, c);
 
 		c.anchor = c.WEST;
 
 		c.gridx = 3;
-		super.getPanel().add(verificarContraseña, c);
+		super.getPanelGeneral().add(verificarContraseña, c);
 
 		c.gridwidth = 2;
 		c.gridy = 3;
 		c.gridx = 0;
 		c.anchor = c.EAST;
-		super.getPanel().add(botonRegistrarse, c);
+		super.getPanelGeneral().add(botonRegistrarse, c);
 
 		botonRegistrarse.addActionListener(new ActionListener() {
 
@@ -115,7 +111,7 @@ public class VistaRegistro extends VistaPrincipal {
 		c.gridwidth = 1;
 		c.gridx = 2;
 		c.anchor = c.WEST;
-		super.getPanel().add(botonCancelar, c);
+		super.getPanelGeneral().add(botonCancelar, c);
 
 		botonCancelar.addActionListener(new ActionListener() {
 

@@ -58,12 +58,14 @@ class ActoresModel {
 
         PreparedStatement deleteRelacion = con.getConn().prepareStatement(sql);
         deleteRelacion.setInt(1, pelicula.getPkPelicula());
+        deleteRelacion.executeUpdate();
 
         sql = "INSERT INTO pelact_pelicula_actores(pel_pelicula_pel_pk, act_actores_act_pk) VALUES(?,?)";
         for (Actor a : pelicula.getActores()){
             PreparedStatement insertActores = con.getConn().prepareStatement(sql);
             insertActores.setInt(1, pelicula.getPkPelicula());
             insertActores.setInt(2, insertActor(a));
+
             insertActores.executeUpdate();
         }
     }

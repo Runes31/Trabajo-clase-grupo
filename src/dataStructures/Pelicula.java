@@ -29,9 +29,9 @@ public class Pelicula extends Contenido {
         this.actores = actores;
     }
 
-    public Pelicula(String titulo, String codigo, String imagen, int stock, boolean reservado, Productora productora,
+    public Pelicula(Contenido contenido, Productora productora,
                     Director director, List<Actor> actores) {
-        super(0, titulo, codigo, imagen, stock, reservado);
+        super(contenido.getTitulo(), contenido.getCodigo(), contenido.getImagen(), contenido.getStock());
         this.pkPelicula = 0;
         this.productora = productora;
         this.director = director;

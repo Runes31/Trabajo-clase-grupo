@@ -1,5 +1,7 @@
 package dataStructures;
 
+import helpers.CapituloHelper;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,8 +21,8 @@ public class Libro extends Contenido{
         this.numPag = numPag;
         this.capituloMuestra = capituloMuestra;
     }
-    public Libro(String titulo, String codigo, String imagen, int stock, boolean reservado, int numPag, String capituloMuestra) {
-        super(0, titulo, codigo, imagen, stock, reservado);
+    public Libro(Contenido contenido, int numPag, String capituloMuestra) {
+        super(contenido.getTitulo(), contenido.getCodigo(), contenido.getImagen(), contenido.getStock());
         this.pkLibro = 0;
         this.numPag = numPag;
         this.capituloMuestra = capituloMuestra;
@@ -40,13 +42,21 @@ public class Libro extends Contenido{
 
 
     public void copyCapituloToLocal() throws IOException {
-        long millis = System.currentTimeMillis();
-        String rutaLocal = "imagenes/caratulas/"+ millis + capituloMuestra.substring(capituloMuestra.lastIndexOf("/"), capituloMuestra.length());
+        String rutaLocal = "capitulos_muestra/" + this.getCodigo() + "_" + capituloMuestra.substring(capituloMuestra.lastIndexOf("\\") + 1, capituloMuestra.length());
 
         File src = new File(capituloMuestra);
         File target = new File(rutaLocal);
 
-        Files.copy(src.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        capituloMuestra = millis + capituloMuestra.substring(capituloMuestra.lastIndexOf("/"), capituloMuestra.length());
+        String rutaExiste = "capitulos_muestra/" + capituloMuestra.substring(capituloMuestra.lastIndexOf("\\")+1, capituloMuestra.length());
+        if (new File(rutaExiste).exists()) {
+            capituloMuestra = capituloMuestra.substring(capituloMuestra.lastIndexOf("\\")+1, capituloMuestra.length());
+        } else {
+            Files.copy(src.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            capituloMuestra = this.getCodigo() + "_" + capituloMuestra.substring(capituloMuestra.lastIndexOf("\\") + 1, capituloMuestra.length());
+        }
+    }
+
+    public void deleteCapitulo(){
+        CapituloHelper.getCapituloMuestra(this).delete();
     }
 }

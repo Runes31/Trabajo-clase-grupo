@@ -72,5 +72,7 @@ public class ContenidoModel {
         stCont.setString(3, contImg);
         stCont.setInt(4, stock);
         stCont.setInt(5, contPk);
+
+        stCont.executeUpdate();
     }
 }

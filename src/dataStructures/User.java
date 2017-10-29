@@ -56,4 +56,8 @@ public class User {
     public TipoUsuario getTipoUsuario() {
         return tipoUsuario;
     }
+
+    public boolean esAdmin(){
+        return tipoUsuario == TipoUsuario.ADMIN;
+    }
 }

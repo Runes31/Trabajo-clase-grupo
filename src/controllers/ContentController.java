@@ -24,16 +24,21 @@ public class ContentController {
         VistaPrincipal view = new VistaInicio();
         MainController.setView(view);
 
-        Map<TipoContenido, List<Contenido>> respuesta = new LinkedHashMap<>();
-        respuesta.put(TipoContenido.PRESTAMO, new ArrayList<>());
+        LinkedHashMap<TipoContenido, List<Contenido>> respuesta = new LinkedHashMap<>();
+        if (!UserController.getCurrentUser().esAdmin())
+            respuesta.put(TipoContenido.PRESTAMO, new ArrayList<>());
         respuesta.put(TipoContenido.NOVEDADES, new ArrayList<>());
 
         try {
             //Coger prestamos
-            PrestamosModel prestamosModel = new PrestamosModel();
-            List<Contenido> prestamos = prestamosModel.getLibros();
-            prestamos.addAll(prestamosModel.getMusica());
-            prestamos.addAll(prestamosModel.getPeliculas());
+            if (!UserController.getCurrentUser().esAdmin()) {
+                PrestamosModel prestamosModel = new PrestamosModel();
+                List<Contenido> prestamos = prestamosModel.getLibros();
+                prestamos.addAll(prestamosModel.getMusica());
+                prestamos.addAll(prestamosModel.getPeliculas());
+
+                respuesta.put(TipoContenido.PRESTAMO, prestamos);
+            }
 
             //Coger novedades
             List<Contenido> novedades = new ArrayList<>();
@@ -47,9 +52,7 @@ public class ContentController {
             //Ordenarlas de más nueva a más antigua
             Collections.sort(novedades);
 
-
             //Meterlas en el mapa
-            respuesta.put(TipoContenido.PRESTAMO, prestamos);
             respuesta.put(TipoContenido.NOVEDADES, novedades);
         } catch (SQLException | ClassNotFoundException e) {
             //Logear la excepcion
@@ -70,7 +73,7 @@ public class ContentController {
         VistaPrincipal view = new VistaInicio();
         MainController.setView(view);
 
-        Map<TipoContenido, List<Contenido>> respuesta = new LinkedHashMap<>();
+        LinkedHashMap<TipoContenido, List<Contenido>> respuesta = new LinkedHashMap<>();
 
         try {
             //Se obtiene el contenido
@@ -87,8 +90,9 @@ public class ContentController {
             vista.pintarContenido(respuesta);
         }
         else {
-            //Método bueno no hecho aun
-            vista.pintarContenido(respuesta);
+            Map.Entry<TipoContenido, List<Contenido>> entry = respuesta.entrySet().iterator().next();
+            List<Contenido> lista = entry.getValue();
+            vista.pintarContenido(lista);
         }
     }
 
@@ -99,8 +103,8 @@ public class ContentController {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    private Map<TipoContenido, List<Contenido>> getContenidoByTipo(TipoContenido tipoContenido) throws SQLException, ClassNotFoundException {
-        Map<TipoContenido, List<Contenido>> respuesta = new LinkedHashMap<>();
+    private LinkedHashMap<TipoContenido, List<Contenido>> getContenidoByTipo(TipoContenido tipoContenido) throws SQLException, ClassNotFoundException {
+        LinkedHashMap<TipoContenido, List<Contenido>> respuesta = new LinkedHashMap<>();
 
         if (tipoContenido == TipoContenido.PRESTAMO){
 
@@ -188,12 +192,12 @@ public class ContentController {
     public void buscarContenido(String titulo){
 
         try {
-            Map<TipoContenido, List<Contenido>> contenidoListMap = getContenidoBusqueda(titulo);
+            List<Contenido> result = getContenidoBusqueda(titulo);
 
             MainController.setView(new VistaInicio());
             VistaInicio vistaInicio = (VistaInicio) MainController.getView();
 
-            vistaInicio.pintarContenido(contenidoListMap);
+            vistaInicio.pintarContenido(result);
         } catch (SQLException | ClassNotFoundException e) {
             Logger.log(e);
             e.printStackTrace();
@@ -202,19 +206,18 @@ public class ContentController {
 
     }
 
-    private Map<TipoContenido,List<Contenido>> getContenidoBusqueda(String titulo) throws SQLException, ClassNotFoundException {
-        Map<TipoContenido, List<Contenido>> contenidoListMap = new HashMap<>();
-
+    private List<Contenido> getContenidoBusqueda(String titulo) throws SQLException, ClassNotFoundException {
+        List<Contenido> resultado = new ArrayList<>();
         LibroModel libroModel = new LibroModel();
-        contenidoListMap.put(TipoContenido.LIBRO, libroModel.getLibros(titulo));
+        resultado.addAll(libroModel.getLibros(titulo));
 
         PeliculaModel peliculaModel = new PeliculaModel();
-        contenidoListMap.put(TipoContenido.PELICULA, peliculaModel.getPeliculas(titulo));
+        resultado.addAll(peliculaModel.getPeliculas(titulo));
 
         MusicaModel musicaModel = new MusicaModel();
-        contenidoListMap.put(TipoContenido.MUSICA, musicaModel.getMusica(titulo));
+        resultado.addAll(musicaModel.getMusica(titulo));
 
-        return contenidoListMap;
+        return resultado;
     }
 
     public void actualizarContenido(Contenido contenido){

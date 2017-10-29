@@ -5,6 +5,8 @@
  */
 package dataStructures;
 
+import helpers.ImageHelper;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,13 +27,11 @@ public class Contenido implements Comparable<Contenido> {
     private int stock;
     private boolean resevado;
 
-    Contenido(int pk, String titulo, String codigo, String imagen, int stock, boolean resevado) {
-        this.pk = pk;
+    public Contenido(String titulo, String codigo, String imagen, int stock) {
         this.titulo = titulo;
         this.codigo = codigo;
         this.imagen = imagen;
         this.stock = stock;
-        this.resevado = resevado;
     }
 
     Contenido(int pk, String titulo, String codigo, String imagen, Date fechaCreacion, int stock, boolean resevado) {
@@ -74,14 +74,22 @@ public class Contenido implements Comparable<Contenido> {
     }
 
     public void copyImageToLocal() throws IOException {
-        long millis = System.currentTimeMillis();
-        String rutaLocal = "imagenes/caratulas/" + millis + imagen.substring(imagen.lastIndexOf("/"), imagen.length());
+        String rutaLocal = "imagenes/caratulas/" + codigo + "_" + imagen.substring(imagen.lastIndexOf("\\")+1, imagen.length());
 
         File src = new File(imagen);
         File target = new File(rutaLocal);
 
-        Files.copy(src.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        imagen = millis + imagen.substring(imagen.lastIndexOf("/"), imagen.length());
+        String rutaExiste = "imagenes/caratulas/"+ imagen.substring(imagen.lastIndexOf("\\")+1, imagen.length());
+        if (new File(rutaExiste).exists()) {
+            imagen = imagen.substring(imagen.lastIndexOf("\\")+1, imagen.length());
+        } else {
+            Files.copy(src.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            imagen = codigo + "_" + imagen.substring(imagen.lastIndexOf("\\") + 1, imagen.length());
+        }
+    }
+
+    public void deleteImage(){
+        new File(ImageHelper.getAbsolutePath(this)).delete();
     }
 
     @Override

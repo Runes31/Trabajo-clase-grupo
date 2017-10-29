@@ -17,8 +17,8 @@ public class Musica extends Contenido {
         this.canciones = canciones;
     }
 
-    public Musica(String titulo, String codigo, String imagen, int stock, boolean reservado, Discografica discografica, List<Cancion> canciones) {
-        super(0, titulo, codigo, imagen, stock, reservado);
+    public Musica(Contenido contenido, Discografica discografica, List<Cancion> canciones) {
+        super(contenido.getTitulo(), contenido.getCodigo(), contenido.getImagen(), contenido.getStock());
         this.pkMusica = 0;
         this.discografica = discografica;
         this.canciones = canciones;
