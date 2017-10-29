@@ -5,7 +5,6 @@ import dataStructures.Pelicula;
 import helpers.Logger;
 import models.ModelException;
 import models.PeliculaModel;
-import views.VistaInicio;
 
 import java.sql.SQLException;
 import java.util.List;

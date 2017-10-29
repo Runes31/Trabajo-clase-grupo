@@ -5,10 +5,7 @@ import dataStructures.Musica;
 import helpers.Logger;
 import models.ModelException;
 import models.MusicaModel;
-import views.VistaInicio;
-import views.VistaMusica;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
