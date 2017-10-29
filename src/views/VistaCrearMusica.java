@@ -62,14 +62,14 @@ public class VistaCrearMusica extends VistaCrear {
 
     private void crearTextFieldsMusica(Musica musica){
         discograficaField.setText(musica.getDiscografica().getNombre());
-        String canciones = "";
+        StringBuilder canciones = new StringBuilder();
         for (Cancion c : musica.getCanciones()){
-            canciones += c.getNombre() + ", ";
+            canciones.append(c.getNombre()).append(", ");
         }
 
-        canciones = canciones.substring(0, canciones.lastIndexOf(", "));
+        canciones = new StringBuilder(canciones.substring(0, canciones.lastIndexOf(", ")));
 
-        cancionesField.setText(canciones);
+        cancionesField.setText(canciones.toString());
         crearTextFieldsMusica();
     }
 
