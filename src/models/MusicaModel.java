@@ -148,7 +148,7 @@ public class MusicaModel extends ContenidoModel {
         PreparedStatement updateMusica = con.getConn().prepareStatement(sqlMusica);
         updateMusica.setInt(1, discPk);
         updateMusica.setInt(2, musica.getPkMusica());
-        System.out.println(updateMusica);
+
         updateMusica.executeUpdate();
 
         //CANCIONES
