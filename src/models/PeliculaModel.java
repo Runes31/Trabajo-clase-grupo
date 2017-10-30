@@ -149,6 +149,6 @@ public class PeliculaModel extends ContenidoModel {
         psPel.setInt(1, pelicula.getPkPelicula());
         psPel.executeUpdate();
         
-        deleteContenido(pelicula.getPk());
+        deleteContenido(pelicula.getPkContenido());
     }
 }

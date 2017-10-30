@@ -20,7 +20,7 @@ public class PrestamosModel {
     public boolean hayStock(Contenido contenido) throws SQLException {
         String sql = "SELECT count(*) FROM pres_prestamo WHERE con_contenido_con_pk = ?";
         PreparedStatement countPrestamos = con.getConn().prepareStatement(sql);
-        countPrestamos.setInt(1, contenido.getPk());
+        countPrestamos.setInt(1, contenido.getPkContenido());
 
         ResultSet rs = countPrestamos.executeQuery();
         rs.next();
@@ -28,7 +28,7 @@ public class PrestamosModel {
 
         sql = "SELECT con_stock FROM con_contenido WHERE con_pk = ?";
         PreparedStatement countStock = con.getConn().prepareStatement(sql);
-        countStock.setInt(1, contenido.getPk());
+        countStock.setInt(1, contenido.getPkContenido());
         rs = countStock.executeQuery();
         rs.next();
         int numStock = rs.getInt(1);
@@ -43,7 +43,7 @@ public class PrestamosModel {
         int userPk = UserController.getCurrentUser().getPk();
 
         PreparedStatement prestamo = con.getConn().prepareStatement(sql);
-        prestamo.setInt(1, contenido.getPk());
+        prestamo.setInt(1, contenido.getPkContenido());
         prestamo.setInt(2, userPk);
 
         prestamo.executeUpdate();
@@ -202,7 +202,7 @@ public class PrestamosModel {
         int userPk = UserController.getCurrentUser().getPk();
 
         PreparedStatement devolver = con.getConn().prepareStatement(sql);
-        devolver.setInt(1, contenido.getPk());
+        devolver.setInt(1, contenido.getPkContenido());
         devolver.setInt(2, userPk);
         devolver.executeUpdate();
     }
@@ -220,7 +220,7 @@ public class PrestamosModel {
         String sql = "DELETE FROM pres_prestamo WHERE con_contenido_con_pk = ?";
 
         PreparedStatement deletePrestamos = con.getConn().prepareStatement(sql);
-        deletePrestamos.setInt(1, contenido.getPk());
+        deletePrestamos.setInt(1, contenido.getPkContenido());
 
         deletePrestamos.executeUpdate();
     }

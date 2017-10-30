@@ -45,7 +45,7 @@ public class Contenido implements Comparable<Contenido> {
     }
 
     
-    public int getPk() {
+    public int getPkContenido() {
         return pk;
     }
 

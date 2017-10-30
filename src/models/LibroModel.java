@@ -137,7 +137,7 @@ public class LibroModel extends ContenidoModel {
         prestamosModel.deletePrestamosContenido(libro);
 
         int pkLibro = libro.getPkLibro();
-        int pkContenido = libro.getPk();
+        int pkContenido = libro.getPkContenido();
 
         String sqlLibro = "DELETE FROM lib_libro "
                 + "WHERE lib_pk = ?";

@@ -24,23 +24,23 @@ public class PrestamosController {
                 MainController.printToView("No hay stock.");
             } else if(prestamosModel.getNumPrestamos() >= MAX_NUM_PRESTAMOS) {
                 MainController.printToView("No puedes realizar más de " + MAX_NUM_PRESTAMOS + " prestamos a la vez.");
-            } else if(prestamosModel.contenidoPrestado(contenido.getPk())){
+            } else if(prestamosModel.contenidoPrestado(contenido.getPkContenido())){
                 MainController.printToView("Ya tiene ese contenido prestado.");
             } else {
                 prestamosModel.hacerPrestamo(contenido);
                 if(contenido instanceof Pelicula){
-                    Pelicula pel = new Pelicula(contenido.getPk(), contenido.getTitulo(), contenido.getCodigo(),
+                    Pelicula pel = new Pelicula(contenido.getPkContenido(), contenido.getTitulo(), contenido.getCodigo(),
                             contenido.getImagen(), contenido.getFechaCreacion(), contenido.getStock(), true,
                             ((Pelicula) contenido).getPkPelicula(), ((Pelicula) contenido).getProductora(),
                             ((Pelicula) contenido).getDirector(), ((Pelicula) contenido).getActores());
                     MainController.setView(new VistaPelicula(pel));
                 } else if(contenido instanceof Libro){
-                    Libro lib = new Libro(contenido.getPk(), contenido.getTitulo(), contenido.getCodigo(), contenido.getImagen(),
+                    Libro lib = new Libro(contenido.getPkContenido(), contenido.getTitulo(), contenido.getCodigo(), contenido.getImagen(),
                     contenido.getFechaCreacion(), contenido.getStock(), true, ((Libro) contenido).getPkLibro(),
                             ((Libro) contenido).getNumPag(), ((Libro) contenido).getCapituloMuestra());
                     MainController.setView(new VistaLibro(lib));
                 } else {
-                    Musica mus = new Musica(contenido.getPk(), contenido.getTitulo(), contenido.getCodigo(), contenido.getImagen(),
+                    Musica mus = new Musica(contenido.getPkContenido(), contenido.getTitulo(), contenido.getCodigo(), contenido.getImagen(),
                             contenido.getFechaCreacion(), contenido.getStock(), true,
                             ((Musica) contenido).getPkMusica(), ((Musica) contenido).getDiscografica(),
                             ((Musica) contenido).getCanciones());
@@ -59,18 +59,18 @@ public class PrestamosController {
             PrestamosModel prestamosModel = new PrestamosModel();
             prestamosModel.devolverPrestamo(contenido);
             if(contenido instanceof Pelicula){
-                Pelicula pel = new Pelicula(contenido.getPk(), contenido.getTitulo(), contenido.getCodigo(),
+                Pelicula pel = new Pelicula(contenido.getPkContenido(), contenido.getTitulo(), contenido.getCodigo(),
                         contenido.getImagen(), contenido.getFechaCreacion(), contenido.getStock(), false,
                         ((Pelicula) contenido).getPkPelicula(), ((Pelicula) contenido).getProductora(),
                         ((Pelicula) contenido).getDirector(), ((Pelicula) contenido).getActores());
                 MainController.setView(new VistaPelicula(pel));
             } else if(contenido instanceof Libro){
-                Libro lib = new Libro(contenido.getPk(), contenido.getTitulo(), contenido.getCodigo(), contenido.getImagen(),
+                Libro lib = new Libro(contenido.getPkContenido(), contenido.getTitulo(), contenido.getCodigo(), contenido.getImagen(),
                         contenido.getFechaCreacion(), contenido.getStock(), false, ((Libro) contenido).getPkLibro(),
                         ((Libro) contenido).getNumPag(), ((Libro) contenido).getCapituloMuestra());
                 MainController.setView(new VistaLibro(lib));
             } else {
-                Musica mus = new Musica(contenido.getPk(), contenido.getTitulo(), contenido.getCodigo(), contenido.getImagen(),
+                Musica mus = new Musica(contenido.getPkContenido(), contenido.getTitulo(), contenido.getCodigo(), contenido.getImagen(),
                         contenido.getFechaCreacion(), contenido.getStock(), false,
                         ((Musica) contenido).getPkMusica(), ((Musica) contenido).getDiscografica(),
                         ((Musica) contenido).getCanciones());
