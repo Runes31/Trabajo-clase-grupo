@@ -54,7 +54,7 @@ public class PrestamosModel {
         String sql = "SELECT pel_pk,pro_productora_pro_pk,pro_nombre,dir_directores_dir_pk,dir_nombre," +
                 "con_pk,con_titulo,con_codigo,con_imagen,con_fecha_creacion,con_stock " +
                 "FROM con_contenido con " +
-                "LEFT JOIN pel_pelicula pel ON pel.con_contenido_con_pk = con.con_pk " +
+                "JOIN pel_pelicula pel ON pel.con_contenido_con_pk = con.con_pk " +
                 "LEFT JOIN dir_directores dir ON dir.dir_pk = pel.dir_directores_dir_pk " +
                 "LEFT JOIN pro_productora pro ON pro.pro_pk = pel.pro_productora_pro_pk " +
                 "LEFT JOIN pres_prestamo pres ON pres.con_contenido_con_pk = con.con_pk " +
