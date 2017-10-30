@@ -57,7 +57,7 @@ public class ContenidoModel {
         PreparedStatement stCont = con.getConn().prepareStatement(sqlContenido);
 
 
-        int contPk = contenido.getPk();
+        int contPk = contenido.getPkContenido();
         String contTitulo = contenido.getTitulo();
         String contCodigo = contenido.getCodigo();
         String contImg = contenido.getImagen();
