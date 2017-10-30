@@ -4,7 +4,6 @@ import controllers.ContentController;
 import dataStructures.*;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -79,7 +78,7 @@ public class VistaCrearPelicula extends VistaCrear {
 
     private void crearBotonGuardar() {
         gbc1.gridx = 0;
-        EstilosBotones.setColor(guardar, Color.GREEN);
+        EstilosBotones.botonSuccess(guardar);
         EstilosBotones.setCursor(guardar);
         panelContenido.add(guardar, gbc1);
         gbc1.gridx++;
@@ -114,7 +113,7 @@ public class VistaCrearPelicula extends VistaCrear {
 
     private void crearBotonGuardar(Pelicula pelicula){
         gbc1.gridx = 0;
-        EstilosBotones.setColor(guardar, Color.GREEN);
+        EstilosBotones.botonSuccess(guardar);
         EstilosBotones.setCursor(guardar);
         panelContenido.add(guardar, gbc1);
         gbc1.gridx++;
@@ -165,7 +164,7 @@ public class VistaCrearPelicula extends VistaCrear {
     }
 
     private Pelicula getDataUpdate(Pelicula old, Pelicula nueva) {
-        return new Pelicula(old.getPk(), nueva.getTitulo(), nueva.getCodigo(), nueva.getImagen(), nueva.getFechaCreacion(),
+        return new Pelicula(old.getPkContenido(), nueva.getTitulo(), nueva.getCodigo(), nueva.getImagen(), nueva.getFechaCreacion(),
                 nueva.getStock(), nueva.isResevado(), old.getPkPelicula(), nueva.getProductora(), nueva.getDirector(),
                 nueva.getActores());
     }

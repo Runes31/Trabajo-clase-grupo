@@ -7,7 +7,6 @@ import helpers.CapituloHelper;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -52,7 +51,7 @@ public class VistaCrearLibro extends VistaCrear {
         gbc1.gridx++;
 
         EstilosBotones.setCursor(capMuestraButton);
-        EstilosBotones.setColor(capMuestraButton, Color.BLUE);
+        EstilosBotones.botonPrimary(capMuestraButton);
         panelContenido.add(capMuestraButton, gbc1);
         gbc1.gridx = 0;
         gbc1.gridy++;
@@ -111,7 +110,7 @@ public class VistaCrearLibro extends VistaCrear {
 
     private void crearBotonGuardar() {
         gbc1.gridx = 0;
-        EstilosBotones.setColor(guardar, Color.GREEN);
+        EstilosBotones.botonSuccess(guardar);
         EstilosBotones.setCursor(guardar);
         panelContenido.add(guardar, gbc1);
         gbc1.gridx++;
@@ -146,7 +145,7 @@ public class VistaCrearLibro extends VistaCrear {
 
     private void crearBotonGuardar(Libro libro){
         gbc1.gridx = 0;
-        EstilosBotones.setColor(guardar, Color.GREEN);
+        EstilosBotones.botonSuccess(guardar);
         EstilosBotones.setCursor(guardar);
         panelContenido.add(guardar, gbc1);
         gbc1.gridx++;
@@ -195,7 +194,7 @@ public class VistaCrearLibro extends VistaCrear {
     }
 
     private Libro getDataUpdate(Libro old, Libro nueva) {
-        return new Libro(old.getPk(), nueva.getTitulo(), nueva.getCodigo(), nueva.getImagen(), nueva.getFechaCreacion(),
+        return new Libro(old.getPkContenido(), nueva.getTitulo(), nueva.getCodigo(), nueva.getImagen(), nueva.getFechaCreacion(),
                 nueva.getStock(), nueva.isResevado(), old.getPkLibro(), nueva.getNumPag(), nueva.getCapituloMuestra());
     }
 }

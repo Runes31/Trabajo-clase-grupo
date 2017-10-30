@@ -18,29 +18,27 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public abstract class VistaElemento extends VistaPrincipal{
-    private JLabelWhite imagen = new JLabelWhite("");
-    private JLabelWhite titulo =new JLabelWhite();
-    private JLabelWhite codigo =new JLabelWhite();
-    private JButton botonAlquilar= new JButton();
-    private GridBagConstraints gbc1= super.gbc1;
-    private JButton botonBorrar = new JButton("Borrar");
-    
-    
+    JLabelWhite imagen = new JLabelWhite("");
+    JTextArea titulo =new JTextArea(5, 50);
+    JLabelWhite codigo =new JLabelWhite();
+    JButton botonAlquilar= new JButton();
+    GridBagConstraints gbc1= super.gbc1;
+    JButton botonBorrar = new JButton("Borrar");
 
-    public GridBagConstraints getGbc1() {
-        return gbc1;
-    }
-
-    public void setGbc1(GridBagConstraints gbc1) {
-        this.gbc1 = gbc1;
-    }
+    GridBagConstraints getGbc1(){return gbc1;}
 
     public VistaElemento(Contenido contenido) {
         super.setSize(1000,600);
         super.crearPanel();
 
         crearMenu();
-
+        titulo.setForeground(Color.WHITE);
+        titulo.setOpaque(false);
+        titulo.setEditable(false);
+        titulo.setLineWrap(true);
+        titulo.setWrapStyleWord(true);
+        Font font = titulo.getFont();
+        titulo.setFont(font.deriveFont(Font.BOLD));
         setVariablesContenido(contenido);
 
         super.panelContenido.setPreferredSize(new Dimension(700,600));
@@ -58,9 +56,10 @@ public abstract class VistaElemento extends VistaPrincipal{
     }
 
     private void crearPanel1(Contenido contenido) {
-        grid1.rowHeights=new int []{300,45,45,45,45,45,45};
+        grid1.rowHeights=new int []{300,45,45,45,45,45,80};
         gbc1.gridx=0;
         gbc1.gridy = 0;
+        gbc1.insets= new Insets(30, 0, 0, 0);
         panelContenido.add(imagen, gbc1);
         
         gbc1.insets= new Insets(30, 0, 0, 0);
@@ -76,7 +75,9 @@ public abstract class VistaElemento extends VistaPrincipal{
         gbc1.weighty = 1;
         gbc1.gridy = 0;
         gbc1.gridwidth=2;
+        gbc1.fill = GridBagConstraints.BOTH;
         panelContenido.add(titulo, gbc1);
+        gbc1.fill = GridBagConstraints.CENTER;
         
         gbc1.gridwidth=1;
         gbc1.gridy = 1;
@@ -87,7 +88,7 @@ public abstract class VistaElemento extends VistaPrincipal{
         EstilosBotones.setCursor(botonAlquilar);
         if (UserController.getCurrentUser().esAdmin()) {
             botonAlquilar.setText("Editar");
-            EstilosBotones.setColor(botonAlquilar, Color.BLUE);
+            EstilosBotones.botonPrimary(botonAlquilar);
             botonAlquilar.addActionListener(new ActionListener() {
 
                 @Override
@@ -102,7 +103,7 @@ public abstract class VistaElemento extends VistaPrincipal{
             });
         } else if (contenido.isResevado()){
             botonAlquilar.setText("Devolver");
-            EstilosBotones.setColor(botonAlquilar, Color.RED);
+            EstilosBotones.botonDanger(botonAlquilar);
             botonAlquilar.addActionListener(new ActionListener() {
 
                 @Override
@@ -114,7 +115,7 @@ public abstract class VistaElemento extends VistaPrincipal{
 
         } else {
             botonAlquilar.setText("Alquilar");
-            EstilosBotones.setColor(botonAlquilar, Color.GREEN);
+            EstilosBotones.botonSuccess(botonAlquilar);
             botonAlquilar.addActionListener(new ActionListener() {
 
                 @Override
@@ -129,7 +130,7 @@ public abstract class VistaElemento extends VistaPrincipal{
 
     private void crearBotonBorrar(Contenido contenido){
         gbc1.gridy++;
-        EstilosBotones.setColor(botonBorrar, Color.RED);
+        EstilosBotones.botonDanger(botonBorrar);
         EstilosBotones.setCursor(botonBorrar);
 
         botonBorrar.addMouseListener(new MouseListener() {
@@ -162,24 +163,4 @@ public abstract class VistaElemento extends VistaPrincipal{
 
         panelContenido.add(botonBorrar, gbc1);
     }
-
-    public JLabel getTitulo() {
-        return titulo;
-    }
-    
-    public void setTitulo(JLabelWhite titulo) {
-        this.titulo = titulo;
-    }
-    
-    public JLabel getCodigo() {
-        return codigo;
-    }
-    
-    public void setCodigo(JLabelWhite codigo) {
-        this.codigo = codigo;
-    }
-    
-
-
-
 }

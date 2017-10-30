@@ -61,7 +61,7 @@ public class VistaInicio extends VistaPrincipal{
 
             JButton musica = new JButton("Música");
             EstilosBotones.setCursor(musica);
-            EstilosBotones.setColor(musica, Color.BLUE);
+            EstilosBotones.botonPrimary(musica);
             musica.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -119,7 +119,7 @@ public class VistaInicio extends VistaPrincipal{
                 }
             });
             EstilosBotones.setCursor(pelicula);
-            EstilosBotones.setColor(pelicula, Color.BLUE);
+            EstilosBotones.botonPrimary(pelicula);
             panelContenido.add(pelicula, gbc1);
             gbc1.gridx++;
 
@@ -151,7 +151,7 @@ public class VistaInicio extends VistaPrincipal{
                 }
             });
             EstilosBotones.setCursor(libro);
-            EstilosBotones.setColor(libro, Color.BLUE);
+            EstilosBotones.botonPrimary(libro);
             panelContenido.add(libro, gbc1);
 
             gbc1.gridy++;
@@ -237,7 +237,7 @@ public class VistaInicio extends VistaPrincipal{
     private void pintarBotonVerMas(TipoContenido tipoContenido) {
 	    JButton verMas = new JButton("Ver más");
 	    EstilosBotones.setCursor(verMas);
-	    EstilosBotones.setColor(verMas, Color.BLUE);
+	    EstilosBotones.botonPrimary(verMas);
         verMas.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {

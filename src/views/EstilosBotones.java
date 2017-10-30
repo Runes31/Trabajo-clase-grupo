@@ -24,14 +24,22 @@ class EstilosBotones {
     }
 
     static void removeHoverStyle(JLabel elemento) {
-        Border borde = BorderFactory.createLineBorder(Color.BLACK, 3);
-        Insets insets = borde.getBorderInsets(elemento);
-        EmptyBorder emptyBorder = new EmptyBorder(insets);
-        elemento.setBorder(emptyBorder);
+        Border borde = BorderFactory.createLineBorder(new Color(40,40,40), 3);
+        elemento.setBorder(borde);
     }
 
-    static void setColor(JButton button, Color color){
-        button.setBackground(color);
+    static void botonPrimary(JButton button){
+        button.setBackground(new Color(60,60,60));
+        button.setForeground(Color.WHITE);
+    }
+
+    static void botonSuccess(JButton button){
+        button.setBackground(new Color(20, 40, 20));
+        button.setForeground(Color.WHITE);
+    }
+
+    static void botonDanger(JButton button){
+        button.setBackground(new Color(80, 30, 30));
         button.setForeground(Color.WHITE);
     }
 }

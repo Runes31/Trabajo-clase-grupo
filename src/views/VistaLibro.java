@@ -25,7 +25,7 @@ public class VistaLibro extends VistaElemento{
         //CUIDADO CON ESTO
         gbc.gridy=3;
         JButton verCapMuestra = new JButton("Ver capítulo de muestra");
-        EstilosBotones.setColor(verCapMuestra, Color.BLUE);
+        EstilosBotones.botonPrimary(verCapMuestra);
         EstilosBotones.setCursor(verCapMuestra);
         verCapMuestra.addMouseListener(new MouseListener() {
             @Override

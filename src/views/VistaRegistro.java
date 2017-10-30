@@ -31,9 +31,9 @@ class VistaRegistro extends VistaPrincipal {
 		super.setSize(550, 300);
 		super.crearPanel();
 
-		EstilosBotones.setColor(botonRegistrarse, Color.GREEN);
+		EstilosBotones.botonSuccess(botonRegistrarse);
 		EstilosBotones.setCursor(botonRegistrarse);
-		EstilosBotones.setColor(botonCancelar, Color.RED);
+		EstilosBotones.botonDanger(botonCancelar);
 		EstilosBotones.setCursor(botonCancelar);
 
 		super.getPanelGeneral().setLayout(grid);

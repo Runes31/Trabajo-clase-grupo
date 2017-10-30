@@ -7,7 +7,6 @@ import dataStructures.Discografica;
 import dataStructures.Musica;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -102,7 +101,7 @@ public class VistaCrearMusica extends VistaCrear {
             }
         });
         EstilosBotones.setCursor(guardar);
-        EstilosBotones.setColor(guardar, Color.GREEN);
+        EstilosBotones.botonSuccess(guardar);
         gbc1.gridx = 0;
         panelContenido.add(guardar, gbc1);
         gbc1.gridx++;
@@ -137,7 +136,7 @@ public class VistaCrearMusica extends VistaCrear {
             }
         });
         EstilosBotones.setCursor(guardar);
-        EstilosBotones.setColor(guardar, Color.GREEN);
+        EstilosBotones.botonSuccess(guardar);
         gbc1.gridx = 0;
         gbc1.weightx = 2;
         panelContenido.add(guardar, gbc1);
@@ -161,7 +160,7 @@ public class VistaCrearMusica extends VistaCrear {
     }
 
     private Musica getDataUpdate(Musica old, Musica nueva){
-        return new Musica(old.getPk(), nueva.getTitulo(), nueva.getCodigo(), nueva.getImagen(), nueva.getFechaCreacion(),
+        return new Musica(old.getPkContenido(), nueva.getTitulo(), nueva.getCodigo(), nueva.getImagen(), nueva.getFechaCreacion(),
                 nueva.getStock(), nueva.isResevado(), old.getPkMusica(), nueva.getDiscografica(), nueva.getCanciones());
     }
 }

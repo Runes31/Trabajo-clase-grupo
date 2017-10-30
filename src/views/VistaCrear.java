@@ -81,7 +81,7 @@ abstract class VistaCrear extends VistaPrincipal {
         gbc1.weightx = 1;
 
         EstilosBotones.setCursor(imagenButton);
-        EstilosBotones.setColor(imagenButton, Color.BLUE);
+        EstilosBotones.botonPrimary(imagenButton);
         panelContenido.add(imagenButton, gbc1);
 
         gbc1.gridy++;
@@ -161,7 +161,7 @@ abstract class VistaCrear extends VistaPrincipal {
 
             }
         });
-        EstilosBotones.setColor(cancelar, Color.RED);
+        EstilosBotones.botonDanger(cancelar);
         EstilosBotones.setCursor(cancelar);
         panelContenido.add(cancelar, gbc1);
     }

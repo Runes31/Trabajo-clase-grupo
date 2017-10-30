@@ -36,9 +36,10 @@ public abstract class VistaPrincipal extends JFrame{
         setIconImage(imagenLogo);
         add(panelGeneral);
         setLocationRelativeTo(null);
-        panelGeneral.setBackground(Color.BLACK);
-        panelContenido.setBackground(Color.BLACK);
-        panelLista.setBackground(Color.BLACK);
+        Color background = new Color(20, 20, 40);
+        panelGeneral.setBackground(background);
+        panelContenido.setBackground(background);
+        panelLista.setBackground(background);
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         super.setResizable(false);
@@ -106,10 +107,14 @@ public abstract class VistaPrincipal extends JFrame{
 //	    LISTA
         String[] contenidoMenu;
         if (UserController.getCurrentUser().esAdmin()){
-            contenidoMenu = new String[]{"Listado completo", "Películas", "Libros", "Música"};
+            contenidoMenu = new String[]{"Home", TipoContenido.NOVEDADES.getName(), TipoContenido.PELICULA.getName(), TipoContenido.LIBRO.getName
+                    (),
+                    TipoContenido.MUSICA
+                    .getName()};
         } else {
-            contenidoMenu = new String[]{"Listado completo", "Películas", "Libros", "Música", "Mis prestamos"
-                    , "Películas", "Libros", "Música"};
+            contenidoMenu = new String[]{"Home", TipoContenido.NOVEDADES.getName(), TipoContenido.PELICULA.getName(), TipoContenido.LIBRO.getName(), TipoContenido.MUSICA
+                    .getName(), TipoContenido.PRESTAMO.getName(), TipoContenido.PRESTAMO_PELICULA.getName(), TipoContenido.PRESTAMO_LIBRO
+                    .getName(), TipoContenido.PRESTAMO_MUSICA.getName()};
         }
         DefaultListCellRenderer renderer =  (DefaultListCellRenderer)lista.getCellRenderer();
         renderer.setHorizontalAlignment(JLabel.CENTER);
@@ -130,24 +135,27 @@ public abstract class VistaPrincipal extends JFrame{
                         contentController.initHome();
                         break;
                     case 1:
-                        contentController.initHome(TipoContenido.PELICULA);
+                        contentController.initHome(TipoContenido.NOVEDADES);
                         break;
                     case 2:
-                        contentController.initHome(TipoContenido.LIBRO);
+                        contentController.initHome(TipoContenido.PELICULA);
                         break;
                     case 3:
-                        contentController.initHome(TipoContenido.MUSICA);
+                        contentController.initHome(TipoContenido.LIBRO);
                         break;
                     case 4:
-                        contentController.initHome(TipoContenido.PRESTAMO);
+                        contentController.initHome(TipoContenido.MUSICA);
                         break;
                     case 5:
-                        contentController.initHome(TipoContenido.PRESTAMO_PELICULA);
+                        contentController.initHome(TipoContenido.PRESTAMO);
                         break;
                     case 6:
-                        contentController.initHome(TipoContenido.PRESTAMO_LIBRO);
+                        contentController.initHome(TipoContenido.PRESTAMO_PELICULA);
                         break;
                     case 7:
+                        contentController.initHome(TipoContenido.PRESTAMO_LIBRO);
+                        break;
+                    case 8:
                         contentController.initHome(TipoContenido.PRESTAMO_MUSICA);
                         break;
                 }
@@ -162,7 +170,7 @@ public abstract class VistaPrincipal extends JFrame{
         gbc2.gridy=2;
         panelLista.add(desconectar,gbc2);
         EstilosBotones.setCursor(desconectar);
-        EstilosBotones.setColor(desconectar, Color.RED);
+        EstilosBotones.botonDanger(desconectar);
         desconectar.addMouseListener(new MouseListener() {
 
 
@@ -212,7 +220,6 @@ public abstract class VistaPrincipal extends JFrame{
         panelLista.setLayout(grid2);
         gbcAux.gridx=1;
         getPanelGeneral().add(panelLista,gbcAux);
-
 
         //panelContenido
         grid1.columnWidths=new int[]{160,160,160,160,160};

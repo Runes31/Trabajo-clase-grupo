@@ -47,9 +47,9 @@ public class VistaLogin extends VistaPrincipal{
 		c.gridy=5;
 		super.getPanelGeneral().add(botonRegistrarse,c);
 
-		EstilosBotones.setColor(botonLogin, Color.BLUE);
+		EstilosBotones.botonPrimary(botonLogin);
 		EstilosBotones.setCursor(botonLogin);
-        EstilosBotones.setColor(botonRegistrarse, Color.BLUE);
+        EstilosBotones.botonPrimary(botonRegistrarse);
 		EstilosBotones.setCursor(botonRegistrarse);
 
         //Si presiona enter teniendo seleccionado el jtextfield intenta logearse
