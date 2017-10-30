@@ -25,13 +25,14 @@ public class VistaMusica extends VistaElemento{
 
     private void crearCanciones(java.util.List<Cancion> listaCanciones) {
         Collections.sort(listaCanciones);
-        int i = 1;
+        int i = 0;
         int y = gbc.gridy;
-        for (Cancion cancion : listaCanciones) {
-            panelContenido.add(new JLabelWhite(cancion.getOrden()+". " + cancion.getNombre()), gbc);
+        gbc.insets = new Insets(0, 0, 0, 0);
+        while(i<listaCanciones.size() && i<8) {
+            panelContenido.add(new JLabelWhite(listaCanciones.get(i).getOrden()+". " + listaCanciones.get(i).getNombre()), gbc);
             gbc.gridy++;
             i++;
-            if(i == 5){
+            if(i == 4){
                 gbc.gridy = y;
                 gbc.gridx++;
             }

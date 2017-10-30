@@ -56,7 +56,7 @@ public abstract class VistaElemento extends VistaPrincipal{
     }
 
     private void crearPanel1(Contenido contenido) {
-        grid1.rowHeights=new int []{300,45,45,45,45,45,80};
+        grid1.rowHeights=new int []{300,45,45,45,45,45};
         gbc1.gridx=0;
         gbc1.gridy = 0;
         gbc1.insets= new Insets(30, 0, 0, 0);
